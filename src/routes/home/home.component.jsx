@@ -39,27 +39,27 @@ const Home = () => {
 
   return (
     <Fragment>
-      <div stlye={BUTTON_WRAPPER_STYLE}>
-        <button className="btn btn-primary" onClick={() => setIsOpen(true)}>
-          Add Plot
-        </button>
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
-      </div>
       <div className="container">
+        <div stlye={BUTTON_WRAPPER_STYLE}>
+          <button className="btn btn-primary" onClick={() => setIsOpen(true)}>
+            Add Plot
+          </button>
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+        </div>
         <div className="row justify-content">
           {plots.map((plot) => (
             <div className="col-sm-4 well px-md-3">
-              <h2 className="text-center">{plot.plot_name}</h2>
+              <h5 className="text-center">{plot.plot_name}</h5>
               <p className="text-center">
                 Size: {plot.size} | Covered: {plot.covered.toString()} | ID:
                 {plot.plot_id}
               </p>
-              {unit.map((item) => (
+              {/* {unit.map((item) => (
                 <ul>
                   {item.plant_type}
                   {" - Planted: "} {item.planted_at} - Plot ID: {item.plot_id}
                 </ul>
-              ))}
+              ))} */}
             </div>
           ))}
         </div>
