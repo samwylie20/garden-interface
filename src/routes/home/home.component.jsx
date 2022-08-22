@@ -16,6 +16,18 @@ const Home = () => {
     }
   };
 
+  // Delete a plot
+  const deletePlot = async (id) => {
+    try {
+      const deletePlot = await fetch(`http://localhost:5000/plot/${id}`, {
+        method: "DELETE",
+      });
+      setPlots(plots.filter((plot) => plot.plot_id !== id));
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   useEffect(() => {
     getPlots();
   }, []);
@@ -54,6 +66,12 @@ const Home = () => {
                 Size: {plot.size} | Covered: {plot.covered.toString()} | ID:
                 {plot.plot_id}
               </p>
+              <button
+                className="btn btn-danger"
+                onClick={() => deletePlot(plot.plot_id)}
+              >
+                Delete
+              </button>
               {/* {unit.map((item) => (
                 <ul>
                   {item.plant_type}
