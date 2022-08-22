@@ -56,8 +56,8 @@ export default function Modal({ open, children, onClose }) {
       <div style={OVERLAY_STYLES} />
       <div style={MODAL_STYLES}>
         {children}
+        <h2 className="text-center">Build Plot</h2>
         <form onSubmit={onSubmitForm}>
-          <h2 className="text-center">Build Plot</h2>
           <input
             type="text"
             name="plot_name"
@@ -69,20 +69,22 @@ export default function Modal({ open, children, onClose }) {
           <input
             type="text"
             name="size"
-            placeholder="Size - Small, Medium or Large"
+            placeholder="size"
             className="form-control my-3"
             value={size}
             onChange={(e) => onChange(e)}
           />
           <input
-            type="bool"
+            type="text"
             name="covered"
-            placeholder="True/False"
+            placeholder="True"
             className="form-control my-3"
             value={covered}
             onChange={(e) => onChange(e)}
           />
-          <button className="btn btn-success btn-block ">Build</button>
+          <button className="btn btn-success btn-block " type="submit">
+            Submit
+          </button>
         </form>
         <button className="btn btn-danger btn-block" onClick={onClose}>
           Close
