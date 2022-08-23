@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import Modal from "./addPlotModal.component";
+import "./home.component.scss";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,34 +53,38 @@ const Home = () => {
   return (
     <Fragment>
       <div className="container">
-        <div stlye={BUTTON_WRAPPER_STYLE}>
-          <button className="btn btn-primary" onClick={() => setIsOpen(true)}>
-            Add Plot
-          </button>
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+        <div stlye={BUTTON_WRAPPER_STYLE} className="container">
+          <div className="addPlotButton">
+            <button className="btn btn-primary" onClick={() => setIsOpen(true)}>
+              Add Plot
+            </button>
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+          </div>
         </div>
         <div className="row justify-content">
-          {plots.map((plot) => (
-            <div className="col-sm-4 well px-md-3">
-              <h5 className="text-center">{plot.plot_name}</h5>
-              <p className="text-center">
-                Size: {plot.size} | Covered: {plot.covered.toString()} | ID:
-                {plot.plot_id}
-              </p>
-              <button
-                className="btn btn-danger"
-                onClick={() => deletePlot(plot.plot_id)}
-              >
-                Delete
-              </button>
-              {/* {unit.map((item) => (
+          <div className="grid-padding">
+            {plots.map((plot) => (
+              <div className="col-sm-4 well px-md-3">
+                <h5 className="text-center">{plot.plot_name}</h5>
+                <p className="text-center">
+                  Size: {plot.size} | Covered: {plot.covered.toString()} | ID:
+                  {plot.plot_id}
+                </p>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => deletePlot(plot.plot_id)}
+                >
+                  Delete
+                </button>
+                {/* {unit.map((item) => (
                 <ul>
                   {item.plant_type}
                   {" - Planted: "} {item.planted_at} - Plot ID: {item.plot_id}
                 </ul>
               ))} */}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </Fragment>
