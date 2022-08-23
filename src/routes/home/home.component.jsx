@@ -55,8 +55,8 @@ const Home = () => {
       <div className="container">
         <div stlye={BUTTON_WRAPPER_STYLE} className="container">
           <div className="addPlotButton">
-            <button className="btn btn-primary" onClick={() => setIsOpen(true)}>
-              Add Plot
+            <button className="btn btn-success" onClick={() => setIsOpen(true)}>
+              Add New Plot
             </button>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
           </div>
@@ -65,17 +65,27 @@ const Home = () => {
           <div className="grid-padding">
             {plots.map((plot) => (
               <div className="col-sm-4 well px-md-3">
-                <h5 className="text-center">{plot.plot_name}</h5>
+                <h5 className="text-center header-text-style">
+                  {plot.plot_name}
+                </h5>
                 <p className="text-center">
                   Size: {plot.size} | Covered: {plot.covered.toString()} | ID:
                   {plot.plot_id}
                 </p>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => deletePlot(plot.plot_id)}
-                >
-                  Delete
-                </button>
+                <div className="grid-padding-button">
+                  <button className="btn btn-success btn-space">
+                    Add Plant
+                  </button>
+                  <button className="btn btn-warning btn-space">
+                    Edit Plot
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deletePlot(plot.plot_id)}
+                  >
+                    Delete
+                  </button>
+                </div>
                 {/* {unit.map((item) => (
                 <ul>
                   {item.plant_type}

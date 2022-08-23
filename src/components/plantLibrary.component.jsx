@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import Modal from "./addPlantModal.component";
 import "./plantLibrary.component.scss";
 
 const PlantLibrary = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [plant, setPlant] = useState([]);
   // Get all plants data
   const getPlants = async () => {
@@ -51,7 +53,21 @@ const PlantLibrary = () => {
           ))}
         </tbody>
       </table>
+      <div stlye={BUTTON_WRAPPER_STYLE} className="container">
+        <div className="addPlotButton">
+          <button className="btn btn-success" onClick={() => setIsOpen(true)}>
+            Add New Plant
+          </button>
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+        </div>
+      </div>
     </div>
   );
 };
+
+const BUTTON_WRAPPER_STYLE = {
+  position: "relative",
+  zIndex: 1,
+};
+
 export default PlantLibrary;
