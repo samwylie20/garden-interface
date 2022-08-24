@@ -73,7 +73,10 @@ const Home = () => {
                   Size: {plot.size} | Covered: {plot.covered.toString()} | ID:
                   {plot.plot_id}
                 </p>
-                {getUnits(id)}
+                {plot.plotUnits.map((item) => (
+                  <p>{item.plant_type}</p>
+                ))}
+
                 <div className="grid-padding-button">
                   <button className="btn btn-success btn-space">
                     Add Plant
