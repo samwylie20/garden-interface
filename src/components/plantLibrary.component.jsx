@@ -20,6 +20,12 @@ const PlantLibrary = () => {
     getPlants();
   }, []);
 
+  // Takes the boolean value and returns it as string with first letter capitalized
+  function capitalizeFirstLetterBool(s) {
+    let string = s.toString();
+    return string[0].toUpperCase() + string.substring(1);
+  }
+
   return (
     <div className="container">
       <div className="grid-padding">
@@ -48,7 +54,7 @@ const PlantLibrary = () => {
               <td>{plant.ideal_plant_time}</td>
               <td>{plant.ideal_harvest_time}</td>
               <td>{plant.ideal_climate}</td>
-              <td>{plant.need_cover.toString()}</td>
+              <td>{capitalizeFirstLetterBool(plant.need_cover)}</td>
             </tr>
           ))}
         </tbody>
