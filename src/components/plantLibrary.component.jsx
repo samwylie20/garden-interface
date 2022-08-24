@@ -54,7 +54,7 @@ const PlantLibrary = () => {
               <td>{plant.ideal_plant_time}</td>
               <td>{plant.ideal_harvest_time}</td>
               <td>{plant.ideal_climate}</td>
-              <td>{capitalizeFirstLetterBool(plant.need_cover)}</td>
+              <td>{plant.need_cover ? "True" : "False"}</td>
             </tr>
           ))}
         </tbody>

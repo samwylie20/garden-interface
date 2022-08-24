@@ -33,9 +33,9 @@ const Home = () => {
     getPlots();
   }, []);
 
-  const getUnits = async () => {
+  const getUnits = async (id) => {
     try {
-      const response = await fetch("http://localhost:5000/units");
+      const response = await fetch(`http://localhost:5000/plot/${id}`);
       const jsonData = await response.json();
       setUnits(jsonData);
     } catch (error) {
@@ -47,13 +47,13 @@ const Home = () => {
     getUnits();
   }, []);
 
-  console.log(plots);
+  // console.log(plots);
   console.log(unit);
 
   return (
     <Fragment>
       <div className="container">
-        <h2 className="text-center">Your Plots...</h2>
+        <h2 className="text-center">Current Plots...</h2>
         <div stlye={BUTTON_WRAPPER_STYLE} className="container">
           <div className="addPlotButton">
             <button className="btn btn-success" onClick={() => setIsOpen(true)}>
@@ -73,6 +73,7 @@ const Home = () => {
                   Size: {plot.size} | Covered: {plot.covered.toString()} | ID:
                   {plot.plot_id}
                 </p>
+                {getUnits(id)}
                 <div className="grid-padding-button">
                   <button className="btn btn-success btn-space">
                     Add Plant
