@@ -25,13 +25,27 @@ const OVERLAY_STYLES = {
 
 export default function Modal({ open, children, onClose }) {
   const [inputs, setInputs] = useState({
-    plot_name: "",
-    size: "",
-    covered: "",
+    plant_name: "",
+    plant_type: "",
+    growth_time: "",
+    ideal_plant_time: "",
+    ideal_harvest_time: "",
+    season: "",
+    ideal_climate: "",
+    need_cover: "",
   });
   if (!open) return null;
 
-  const { plot_name, size, covered } = inputs;
+  const {
+    plant_name,
+    plant_type,
+    growth_time,
+    ideal_plant_time,
+    ideal_harvest_time,
+    season,
+    ideal_climate,
+    need_cover,
+  } = inputs;
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
@@ -39,13 +53,22 @@ export default function Modal({ open, children, onClose }) {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const body = { plot_name, size, covered };
-      const response = await fetch("http://localhost:5000/plot", {
+      const body = {
+        plant_name,
+        plant_type,
+        growth_time,
+        ideal_plant_time,
+        ideal_harvest_time,
+        season,
+        ideal_climate,
+        need_cover,
+      };
+      const response = await fetch("http://localhost:5000/plants", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      window.location = "/";
+      window.location = "/plantlibrary";
     } catch (error) {
       console.error(error.message);
     }
@@ -56,30 +79,70 @@ export default function Modal({ open, children, onClose }) {
       <div style={OVERLAY_STYLES} />
       <div style={MODAL_STYLES}>
         {children}
-        <h2 className="text-center">Build Plot</h2>
+        <h4 className="text-center">Add new plant...</h4>
         <form onSubmit={onSubmitForm}>
           <input
             type="text"
-            name="plot_name"
-            placeholder="Plot Name"
+            name="plant_name"
+            placeholder="Plant name"
             className="form-control my-3"
-            value={plot_name}
+            value={plant_name}
             onChange={(e) => onChange(e)}
           />
           <input
             type="text"
-            name="size"
-            placeholder="size"
+            name="plant_type"
+            placeholder="Plant Type"
             className="form-control my-3"
-            value={size}
+            value={plant_type}
             onChange={(e) => onChange(e)}
           />
           <input
             type="text"
-            name="covered"
-            placeholder="True"
+            name="growth_time"
+            placeholder="Growth time (weeks)"
             className="form-control my-3"
-            value={covered}
+            value={growth_time}
+            onChange={(e) => onChange(e)}
+          />
+          <input
+            type="text"
+            name="season"
+            placeholder="Season"
+            className="form-control my-3"
+            value={season}
+            onChange={(e) => onChange(e)}
+          />
+          <input
+            type="text"
+            name="ideal_plant_time"
+            placeholder="Ideal Planting"
+            className="form-control my-3"
+            value={ideal_plant_time}
+            onChange={(e) => onChange(e)}
+          />
+          <input
+            type="text"
+            name="ideal_harvest_time"
+            placeholder="Ideal Harvest"
+            className="form-control my-3"
+            value={ideal_harvest_time}
+            onChange={(e) => onChange(e)}
+          />
+          <input
+            type="text"
+            name="ideal_climate"
+            placeholder="Climate"
+            className="form-control my-3"
+            value={ideal_climate}
+            onChange={(e) => onChange(e)}
+          />
+          <input
+            type="text"
+            name="need_cover"
+            placeholder="True/False"
+            className="form-control my-3"
+            value={need_cover}
             onChange={(e) => onChange(e)}
           />
           <button className="btn btn-success btn-block " type="submit">

@@ -23,16 +23,16 @@ const PlantLibrary = () => {
   return (
     <div className="container">
       <div className="grid-padding">
-        <h3 className="text-center">Welcome to your Plant Library</h3>
+        <h2 className="text-center">Welcome to your Plant Library</h2>
       </div>
       <table className="table">
         <thead>
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Type</th>
-            <th scope="col">Growth Time</th>
+            <th scope="col">Growth Time (weeks)</th>
             <th scope="col">Season</th>
-            <th scope="col">Ideal Sow</th>
+            <th scope="col">Ideal Planting</th>
             <th scope="col">Ideal Harvest</th>
             <th scope="col">Climate</th>
             <th scope="col">Need Cover</th>
@@ -54,7 +54,7 @@ const PlantLibrary = () => {
         </tbody>
       </table>
       <div stlye={BUTTON_WRAPPER_STYLE} className="container">
-        <div className="addPlotButton">
+        <div className="addPlantButton">
           <button className="btn btn-success" onClick={() => setIsOpen(true)}>
             Add New Plant
           </button>

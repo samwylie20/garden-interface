@@ -53,6 +53,7 @@ const Home = () => {
   return (
     <Fragment>
       <div className="container">
+        <h2 className="text-center">Your Plots...</h2>
         <div stlye={BUTTON_WRAPPER_STYLE} className="container">
           <div className="addPlotButton">
             <button className="btn btn-success" onClick={() => setIsOpen(true)}>
