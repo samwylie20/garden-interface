@@ -7,6 +7,7 @@ import "./home.component.scss";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [plots, setPlots] = useState([]);
   const [unit, setUnits] = useState([]);
   // Get all plots
@@ -103,20 +104,36 @@ const Home = () => {
                     ))}
                   </tbody>
                 </table>
+                <div className="container">
+                  <div className="plot-buttons">
+                    <button className="btn btn-success btn-space">
+                      Add Plant
+                    </button>
 
-                <div className="grid-padding-button">
-                  <button className="btn btn-success btn-space">
-                    Add Plant
-                  </button>
-                  <button className="btn btn-warning btn-space">
-                    Edit Plot
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => deletePlot(plot.plot_id)}
-                  >
-                    Delete
-                  </button>
+                    <div stlye={BUTTON_WRAPPER_STYLE}>
+                      <div className="editPlotButton">
+                        <button
+                          className="btn btn-warning btn-space"
+                          onClick={() => setIsOpenEdit(true)}
+                        >
+                          Edit
+                        </button>
+                        <EditPlotModal
+                          plot={plot.plot_id}
+                          open={isOpenEdit}
+                          onClose={() => setIsOpenEdit(false)}
+                        >
+                          {console.log(plot.plot_id)}
+                        </EditPlotModal>
+                      </div>
+                    </div>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deletePlot(plot.plot_id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
                 {/* {unit.map((item) => (
                 <ul>

@@ -1,16 +1,14 @@
-import React, { Fragment, useState } from "react";
-import { ReactDOM } from "react";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import "./home.component.scss";
 
-const EditPlotModal = ({ open, children, onClose }) => {
+const EditPlotModal = ({ open, children, onClose, plot }) => {
   const [inputs, setInputs] = useState({
     plot_name: "",
-    size: "",
-    covered: "",
   });
   if (!open) return null;
 
-  const { plot_name, size, covered } = inputs;
+  const { plot_name } = inputs;
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
@@ -18,16 +16,15 @@ const EditPlotModal = ({ open, children, onClose }) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const body = { plot_name, size, covered };
-      const response = await fetch(
-        `http://localhost:5000/plot/${children.plot_id}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        }
-      );
+      console.log(plot);
+      const body = { plot_name };
+      const response = await fetch(`http://localhost:5000/plot/${plot}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
       window.location = "/";
+      console.log(plot);
     } catch (error) {
       console.error(error.message);
     }
@@ -38,34 +35,37 @@ const EditPlotModal = ({ open, children, onClose }) => {
       <div style={OVERLAY_STYLES} />
       <div style={MODAL_STYLES}>
         {children}
-        <h2 className="text-center">Build Plot</h2>
+        <h2 className="text-center">Edit Plot</h2>
         <form onSubmit={onSubmitForm}>
+          <label className="editModalLabel">Name</label>
           <input
             type="text"
             name="plot_name"
-            placeholder="Plot Name"
+            placeholder="New Name"
             className="form-control my-3"
             value={plot_name}
             onChange={(e) => onChange(e)}
           />
+          {/* <label className="editModalLabel">Size</label>
           <input
             type="text"
             name="size"
-            placeholder="size"
+            placeholder="New size"
             className="form-control my-3"
             value={size}
             onChange={(e) => onChange(e)}
           />
+          <label className="editModalLabel">Covered</label>
           <input
             type="text"
             name="covered"
-            placeholder="True"
+            placeholder="True/False"
             className="form-control my-3"
             value={covered}
             onChange={(e) => onChange(e)}
-          />
+          /> */}
           <button className="btn btn-success btn-block " type="submit">
-            Submit
+            Update
           </button>
         </form>
         <button className="btn btn-danger btn-block" onClick={onClose}>
