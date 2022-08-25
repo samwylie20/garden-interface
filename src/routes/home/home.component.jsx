@@ -33,6 +33,19 @@ const Home = () => {
     }
   };
 
+  // Delete a unit
+  const deleteUnit = async (id) => {
+    try {
+      const deleteUnit = await fetch(`http://localhost:5000/unit/${id}`, {
+        method: "DELETE",
+      });
+      setUnits(unit.filter((unit) => unit.unit_id !== id));
+      window.location = "/";
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getPlots();
   }, []);
@@ -51,7 +64,6 @@ const Home = () => {
     getUnits();
   }, []);
 
-  // console.log(plots);
   console.log(unit);
 
   return (
@@ -96,7 +108,10 @@ const Home = () => {
                           <button className="btn btn-warning btn-edit">
                             <EditSVG />
                           </button>
-                          <button className="btn btn-danger btn-remove">
+                          <button
+                            className="btn btn-danger btn-remove"
+                            onClick={() => deleteUnit(item.unit_id)}
+                          >
                             <DeleteSVG />
                           </button>
                         </td>
@@ -135,12 +150,6 @@ const Home = () => {
                     </button>
                   </div>
                 </div>
-                {/* {unit.map((item) => (
-                <ul>
-                  {item.plant_type}
-                  {" - Planted: "} {item.planted_at} - Plot ID: {item.plot_id}
-                </ul>
-              ))} */}
               </div>
             </div>
           ))}
