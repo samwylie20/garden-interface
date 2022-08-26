@@ -28,6 +28,7 @@ const Home = () => {
   // Delete a plot
   const deletePlot = async (id) => {
     const swalDelete = await Swal.fire({
+      icon: "question",
       title: "Are you sure you want to delete this plot?",
       showCancelButton: true,
       confirmButtonText: "Yes",

@@ -4,9 +4,40 @@ import EditSVG from "./editSVG.component";
 import DeleteSVG from "./deleteSVG.component";
 import "./plantLibrary.component.scss";
 
+// Timeline
+import Timeline from "react-calendar-timeline";
+// make sure you include the timeline stylesheet or the timeline will not be styled
+import "react-calendar-timeline/lib/Timeline.css";
+import moment from "moment";
+
 const PlantLibrary = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [plants, setPlants] = useState([]);
+
+  // Timeline
+  // https://github.com/namespace-ee/react-calendar-timeline
+  const groups = plants.map((plant, index) => {
+    return {
+      title: plant.plant_name,
+      id: index + 1,
+    };
+  });
+
+  // [
+  // { id: 1, title: "group 1" },
+  // { id: 2, title: "group 2" },
+  // ];
+
+  const items = plants.map((plant, index) => {
+    return {
+      group: index + 1,
+      title: plant.plant_name,
+      id: index + 1,
+      start_time: moment.unix(plant.start_time),
+      end_time: moment.unix(plant.end_time),
+    };
+  });
+
   // Get all plants data
   const getPlants = async () => {
     try {
@@ -86,6 +117,14 @@ const PlantLibrary = () => {
           ))}
         </tbody>
       </table>
+      <Timeline
+        groups={groups}
+        items={items}
+        defaultTimeStart={moment().add(-12, "months")}
+        defaultTimeEnd={moment().add(12, "months")}
+        minZoom={60 * 60 * 24 * 365}
+        traditionalZoom={true}
+      />
     </div>
   );
 };
