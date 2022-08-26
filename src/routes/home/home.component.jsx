@@ -40,7 +40,7 @@ const Home = () => {
         method: "DELETE",
       });
       setUnits(unit.filter((unit) => unit.unit_id !== id));
-      window.location = "/";
+      window.location = "/"; // Page not auto updating upon click
     } catch (error) {
       console.error(error.message);
     }

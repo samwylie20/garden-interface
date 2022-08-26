@@ -17,7 +17,18 @@ const PlantLibrary = () => {
       console.error(error.message);
     }
   };
-
+  // Delete a plant
+  const deletePlant = async (id) => {
+    try {
+      const deleteUnit = await fetch(`http://localhost:5000/plants/${id}`, {
+        method: "DELETE",
+      });
+      setPlant(plant.filter((plant) => plant.plant_id !== id));
+      window.location = "/plantlibrary"; // Page not auto updating upon click
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
   useEffect(() => {
     getPlants();
   }, []);
@@ -26,6 +37,14 @@ const PlantLibrary = () => {
     <div className="container">
       <div className="grid-padding">
         <h2 className="text-center">Welcome to your Plant Library</h2>
+        <div stlye={BUTTON_WRAPPER_STYLE} className="container">
+          <div className="addPlantButton">
+            <button className="btn btn-success" onClick={() => setIsOpen(true)}>
+              Add New Plant
+            </button>
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+          </div>
+        </div>
       </div>
       <table className="table">
         <thead>
@@ -46,7 +65,7 @@ const PlantLibrary = () => {
             <tr>
               <th scope="row">{plant.plant_name}</th>
               <td>{plant.plant_type}</td>
-              <td>{plant.growth_time}</td>
+              <td className="text-center">{plant.growth_time}</td>
               <td>{plant.season}</td>
               <td>{plant.ideal_plant_time}</td>
               <td>{plant.ideal_harvest_time}</td>
@@ -56,7 +75,10 @@ const PlantLibrary = () => {
                 <button className="btn btn-warning btn-edit">
                   <EditSVG />
                 </button>
-                <button className="btn btn-danger btn-remove">
+                <button
+                  className="btn btn-danger btn-remove"
+                  onClick={() => deletePlant(plant.id)}
+                >
                   <DeleteSVG />
                 </button>
               </td>
@@ -64,14 +86,6 @@ const PlantLibrary = () => {
           ))}
         </tbody>
       </table>
-      <div stlye={BUTTON_WRAPPER_STYLE} className="container">
-        <div className="addPlantButton">
-          <button className="btn btn-success" onClick={() => setIsOpen(true)}>
-            Add New Plant
-          </button>
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
-        </div>
-      </div>
     </div>
   );
 };
