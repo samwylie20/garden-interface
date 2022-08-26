@@ -18,12 +18,17 @@ const EditPlotModal = ({ open, children, onClose, plot }) => {
     try {
       console.log(plot);
       const body = { plot_name };
-      const response = await fetch(`http://localhost:5000/plot/${plot}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      window.location = "/";
+      const response = await fetch(
+        `http://localhost:5000/plot/${plot.plot_id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
+      plot.plot_name = plot_name;
+      onClose(plot_name);
+
       console.log(plot);
     } catch (error) {
       console.error(error.message);
@@ -32,6 +37,7 @@ const EditPlotModal = ({ open, children, onClose, plot }) => {
 
   return ReactDOM.createPortal(
     <>
+      {console.log(plot, "plot")}
       <div style={OVERLAY_STYLES} />
       <div style={MODAL_STYLES}>
         {children}
@@ -41,7 +47,7 @@ const EditPlotModal = ({ open, children, onClose, plot }) => {
           <input
             type="text"
             name="plot_name"
-            placeholder="New Name"
+            placeholder={plot.plot_name}
             className="form-control my-3"
             value={plot_name}
             onChange={(e) => onChange(e)}

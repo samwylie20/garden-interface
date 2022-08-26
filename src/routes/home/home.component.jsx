@@ -3,13 +3,16 @@ import Modal from "./addPlotModal.component";
 import EditPlotModal from "./editPlotModal.component";
 import EditSVG from "../../components/editSVG.component";
 import DeleteSVG from "../../components/deleteSVG.component";
+import AddUnit from "../home/addUnit.component";
 import "./home.component.scss";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenPlant, setIsOpenPlant] = useState(false);
+  const [selectedPlot, setSelected] = useState(0);
   const [plots, setPlots] = useState([]);
-  const [unit, setUnits] = useState([]);
+  const [units, setUnits] = useState([]);
   // Get all plots
   const getPlots = async () => {
     try {
@@ -34,22 +37,24 @@ const Home = () => {
   };
 
   // Delete a unit
-  const deleteUnit = async (id) => {
+  const deleteUnit = async (id, plot_id) => {
     try {
       const deleteUnit = await fetch(`http://localhost:5000/unit/${id}`, {
         method: "DELETE",
       });
-      setUnits(unit.filter((unit) => unit.unit_id !== id));
-      window.location = "/"; // Page not auto updating upon click
+      const updatedPlots = plots.map((el) => {
+        if (plot_id === el.plot_id) {
+          el.plotUnits = el.plotUnits.filter((unit) => unit.unit_id !== id);
+        }
+        return el;
+      });
+      setPlots(updatedPlots);
     } catch (error) {
       console.error(error.message);
     }
   };
 
-  useEffect(() => {
-    getPlots();
-  }, []);
-
+  // Get a unit
   const getUnits = async (id) => {
     try {
       const response = await fetch(`http://localhost:5000/plot/${id}`);
@@ -60,11 +65,25 @@ const Home = () => {
     }
   };
 
+  const openEditModel = ({ plot }) => {
+    setSelected(plot);
+    setIsOpenEdit(true);
+  };
+
+  const closeModal = () => {
+    setIsOpenEdit(false);
+    setIsOpenPlant(false);
+  };
+
+  useEffect(() => {
+    getPlots();
+  }, []);
+
   useEffect(() => {
     getUnits();
   }, []);
 
-  console.log(unit);
+  console.log(units);
 
   return (
     <Fragment>
@@ -110,7 +129,9 @@ const Home = () => {
                           </button>
                           <button
                             className="btn btn-danger btn-remove"
-                            onClick={() => deleteUnit(item.unit_id)}
+                            onClick={() =>
+                              deleteUnit(item.unit_id, plot.plot_id)
+                            }
                           >
                             <DeleteSVG />
                           </button>
@@ -121,33 +142,59 @@ const Home = () => {
                 </table>
                 <div className="container">
                   <div className="plot-buttons">
-                    <button className="btn btn-success btn-space">
-                      Add Plant
-                    </button>
-
                     <div stlye={BUTTON_WRAPPER_STYLE}>
-                      <div className="editPlotButton">
+                      <div className="addPlanttButton">
                         <button
-                          className="btn btn-warning btn-space"
-                          onClick={() => setIsOpenEdit(true)}
+                          className="btn btn-success btn-space"
+                          onClick={() => setIsOpenPlant(true)}
                         >
-                          Edit
+                          Add Plant
                         </button>
-                        <EditPlotModal
+                        <AddUnit
                           plot={plot.plot_id}
-                          open={isOpenEdit}
-                          onClose={() => setIsOpenEdit(false)}
+                          open={isOpenPlant}
+                          onClose={() => closeModal()}
                         >
                           {console.log(plot.plot_id)}
-                        </EditPlotModal>
+                        </AddUnit>
                       </div>
+
+                      <div stlye={BUTTON_WRAPPER_STYLE}>
+                        <div className="editPlotButton">
+                          <button
+                            className="btn btn-warning btn-space"
+                            onClick={() => openEditModel({ plot })}
+                          >
+                            Edit
+                          </button>
+                          <EditPlotModal
+                            plot={selectedPlot}
+                            open={isOpenEdit}
+                            onClose={(plot = null) => {
+                              if (plot) {
+                                const updatedPlots = plots.map((el) => {
+                                  if (el.plot_id === plot.plot_id) {
+                                    el = plot;
+                                  }
+                                  return el;
+                                });
+                                setPlots(updatedPlots);
+                              }
+
+                              closeModal();
+                            }}
+                          >
+                            {console.log(plot.plot_id)}
+                          </EditPlotModal>
+                        </div>
+                      </div>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deletePlot(plot.plot_id)}
+                      >
+                        Delete
+                      </button>
                     </div>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => deletePlot(plot.plot_id)}
-                    >
-                      Delete
-                    </button>
                   </div>
                 </div>
               </div>

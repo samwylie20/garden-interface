@@ -6,13 +6,13 @@ import "./plantLibrary.component.scss";
 
 const PlantLibrary = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [plant, setPlant] = useState([]);
+  const [plant, setPlants] = useState([]);
   // Get all plants data
   const getPlants = async () => {
     try {
       const response = await fetch("http://localhost:5000/plants");
       const jsonData = await response.json();
-      setPlant(jsonData);
+      setPlants(jsonData);
     } catch (error) {
       console.error(error.message);
     }
@@ -20,11 +20,11 @@ const PlantLibrary = () => {
   // Delete a plant
   const deletePlant = async (id) => {
     try {
-      const deleteUnit = await fetch(`http://localhost:5000/plants/${id}`, {
+      const deletePlant = await fetch(`http://localhost:5000/plants/${id}`, {
         method: "DELETE",
       });
-      setPlant(plant.filter((plant) => plant.plant_id !== id));
-      window.location = "/plantlibrary"; // Page not auto updating upon click
+      setPlants(plant.filter((plant) => plant.plant_id !== id));
+      //window.location = "/plantlibrary"; // Page not auto updating upon click
     } catch (error) {
       console.error(error.message);
     }
