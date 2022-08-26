@@ -6,7 +6,7 @@ import "./plantLibrary.component.scss";
 
 const PlantLibrary = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [plant, setPlants] = useState([]);
+  const [plants, setPlants] = useState([]);
   // Get all plants data
   const getPlants = async () => {
     try {
@@ -23,7 +23,7 @@ const PlantLibrary = () => {
       const deletePlant = await fetch(`http://localhost:5000/plants/${id}`, {
         method: "DELETE",
       });
-      setPlants(plant.filter((plant) => plant.plant_id !== id));
+      setPlants(plants.filter((plant) => plant.id !== id));
       //window.location = "/plantlibrary"; // Page not auto updating upon click
     } catch (error) {
       console.error(error.message);
@@ -61,7 +61,7 @@ const PlantLibrary = () => {
           </tr>
         </thead>
         <tbody>
-          {plant.map((plant) => (
+          {plants.map((plant) => (
             <tr>
               <th scope="row">{plant.plant_name}</th>
               <td>{plant.plant_type}</td>

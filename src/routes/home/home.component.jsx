@@ -5,6 +5,7 @@ import EditSVG from "../../components/editSVG.component";
 import DeleteSVG from "../../components/deleteSVG.component";
 import AddUnit from "../home/addUnit.component";
 import "./home.component.scss";
+import Swal from "sweetalert2";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,13 +27,22 @@ const Home = () => {
 
   // Delete a plot
   const deletePlot = async (id) => {
-    try {
-      const deletePlot = await fetch(`http://localhost:5000/plot/${id}`, {
-        method: "DELETE",
-      });
-      setPlots(plots.filter((plot) => plot.plot_id !== id));
-    } catch (err) {
-      console.error(err.message);
+    const swalDelete = await Swal.fire({
+      title: "Are you sure you want to delete this plot?",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    });
+
+    if (swalDelete.isConfirmed) {
+      try {
+        // const deletePlot = await fetch(`http://localhost:5000/plot/${id}`, {
+        //   method: "DELETE",
+        // });
+        setPlots(plots.filter((plot) => plot.plot_id !== id));
+        Swal.fire("Deleted!", "", "success");
+      } catch (err) {
+        console.error(err.message);
+      }
     }
   };
 
