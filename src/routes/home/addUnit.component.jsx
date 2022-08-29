@@ -1,7 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 const AddUnit = ({ open, children, onClose }) => {
+  const [plants, setPlants] = useState([]);
+
+  // Get plant options from Library
+  const plantOptions = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/plants");
+      const jsonData = await response.json();
+      setPlants(jsonData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    plantOptions();
+  }, []);
+
   if (!open) return null;
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -27,9 +44,10 @@ const AddUnit = ({ open, children, onClose }) => {
         {children}
         <h4 className="text-center">Add new plant...</h4>
         <form onSubmit={onSubmitForm}>
-          <select>
-            <option>Tomato</option>
-          </select>
+          {plants.map((option) => {
+            <p>{option.plant_name}</p>;
+            console.log(option);
+          })}
           <button className="btn btn-success btn-block " type="submit">
             Submit
           </button>
