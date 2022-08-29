@@ -44,10 +44,11 @@ const AddUnit = ({ open, children, onClose }) => {
         {children}
         <h4 className="text-center">Add new plant...</h4>
         <form onSubmit={onSubmitForm}>
-          {plants.map((option) => {
-            <p>{option.plant_name}</p>;
-            console.log(option);
-          })}
+          <select>
+            {plants.map((option) => (
+              <option>{option.plant_name}</option>
+            ))}
+          </select>
           <button className="btn btn-success btn-block " type="submit">
             Submit
           </button>
