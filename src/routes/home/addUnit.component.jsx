@@ -23,20 +23,16 @@ const AddUnit = ({ open, children, onClose }) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      let body = {};
-      plants.map(
-        (option) =>
-          (body = {
-            id: option.plot_id,
-            plantName: option.plant_name,
-          })
-      );
+      const body = {
+        //plotId: id,
+        plantName: plants[0].plant_name,
+      };
       const response = await fetch("http://localhost:5000/units", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      console.log(body);
+      console.log(e.target);
       //window.location = "/";
     } catch (error) {
       console.error(error.message);
