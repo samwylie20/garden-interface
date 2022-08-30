@@ -3,7 +3,7 @@ import Modal from "./addPlantModal.component";
 import EditSVG from "./editSVG.component";
 import DeleteSVG from "./deleteSVG.component";
 import "./plantLibrary.component.scss";
-
+import Swal from "sweetalert2";
 // Timeline
 import Timeline from "react-calendar-timeline";
 // make sure you include the timeline stylesheet or the timeline will not be styled
@@ -50,15 +50,22 @@ const PlantLibrary = () => {
   };
   // Delete a plant
   const deletePlant = async (id) => {
-    try {
-      const deletePlant = await fetch(`http://localhost:5000/plants/${id}`, {
-        method: "DELETE",
-      });
-      setPlants(plants.filter((plant) => plant.id !== id));
-      //window.location = "/plantlibrary"; // Page not auto updating upon click
-    } catch (error) {
-      console.error(error.message);
-    }
+    const swalDelete = await Swal.fire({
+      icon: "question",
+      title: "Are you sure you want to delete this plant?",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    });
+    if (swalDelete.isConfirmed)
+      try {
+        // const deletePlant = await fetch(`http://localhost:5000/plants/${id}`, {
+        //   method: "DELETE",
+        //  });
+        setPlants(plants.filter((plant) => plant.id !== id));
+        Swal.fire("Deleted!", "", "success");
+      } catch (error) {
+        console.error(error.message);
+      }
   };
   useEffect(() => {
     getPlants();
