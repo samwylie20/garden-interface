@@ -28,8 +28,11 @@
   margin: 0px;
 }
 
+.container-plot-buttons {
+  display: inline-block;
+}
 .plot-buttons {
-  display: flex;
+  display: inline-block;
 }
 
 .editModalLabel {

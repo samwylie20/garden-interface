@@ -131,9 +131,9 @@ const Home = () => {
                   <thead>
                     <tr>
                       <th scope="col">Name</th>
-                      <th scope="col">Type</th>
+
                       <th scope="col">Harvest</th>
-                      <th scope="col">Edit/Remove</th>
+                      <th scope="col">Remove</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -143,9 +143,6 @@ const Home = () => {
                         <td>-</td>
                         <td>-</td>
                         <td>
-                          <button className="btn btn-warning btn-edit">
-                            <EditSVG />
-                          </button>
                           <button
                             className="btn btn-danger btn-remove"
                             onClick={() =>
@@ -159,7 +156,7 @@ const Home = () => {
                     ))}
                   </tbody>
                 </table>
-                <div className="container">
+                <div className="container-plot-buttons">
                   <div className="plot-buttons">
                     <div stlye={BUTTON_WRAPPER_STYLE}>
                       <div className="addPlanttButton">
