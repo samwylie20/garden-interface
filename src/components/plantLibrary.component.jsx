@@ -6,7 +6,7 @@ import "./plantLibrary.component.scss";
 import Swal from "sweetalert2";
 // Timeline
 import Timeline from "react-calendar-timeline";
-// make sure you include the timeline stylesheet or the timeline will not be styled
+// Make sure you include the timeline stylesheet or the timeline will not be styled
 import "react-calendar-timeline/lib/Timeline.css";
 import moment from "moment";
 
@@ -22,11 +22,6 @@ const PlantLibrary = () => {
       id: index + 1,
     };
   });
-
-  // [
-  // { id: 1, title: "group 1" },
-  // { id: 2, title: "group 2" },
-  // ];
 
   const items = plants.map((plant, index) => {
     return {

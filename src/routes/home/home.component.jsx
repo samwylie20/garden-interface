@@ -3,7 +3,7 @@ import Modal from "./addPlotModal.component";
 import EditPlotModal from "./editPlotModal.component";
 import EditSVG from "../../components/editSVG.component";
 import DeleteSVG from "../../components/deleteSVG.component";
-import AddUnit from "../home/addUnit.component";
+import AddUnit from "./addUnit.component";
 import "./home.component.scss";
 import Swal from "sweetalert2";
 
