@@ -24,7 +24,6 @@ const AddUnit = ({ open, children, onClose }) => {
     e.preventDefault();
     try {
       const body = {
-        //plotId: id,
         plantName: plants[0].plant_name,
       };
       const response = await fetch("http://localhost:5000/units", {
@@ -33,7 +32,6 @@ const AddUnit = ({ open, children, onClose }) => {
         body: JSON.stringify(body),
       });
       console.log(e.target);
-      //window.location = "/";
     } catch (error) {
       console.error(error.message);
     }
