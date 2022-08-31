@@ -52,24 +52,6 @@ const EditPlotModal = ({ open, children, onClose, plot }) => {
             value={plot_name}
             onChange={(e) => onChange(e)}
           />
-          {/* <label className="editModalLabel">Size</label>
-          <input
-            type="text"
-            name="size"
-            placeholder="New size"
-            className="form-control my-3"
-            value={size}
-            onChange={(e) => onChange(e)}
-          />
-          <label className="editModalLabel">Covered</label>
-          <input
-            type="text"
-            name="covered"
-            placeholder="True/False"
-            className="form-control my-3"
-            value={covered}
-            onChange={(e) => onChange(e)}
-          /> */}
           <button className="btn btn-success btn-block " type="submit">
             Update
           </button>

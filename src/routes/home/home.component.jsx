@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
 import Modal from "./addPlotModal.component";
 import EditPlotModal from "./editPlotModal.component";
-import EditSVG from "../../components/editSVG.component";
-import DeleteSVG from "../../components/deleteSVG.component";
+import EditSVG from "../../components/SVG-components/editSVG.component";
+import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 import AddUnit from "./addUnit.component";
 import "./home.component.scss";
 import Swal from "sweetalert2";
@@ -14,6 +14,7 @@ const Home = () => {
   const [selectedPlot, setSelected] = useState(0);
   const [plots, setPlots] = useState([]);
   const [units, setUnits] = useState([]);
+
   // Get all plots
   const getPlots = async () => {
     try {
@@ -36,9 +37,9 @@ const Home = () => {
 
     if (swalDelete.isConfirmed) {
       try {
-        // const deletePlot = await fetch(`http://localhost:5000/plot/${id}`, {
-        //   method: "DELETE",
-        // });
+        const deletePlot = await fetch(`http://localhost:5000/plot/${id}`, {
+          method: "DELETE",
+        });
         setPlots(plots.filter((plot) => plot.plot_id !== id));
         Swal.fire("Deleted!", "", "success");
       } catch (err) {
@@ -57,9 +58,9 @@ const Home = () => {
     });
     if (swalDeleteUnit.isConfirmed)
       try {
-        // const deleteUnit = await fetch(`http://localhost:5000/unit/${id}`, {
-        //   method: "DELETE",
-        // });
+        const deleteUnit = await fetch(`http://localhost:5000/unit/${id}`, {
+          method: "DELETE",
+        });
         const updatedPlots = plots.map((el) => {
           if (plot_id === el.plot_id) {
             el.plotUnits = el.plotUnits.filter((unit) => unit.unit_id !== id);
@@ -84,7 +85,7 @@ const Home = () => {
     }
   };
 
-  const openEditModel = ({ plot }) => {
+  const openEditModal = ({ plot }) => {
     setSelected(plot);
     setIsOpenEdit(true);
   };
@@ -179,7 +180,7 @@ const Home = () => {
                         <div className="editPlotButton">
                           <button
                             className="btn btn-warning btn-space"
-                            onClick={() => openEditModel({ plot })}
+                            onClick={() => openEditModal({ plot })}
                           >
                             Edit
                           </button>

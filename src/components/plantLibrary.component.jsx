@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import Modal from "./addPlantModal.component";
-import EditSVG from "./editSVG.component";
-import DeleteSVG from "./deleteSVG.component";
+import EditSVG from "./SVG-components/editSVG.component";
+import DeleteSVG from "./SVG-components/deleteSVG.component";
 import "./plantLibrary.component.scss";
 import Swal from "sweetalert2";
-// Timeline
-import Timeline from "react-calendar-timeline";
-// Make sure you include the timeline stylesheet or the timeline will not be styled
-import "react-calendar-timeline/lib/Timeline.css";
+import Timeline from "react-calendar-timeline"; // Timeline
+import "react-calendar-timeline/lib/Timeline.css"; // Timeline CSS
 import moment from "moment";
 
 const PlantLibrary = () => {
@@ -43,6 +41,7 @@ const PlantLibrary = () => {
       console.error(error.message);
     }
   };
+
   // Delete a plant
   const deletePlant = async (id) => {
     const swalDelete = await Swal.fire({
@@ -53,9 +52,9 @@ const PlantLibrary = () => {
     });
     if (swalDelete.isConfirmed)
       try {
-        // const deletePlant = await fetch(`http://localhost:5000/plants/${id}`, {
-        //   method: "DELETE",
-        //  });
+        const deletePlant = await fetch(`http://localhost:5000/plants/${id}`, {
+          method: "DELETE",
+        });
         setPlants(plants.filter((plant) => plant.id !== id));
         Swal.fire("Deleted!", "", "success");
       } catch (error) {
