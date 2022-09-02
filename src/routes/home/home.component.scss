@@ -31,11 +31,17 @@
 .container-plot-buttons {
   display: inline-block;
 }
-.plot-buttons {
+
+.plot-button {
   display: inline-block;
 }
 
 .editModalLabel {
   text-align: justify;
   font-size: 10px;
+}
+
+.button-wrapper-style {
+  position: "relative";
+  z-index: 1;
 }

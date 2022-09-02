@@ -109,7 +109,7 @@ const Home = () => {
     <Fragment>
       <div className="container">
         <h2 className="text-center">Current Plots...</h2>
-        <div stlye={BUTTON_WRAPPER_STYLE} className="container">
+        <div className="container button-wrapper-style">
           <div className="addPlotButton">
             <button className="btn btn-success" onClick={() => setIsOpen(true)}>
               Add New Plot
@@ -157,61 +157,56 @@ const Home = () => {
                     ))}
                   </tbody>
                 </table>
-                <div className="container-plot-buttons">
-                  <div className="plot-buttons">
-                    <div stlye={BUTTON_WRAPPER_STYLE}>
-                      <div className="addPlanttButton">
-                        <button
-                          className="btn btn-success btn-space"
-                          onClick={() => setIsOpenPlant(true)}
-                        >
-                          Add Plant
-                        </button>
-                        <AddUnit
-                          plot={plot.plot_id}
-                          open={isOpenPlant}
-                          onClose={() => closeModal()}
-                        >
-                          {console.log(plot.plot_id)}
-                        </AddUnit>
-                      </div>
-
-                      <div stlye={BUTTON_WRAPPER_STYLE}>
-                        <div className="editPlotButton">
-                          <button
-                            className="btn btn-warning btn-space"
-                            onClick={() => openEditModal({ plot })}
-                          >
-                            Edit
-                          </button>
-                          <EditPlotModal
-                            plot={selectedPlot}
-                            open={isOpenEdit}
-                            onClose={(plot = null) => {
-                              if (plot) {
-                                const updatedPlots = plots.map((el) => {
-                                  if (el.plot_id === plot.plot_id) {
-                                    el = plot;
-                                  }
-                                  return el;
-                                });
-                                setPlots(updatedPlots);
-                              }
-
-                              closeModal();
-                            }}
-                          >
-                            {console.log(plot.plot_id)}
-                          </EditPlotModal>
-                        </div>
-                      </div>
+                <div className="container">
+                  <div className="d-inline-block">
+                    <div className="button-wrapper-style">
                       <button
-                        className="btn btn-danger"
-                        onClick={() => deletePlot(plot.plot_id)}
+                        className="btn btn-success d-inline-block"
+                        onClick={() => setIsOpenPlant(true)}
                       >
-                        Delete
+                        Add Plant
                       </button>
+                      <AddUnit
+                        plot={plot.plot_id}
+                        open={isOpenPlant}
+                        onClose={() => closeModal()}
+                      >
+                        {console.log(plot.plot_id)}
+                      </AddUnit>
                     </div>
+                    <div className="button-wrapper-style">
+                      <button
+                        className="btn btn-warning d-inline-block"
+                        onClick={() => openEditModal({ plot })}
+                      >
+                        Edit
+                      </button>
+                      <EditPlotModal
+                        plot={selectedPlot}
+                        open={isOpenEdit}
+                        onClose={(plot = null) => {
+                          if (plot) {
+                            const updatedPlots = plots.map((el) => {
+                              if (el.plot_id === plot.plot_id) {
+                                el = plot;
+                              }
+                              return el;
+                            });
+                            setPlots(updatedPlots);
+                          }
+
+                          closeModal();
+                        }}
+                      >
+                        {console.log(plot.plot_id)}
+                      </EditPlotModal>
+                    </div>
+                    <button
+                      className="btn btn-danger d-inline-block"
+                      onClick={() => deletePlot(plot.plot_id)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
@@ -221,11 +216,6 @@ const Home = () => {
       </div>
     </Fragment>
   );
-};
-
-const BUTTON_WRAPPER_STYLE = {
-  position: "relative",
-  zIndex: 1,
 };
 
 export default Home;
