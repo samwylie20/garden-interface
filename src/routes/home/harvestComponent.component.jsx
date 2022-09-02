@@ -12,6 +12,17 @@ const Harvest = ({ plantedAt, growthTime }) => {
   console.log(now.toLocaleString(), "now");
   console.log(plantedAtPlusGrowthTime > now, "planted at greater than now");
 
-  return <p></p>;
+  const stage = growthTime / 4;
+  const stageOne = plantedAtDate.plus({ weeks: stage }) < now ? "O" : "";
+  const stageTwo = plantedAtDate.plus({ weeks: stage * 2 }) < now ? "O" : "";
+  const stageThree = plantedAtDate.plus({ weeks: stage * 3 }) < now ? "O" : "";
+  const stageFour = plantedAtDate.plus({ weeks: stage * 4 }) < now ? "O" : "";
+
+  return (
+    <p>
+      {stageOne}
+      {stageTwo} {stageThree} {stageFour}
+    </p>
+  );
 };
 export default Harvest;
