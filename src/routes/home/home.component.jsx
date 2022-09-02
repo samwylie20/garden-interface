@@ -6,6 +6,7 @@ import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 import AddUnit from "./addUnit.component";
 import "./home.component.scss";
 import Swal from "sweetalert2";
+import Harvest from "./harvestComponent.component";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,9 +91,15 @@ const Home = () => {
     setIsOpenEdit(true);
   };
 
+  const openPlantModal = ({ plot }) => {
+    setSelected(plot);
+    setIsOpenPlant(true);
+  };
+
   const closeModal = () => {
     setIsOpenEdit(false);
     setIsOpenPlant(false);
+    setSelected(null);
   };
 
   useEffect(() => {
@@ -132,7 +139,6 @@ const Home = () => {
                   <thead>
                     <tr>
                       <th scope="col">Name</th>
-
                       <th scope="col">Harvest</th>
                       <th scope="col">Remove</th>
                     </tr>
@@ -140,9 +146,14 @@ const Home = () => {
                   <tbody>
                     {plot.plotUnits.map((item) => (
                       <tr className="unit-table-data">
-                        <th scope="row">{item.plant_type}</th>
-                        <td>-</td>
-                        <td>-</td>
+                        <th scope="row">{item.plant_name}</th>
+                        <td>
+                          <Harvest
+                            plantedAt={item.planted_at}
+                            growthTime={item.growth_time}
+                          />
+                        </td>
+
                         <td>
                           <button
                             className="btn btn-danger btn-remove"
@@ -159,48 +170,62 @@ const Home = () => {
                 </table>
                 <div className="container">
                   <div className="d-inline-block">
-                    <div className="button-wrapper-style">
-                      <button
-                        className="btn btn-success d-inline-block"
-                        onClick={() => setIsOpenPlant(true)}
-                      >
-                        Add Plant
-                      </button>
-                      <AddUnit
-                        plot={plot.plot_id}
-                        open={isOpenPlant}
-                        onClose={() => closeModal()}
-                      >
-                        {console.log(plot.plot_id)}
-                      </AddUnit>
-                    </div>
-                    <div className="button-wrapper-style">
-                      <button
-                        className="btn btn-warning d-inline-block"
-                        onClick={() => openEditModal({ plot })}
-                      >
-                        Edit
-                      </button>
-                      <EditPlotModal
-                        plot={selectedPlot}
-                        open={isOpenEdit}
-                        onClose={(plot = null) => {
-                          if (plot) {
-                            const updatedPlots = plots.map((el) => {
-                              if (el.plot_id === plot.plot_id) {
-                                el = plot;
-                              }
-                              return el;
-                            });
-                            setPlots(updatedPlots);
-                          }
+                    {/* <div className="button-wrapper-style"> */}
+                    <button
+                      className="btn btn-success d-inline-block"
+                      onClick={() => openPlantModal({ plot })}
+                    >
+                      Add Plant
+                    </button>
+                    <AddUnit
+                      key={plot.plot_id}
+                      plot={selectedPlot}
+                      open={isOpenPlant}
+                      onClose={(unit = null) => {
+                        if (unit) {
+                          const updatedPlots = plots.map((el) => {
+                            if (el.plot_id === selectedPlot.plot_id) {
+                              console.log(el, "el");
+                              el.plotUnits.push(unit);
+                            }
+                            return el;
+                          });
+                          setPlots(updatedPlots);
+                        }
 
-                          closeModal();
-                        }}
-                      >
-                        {console.log(plot.plot_id)}
-                      </EditPlotModal>
-                    </div>
+                        closeModal();
+                      }}
+                    >
+                      {console.log(plot.plot_id, "in hom comp")}
+                    </AddUnit>
+                    {/* </div> */}
+                    {/* <div className="button-wrapper-style"> */}
+                    <button
+                      className="btn btn-warning d-inline-block"
+                      onClick={() => openEditModal({ plot })}
+                    >
+                      Edit
+                    </button>
+                    <EditPlotModal
+                      plot={selectedPlot}
+                      open={isOpenEdit}
+                      onClose={(plot = null) => {
+                        if (plot) {
+                          const updatedPlots = plots.map((el) => {
+                            if (el.plot_id === plot.plot_id) {
+                              el = plot;
+                            }
+                            return el;
+                          });
+                          setPlots(updatedPlots);
+                        }
+
+                        closeModal();
+                      }}
+                    >
+                      {console.log(plot.plot_id)}
+                    </EditPlotModal>
+                    {/* </div> */}
                     <button
                       className="btn btn-danger d-inline-block"
                       onClick={() => deletePlot(plot.plot_id)}

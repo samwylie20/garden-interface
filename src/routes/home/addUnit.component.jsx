@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
-const AddUnit = ({ open, children, onClose }) => {
+const AddUnit = ({ open, children, onClose, plot }) => {
+  console.log(plot, "inside add unit");
   const [plants, setPlants] = useState([]);
-
+  const [selectedPlant, setSelectedPlant] = useState(null);
   // Get plant options from Library
   const plantOptions = async () => {
     try {
@@ -19,19 +20,30 @@ const AddUnit = ({ open, children, onClose }) => {
     plantOptions();
   }, []);
 
+  const handleSelect = (e) => {
+    console.log(e.target.value);
+    setSelectedPlant(e.target.value);
+  };
+
   if (!open) return null;
   const onSubmitForm = async (e) => {
+    console.log(e, "e");
+
     e.preventDefault();
     try {
       const body = {
-        plantName: plants[0].plant_name,
+        plant_type: selectedPlant,
+        plot_id: plot.plot_id,
       };
       const response = await fetch("http://localhost:5000/units", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      console.log(e.target);
+      const plant = await response.json();
+
+      console.log(plant, "onsubmit plant");
+      onClose(plant);
     } catch (error) {
       console.error(error.message);
     }
@@ -44,14 +56,25 @@ const AddUnit = ({ open, children, onClose }) => {
         {children}
         <h4 className="text-center">Add new plant...</h4>
         <form onSubmit={onSubmitForm}>
-          <select>
+          <select name="plant" value={selectedPlant} onChange={handleSelect}>
             {plants.map((option) => (
-              <option>{option.plant_name}</option>
+              <option value={option.name}>{option.plant_name}</option>
             ))}
           </select>
-          <button className="btn btn-success btn-block " type="submit">
-            Submit
-          </button>
+          {selectedPlant && (
+            <button className="btn btn-success btn-block" type="submit">
+              Submit
+            </button>
+          )}
+          {!selectedPlant && (
+            <button
+              className="btn btn-disabled btn-block"
+              disabled
+              type="submit"
+            >
+              Submit
+            </button>
+          )}
         </form>
         <button className="btn btn-danger btn-block" onClick={onClose}>
           Close
