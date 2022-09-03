@@ -115,7 +115,7 @@ const Home = () => {
   return (
     <Fragment>
       <div className="container">
-        <h2 className="text-center">Current Plots...</h2>
+        <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900">Current Plots...</h2>
         <div className="container button-wrapper-style">
           <div className="addPlotButton">
             <button className="btn btn-success" onClick={() => setIsOpen(true)}>
