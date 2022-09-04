@@ -8,5 +8,6 @@ module.exports = {
   },
   plugins: [
     require("daisyui")
+    //https://daisyui.com/
   ],
 }
