@@ -4,7 +4,7 @@ import EditPlotModal from "./editPlotModal.component";
 import EditSVG from "../../components/SVG-components/editSVG.component";
 import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 import AddUnit from "./addUnit.component";
-import "./home.component.scss";
+// import "./home.component.scss";
 import Swal from "sweetalert2";
 import Harvest from "./harvestComponent.component";
 
@@ -115,6 +115,9 @@ const Home = () => {
   return (
     <Fragment>
       <div className="container">
+      <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
         <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900">Current Plots...</h2>
         <div className="container button-wrapper-style">
           <div className="addPlotButton">

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Modal from "./addPlantModal.component";
 import EditSVG from "./SVG-components/editSVG.component";
 import DeleteSVG from "./SVG-components/deleteSVG.component";
-import "./plantLibrary.component.scss";
+// import "./plantLibrary.component.scss";
 import Swal from "sweetalert2";
 import Timeline from "react-calendar-timeline"; // Timeline
 import "react-calendar-timeline/lib/Timeline.css"; // Timeline CSS
