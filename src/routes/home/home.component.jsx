@@ -139,7 +139,7 @@ const Home = () => {
                   <thead>
                     <tr>
                       <th scope="col">Name</th>
-                      <th scope="col">Progress (days)</th>
+                      <th scope="col">Progress</th>
                       <th scope="col">Remove</th>
                     </tr>
                   </thead>
