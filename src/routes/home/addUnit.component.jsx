@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 const AddUnit = ({ open, children, onClose, plot }) => {
-  console.log(plot, "inside add unit");
+  // console.log(plot, "inside add unit");
   const [plants, setPlants] = useState([]);
   const [selectedPlant, setSelectedPlant] = useState(null);
   // Get plant options from Library
@@ -21,7 +21,7 @@ const AddUnit = ({ open, children, onClose, plot }) => {
   }, []);
 
   const handleSelect = (e) => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     setSelectedPlant(e.target.value);
   };
 
@@ -42,7 +42,7 @@ const AddUnit = ({ open, children, onClose, plot }) => {
       });
       const plant = await response.json();
 
-      console.log(plant, "onsubmit plant");
+      //console.log(plant, "onsubmit plant");
       onClose(plant);
     } catch (error) {
       console.error(error.message);

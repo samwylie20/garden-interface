@@ -139,7 +139,7 @@ const Home = () => {
                   <thead>
                     <tr>
                       <th scope="col">Name</th>
-                      <th scope="col">Harvest</th>
+                      <th scope="col">Progress</th>
                       <th scope="col">Remove</th>
                     </tr>
                   </thead>
@@ -196,7 +196,7 @@ const Home = () => {
                         closeModal();
                       }}
                     >
-                      {console.log(plot.plot_id, "in hom comp")}
+                      {/* {console.log(plot.plot_id, "in hom comp")} */}
                     </AddUnit>
                     {/* </div> */}
                     {/* <div className="button-wrapper-style"> */}
@@ -223,7 +223,7 @@ const Home = () => {
                         closeModal();
                       }}
                     >
-                      {console.log(plot.plot_id)}
+                      {/* {console.log(plot.plot_id)} */}
                     </EditPlotModal>
                     {/* </div> */}
                     <button
