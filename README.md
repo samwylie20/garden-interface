@@ -11,3 +11,5 @@ The Garden Database App is a Fullstack PERN (Postgres, Express, React, Node) app
 The first of two main features in this app is a Plot Display. This displays a garden plot and all the relevant plants inside the plot. The plot display has a harvest progress status which lets the user how long each plant has till its optimal harvest time.
 
 The second main feature is a Plant Library. This is where the user can add unique plants to a list and all the relevant information about those plants. Adding plants to the library will allow the user to add commonly used plants quickly to their plots.
+
+Backend Repo : https://github.com/samwylie20/garden-api
