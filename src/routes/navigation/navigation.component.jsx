@@ -1,10 +1,14 @@
 import { Fragment } from "react";
 import { Outlet, Link } from "react-router-dom";
+import LogoSVG from "../../components/SVG-components/logoSVG.component";
 
 const Navigation = () => {
   return (
     <Fragment>
       <div className="navbar navbar-expand-lg navbar-light bg-light">
+        {/* <Link className="title-container" to="/">
+          <LogoSVG />
+        </Link> */}
         <Link className="title-container" to="/">
           <h6 className="text-2xl font-bold pl-2">Home</h6>
         </Link>
