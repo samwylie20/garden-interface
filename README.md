@@ -1,4 +1,4 @@
-# Garden Database App - Frontend
+# Visual Garden Database App - Frontend
 
 ## This is the frontend repo for my Garden Database App
 
