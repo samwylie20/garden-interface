@@ -4,7 +4,7 @@
 
 ### Description
 
-DISCLAIMER - This app is still in the prototype phase and does not yet include an authentication layer. (31/8/22)
+DISCLAIMER - This app is still in development and does not yet include an authentication layer. (31/8/22)
 
 The Garden Database App is a Fullstack PERN (Postgres, Express, React, Node) application that aims to create a visual database for recording information about a users vegetable gardens.
 
