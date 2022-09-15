@@ -116,11 +116,14 @@ const Home = () => {
     <Fragment>
       <div className="container">
         <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-green-400 text-center">
-          Current Plots...
+          Your Plots
         </h2>
         <div className="container button-wrapper-style">
           <div className="addPlotButton">
-            <button className="btn btn-success" onClick={() => setIsOpen(true)}>
+            <button
+              className="btn text-black bg-green-400 hover:bg-green-200"
+              onClick={() => setIsOpen(true)}
+            >
               Add New Plot
             </button>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
