@@ -19,14 +19,14 @@ const Navigation = () => {
             />
           </div>
           {/* LINK CONTAINER */}
-          <section className="MOBILE-MENU flex lg:hidden">
+          <section className="MOBILE-MENU flex">
             <div
               className="HAMBURGER-ICON space-y-2"
               onClick={() => setIsNavOpen((prev) => !prev)}
             >
-              <span className="block h-0.5 w-8 bg-gray-600"></span>
-              <span className="block h-0.5 w-8 bg-gray-600"></span>
-              <span className="block h-0.5 w-8 bg-gray-600"></span>
+              <span className="block h-1 w-8 bg-gray-400"></span>
+              <span className="block h-1 w-8 bg-gray-400"></span>
+              <span className="block h-1 w-8 bg-gray-400"></span>
             </div>
 
             <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}>
@@ -65,7 +65,7 @@ const Navigation = () => {
       .showMenuNav {
         display: block;
         position: absolute;
-        width: 25%;
+        width: 50%;
         height: 25vh;
         top: 30;
         right: 0;
