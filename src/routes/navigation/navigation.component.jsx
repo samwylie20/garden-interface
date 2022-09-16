@@ -50,10 +50,14 @@ const Navigation = () => {
               </div>
               <ul className="flex flex-col min-h-[250px]">
                 <li className="font-bold text-xl my-10  hover:text-green-400">
-                  <Link to="/">Plots</Link>
+                  <Link to="/" onClick={() => setIsNavOpen(false)}>
+                    Plots
+                  </Link>
                 </li>
                 <li className="font-bold text-xl  hover:text-green-400">
-                  <Link to="/plantlibrary">Plant Library</Link>
+                  <Link to="/plantlibrary" onClick={() => setIsNavOpen(false)}>
+                    Plant Library
+                  </Link>
                 </li>
               </ul>
             </div>
