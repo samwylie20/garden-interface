@@ -120,13 +120,15 @@ const Home = () => {
         <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-green-400 text-center">
           Your Plots...
         </h2>
-        <button
-          className="p-2 rounded-lg uppercase font-semibold mr-auto text-slate-800 bg-green-400 hover:bg-green-300"
-          onClick={() => setIsOpen(true)}
-        >
-          Add New Plot
-        </button>
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+        <div className="addPlotButton">
+          <button
+            className="p-2 rounded-lg uppercase font-semibold text-right text-slate-800 bg-green-400 hover:bg-green-300"
+            onClick={() => setIsOpen(true)}
+          >
+            Add New Plot
+          </button>
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+        </div>
         {/* FLEX CONTAINER */}
         <div className="flex flex-col justify-between items-start text-center p-5 md:flex-row">
           {plots.map((plot) => (

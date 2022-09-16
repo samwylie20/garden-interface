@@ -66,66 +66,90 @@ const PlantLibrary = () => {
   }, []);
 
   return (
-    <div className="container">
-      <div className="grid-padding">
-        <h2 className="text-center">Welcome to your Plant Library</h2>
-        <div stlye={BUTTON_WRAPPER_STYLE} className="container">
-          <div className="addPlantButton">
-            <button className="btn btn-success" onClick={() => setIsOpen(true)}>
-              Add New Plant
-            </button>
-            <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
-          </div>
+    <div className="container mx-auto">
+      <h2 className="t-3 text-3xl font-extrabold tracking-tight text-green-400 text-center">
+        Welcome to your Plant Library
+      </h2>
+      <div stlye={BUTTON_WRAPPER_STYLE} className="container">
+        <div className="addPlantButton">
+          <button
+            className="p-2 rounded-lg uppercase font-semibold text-right text-slate-800 bg-green-400 hover:bg-green-300"
+            onClick={() => setIsOpen(true)}
+          >
+            Add New Plant
+          </button>
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
         </div>
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Type</th>
-            <th scope="col">Growth Time (weeks)</th>
-            <th scope="col">Season</th>
-            <th scope="col">Ideal Planting</th>
-            <th scope="col">Ideal Harvest</th>
-            <th scope="col">Climate</th>
-            <th scope="col">Need Cover</th>
-            <th scope="col">Edit/Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          {plants.map((plant) => (
+      {/* FLEX CONTAINER */}
+      <div className="flex flex-col items-center">
+        <table className="table text-center">
+          <thead>
             <tr>
-              <th scope="row">{plant.plant_name}</th>
-              <td>{plant.plant_type}</td>
-              <td className="text-center">{plant.growth_time}</td>
-              <td>{plant.season}</td>
-              <td>{plant.ideal_plant_time}</td>
-              <td>{plant.ideal_harvest_time}</td>
-              <td>{plant.ideal_climate}</td>
-              <td>{plant.need_cover ? "True" : "False"}</td>
-              <td>
-                <button className="btn btn-warning btn-edit">
-                  <EditSVG />
-                </button>
-                <button
-                  className="btn btn-danger btn-remove"
-                  onClick={() => deletePlant(plant.id)}
-                >
-                  <DeleteSVG />
-                </button>
-              </td>
+              <th scope="col" className="text-gray-400 bg-slate-600">
+                Name
+              </th>
+              <th scope="col" className="text-gray-400 bg-slate-800">
+                Type
+              </th>
+              <th scope="col" className="text-gray-400 bg-slate-600">
+                Growth Time (weeks)
+              </th>
+              <th scope="col" className="text-gray-400 bg-slate-800">
+                Season
+              </th>
+              <th scope="col" className="text-gray-400 bg-slate-600">
+                Ideal Planting
+              </th>
+              <th scope="col" className="text-gray-400 bg-slate-800">
+                Ideal Harvest
+              </th>
+              <th scope="col" className="text-gray-400 bg-slate-600">
+                Climate
+              </th>
+              <th scope="col" className="text-gray-400 bg-slate-800">
+                Need Cover
+              </th>
+              <th scope="col" className="text-gray-400 bg-slate-600">
+                Edit/Remove
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <Timeline
-        groups={groups}
-        items={items}
-        defaultTimeStart={moment().add(-12, "months")}
-        defaultTimeEnd={moment().add(12, "months")}
-        minZoom={60 * 60 * 24 * 365}
-        traditionalZoom={true}
-      />
+          </thead>
+          <tbody>
+            {plants.map((plant) => (
+              <tr>
+                <th scope="row">{plant.plant_name}</th>
+                <td>{plant.plant_type}</td>
+                <td className="text-center">{plant.growth_time}</td>
+                <td>{plant.season}</td>
+                <td>{plant.ideal_plant_time}</td>
+                <td>{plant.ideal_harvest_time}</td>
+                <td>{plant.ideal_climate}</td>
+                <td>{plant.need_cover ? "True" : "False"}</td>
+                <td>
+                  <button className="text-green-400 p-1 hover:text-yellow-400">
+                    <EditSVG />
+                  </button>
+                  <button
+                    className="p-1 pl-4 hover:text-red-500"
+                    onClick={() => deletePlant(plant.id)}
+                  >
+                    <DeleteSVG />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {/* <Timeline
+          groups={groups}
+          items={items}
+          defaultTimeStart={moment().add(-12, "months")}
+          defaultTimeEnd={moment().add(12, "months")}
+          minZoom={60 * 60 * 24 * 365}
+          traditionalZoom={true}
+        /> */}
+      </div>
     </div>
   );
 };
