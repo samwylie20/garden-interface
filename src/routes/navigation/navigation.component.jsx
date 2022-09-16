@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
 import { Outlet, Link } from "react-router-dom";
+import "./navigation.component.scss";
 
 const Navigation = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -58,29 +59,6 @@ const Navigation = () => {
             </div>
           </section>
         </div>
-        <style>{`
-      .hideMenuNav {
-        display: none;
-      }
-      .showMenuNav {
-        display: block;
-        position: absolute;
-        width: 50%;
-        height: 25vh;
-        top: 30;
-        right: 0;
-        background:  #404859;
-        border-style: solid;
-        border-width: 2px;
-        border-color: #4ade80; 
-        border-radius: 10px;
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-    `}</style>
       </div>
       <Outlet />
     </Fragment>
