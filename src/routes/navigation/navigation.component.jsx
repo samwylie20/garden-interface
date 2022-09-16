@@ -6,7 +6,7 @@ const Navigation = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
     <Fragment>
-      <div className="top-0 left-0 right-0 container mx-auto p-6 ">
+      <div className="top-0 left-0 right-0 container mx-auto p-6">
         {/* FLEX CONTAINER */}
         <div className="flex items-center justify-between">
           <div className="flex items">

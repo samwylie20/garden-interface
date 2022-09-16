@@ -83,7 +83,7 @@ const PlantLibrary = () => {
       </div>
       {/* FLEX CONTAINER */}
       <div className="flex flex-col items-center">
-        <table className="table text-center">
+        <table className="table text-center overflow-x-auto">
           <thead>
             <tr>
               <th scope="col" className="text-gray-400 bg-slate-600">
