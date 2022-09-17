@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 
 const NavigationDaisy = () => {
   return (
+    <>
     <div className="navbar bg-base-100">
       <div className="navbar-start">
       </div>
@@ -43,6 +44,8 @@ const NavigationDaisy = () => {
       </div>
     </div>
   </div>
+  <Outlet />
+  </>
   );
 };
 
