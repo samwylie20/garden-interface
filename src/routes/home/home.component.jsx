@@ -118,7 +118,7 @@ const Home = () => {
       <div className="container mx-auto">
         {/* TITLE */}
         <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-green-400 text-center">
-          Your Plots...
+          Your Plots...  🌱🪴🌵☘️🏵️
         </h2>
         <div className="addPlotButton">
           <button

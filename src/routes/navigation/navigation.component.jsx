@@ -10,7 +10,7 @@ const Navigation = () => {
         {/* FLEX CONTAINER */}
         <div className="flex items-center justify-between">
           <div className="flex items">
-            <h6 class="text-lg font-bold pr-2 tracking-tight md:text-3xl">
+            <h6 className="text-lg font-bold pr-2 tracking-tight md:text-3xl">
               Visual Garden DB
             </h6>
             <img

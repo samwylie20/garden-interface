@@ -31,7 +31,7 @@ export default function Modal({ open, children, onClose }) {
 
   return ReactDOM.createPortal(
     <>
-      <div style={OVERLAY_STYLES} />
+      <div style={OVERLAY_STYLES} onClick={() => onClose()}/>
       <div style={MODAL_STYLES}>
         {children}
         <h2 className="text-center">Build Plot</h2>

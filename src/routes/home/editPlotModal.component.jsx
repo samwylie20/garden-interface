@@ -38,7 +38,7 @@ const EditPlotModal = ({ open, children, onClose, plot }) => {
   return ReactDOM.createPortal(
     <>
       {console.log(plot, "plot")}
-      <div style={OVERLAY_STYLES} />
+      <div style={OVERLAY_STYLES} onClick={() => onClose()}/>
       <div style={MODAL_STYLES}>
         {children}
         <h2 className="text-center">Edit Plot</h2>
