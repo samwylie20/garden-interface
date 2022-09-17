@@ -6,8 +6,15 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [
-    require("daisyui")
-    //https://daisyui.com/
-  ],
+  plugins: [require("daisyui")],
+  daisyui: {
+    styled: true,
+    themes: ['lemonade'],
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: "",
+    darkTheme: "dark",
+  },
 }
