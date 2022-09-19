@@ -51,7 +51,7 @@ const AddUnit = ({ open, children, onClose, plot }) => {
 
   return ReactDOM.createPortal(
     <>
-      <div style={OVERLAY_STYLES} />
+      <div style={OVERLAY_STYLES} onClick={() => onClose()}/>
       <div style={MODAL_STYLES}>
         {children}
         <h4 className="text-center">Add new plant...</h4>

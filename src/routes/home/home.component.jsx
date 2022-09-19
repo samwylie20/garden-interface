@@ -110,128 +110,240 @@ const Home = () => {
     getUnits();
   }, []);
 
-  console.log(units);
+  // ADD PLOT FORM CONTROL
+  const [inputs, setInputs] = useState({
+    plot_name: "",
+    size: "",
+    covered: "",
+  });
+
+  const { plot_name, size, covered } = inputs;
+  const onChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const body = { plot_name, size, covered };
+      const response = await fetch("http://localhost:5000/plot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      window.location = "/";
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <Fragment>
-      <div className="container">
-        <h2 className="text-center">Current Plots...</h2>
-        <div className="container button-wrapper-style">
-          <div className="addPlotButton">
-            <button className="btn btn-success" onClick={() => setIsOpen(true)}>
-              Add New Plot
-            </button>
-            <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+      {/* HOME CONTAINER */}
+      <div className="container mx-auto">
+        {/* HOME NAVBAR --- TITLE + ADD PLOT BUTTON */}
+        <div className="navbar bg-base-100 pt-4">
+          {/* TITLE */}
+          <div className="navbar-start">
+            <h2 className="text-2xl font-bold tracking-tight text-neutral hover:text-primary">
+              Your Plots... 🌱☘️🌵
+            </h2>
+          </div>
+          {/* ADD PLOT MODAL CONTAINER */}
+          <div className="navbar-end">
+            <div>
+              <label
+                htmlFor="my-modal-4"
+                className="btn btn-outline btn-primary modal-button"
+              >
+                New Plot
+              </label>
+              <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+              <label htmlFor="my-modal-4" className="modal cursor-pointer">
+                <form
+                  className="modal-box relative"
+                  for=""
+                  onSubmit={onSubmitForm}
+                >
+                  <div className="form-control w-full max-w-xs">
+                    <h3 className="text-lg font-bold text-center text-primary">
+                      New Plot
+                    </h3>
+                    <label className="label">
+                      <span className="label-text">
+                        Enter your plot name...
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="input input-bordered w-full max-w-xs"
+                      value={plot_name}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="label">
+                      <span className="label-text">
+                        Enter your plot size...
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="input input-bordered w-full max-w-xs"
+                      value={size}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="label">
+                      <span className="label-text">
+                        Is this plot covered? True or False
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="input input-bordered w-full max-w-xs"
+                      value={covered}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <button
+                      className="btn btn-outline btn-primary shadow-xl m-5"
+                      type="submit"
+                    >
+                      Build Plot
+                    </button>
+                  </div>
+                </form>
+              </label>
+            </div>
           </div>
         </div>
-        <div className="row justify-content">
+        {/* FLEX CONTAINER */}
+        <div className="flex flex-col justify-between items-start text-center md:flex-row">
           {plots.map((plot) => (
-            <div className="grid-padding">
-              <div className="col-sm-4 well px-md-3">
-                <h5 className="text-center header-text-style">
-                  {plot.plot_name}
-                </h5>
-                <p className="text-center">
-                  Size: {plot.size} | Covered: {plot.covered.toString()} | ID:
-                  {plot.plot_id}
-                </p>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Name</th>
-                      <th scope="col">Progress</th>
-                      <th scope="col">Remove</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {plot.plotUnits.map((item) => (
-                      <tr className="unit-table-data">
-                        <th scope="row">{item.plant_name}</th>
-                        <td>
-                          <Harvest
-                            plantedAt={item.planted_at}
-                            growthTime={item.growth_time}
-                          />
-                        </td>
-
-                        <td>
-                          <button
-                            className="btn btn-danger btn-remove"
-                            onClick={() =>
-                              deleteUnit(item.unit_id, plot.plot_id)
-                            }
+            <div className="card w-96 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105">
+              <div className="card-body">
+                <div className="card-actions justify-center">
+                  <h5 className="text-lg font-bold text-center tracking-tight text-primary">
+                    {plot.plot_name}
+                  </h5>
+                  {/* <p className="mt-1 text-xs font-semibold text-yellow-300 pb-2">
+                    ID - {plot.plot_id}
+                  </p> */}
+                  <div className="overflow-x-auto">
+                    <table className="table w-full">
+                      <thead>
+                        <tr>
+                          <th
+                            scope="col"
+                            className="text-gray-400 bg-slate-600"
                           >
-                            <DeleteSVG />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <div className="container">
-                  <div className="d-inline-block">
-                    {/* <div className="button-wrapper-style"> */}
-                    <button
-                      className="btn btn-success d-inline-block"
-                      onClick={() => openPlantModal({ plot })}
-                    >
-                      Add Plant
-                    </button>
-                    <AddUnit
-                      key={plot.plot_id}
-                      plot={selectedPlot}
-                      open={isOpenPlant}
-                      onClose={(unit = null) => {
-                        if (unit) {
-                          const updatedPlots = plots.map((el) => {
-                            if (el.plot_id === selectedPlot.plot_id) {
-                              console.log(el, "el");
-                              el.plotUnits.push(unit);
-                            }
-                            return el;
-                          });
-                          setPlots(updatedPlots);
-                        }
+                            Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-gray-400 bg-slate-800"
+                          >
+                            Progress
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-gray-400 bg-slate-600"
+                          >
+                            Remove
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {plot.plotUnits.map((item) => (
+                          <tr className="unit-table-data">
+                            <th scope="row">{item.plant_name}</th>
+                            <td>
+                              <Harvest
+                                plantedAt={item.planted_at}
+                                growthTime={item.growth_time}
+                              />
+                            </td>
 
-                        closeModal();
-                      }}
-                    >
-                      {/* {console.log(plot.plot_id, "in hom comp")} */}
-                    </AddUnit>
-                    {/* </div> */}
-                    {/* <div className="button-wrapper-style"> */}
-                    <button
-                      className="btn btn-warning d-inline-block"
-                      onClick={() => openEditModal({ plot })}
-                    >
-                      Edit
-                    </button>
-                    <EditPlotModal
-                      plot={selectedPlot}
-                      open={isOpenEdit}
-                      onClose={(plot = null) => {
-                        if (plot) {
-                          const updatedPlots = plots.map((el) => {
-                            if (el.plot_id === plot.plot_id) {
-                              el = plot;
+                            <td>
+                              <button
+                                className="hover:text-red-500"
+                                onClick={() =>
+                                  deleteUnit(item.unit_id, plot.plot_id)
+                                }
+                              >
+                                <DeleteSVG />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {/* BUTTON CONTAINER */}
+                    <div className="container mx-auto">
+                      <div className="flex flex-row justify-between">
+                        <button
+                          className="btn btn-outline btn-primary shadow-xl"
+                          onClick={() => openPlantModal({ plot })}
+                        >
+                          Add Plant
+                        </button>
+                        <AddUnit
+                          key={plot.plot_id}
+                          plot={selectedPlot}
+                          open={isOpenPlant}
+                          onClose={(unit = null) => {
+                            if (unit) {
+                              const updatedPlots = plots.map((el) => {
+                                if (el.plot_id === selectedPlot.plot_id) {
+                                  console.log(el, "el");
+                                  el.plotUnits.push(unit);
+                                }
+                                return el;
+                              });
+                              setPlots(updatedPlots);
                             }
-                            return el;
-                          });
-                          setPlots(updatedPlots);
-                        }
 
-                        closeModal();
-                      }}
-                    >
-                      {/* {console.log(plot.plot_id)} */}
-                    </EditPlotModal>
-                    {/* </div> */}
-                    <button
-                      className="btn btn-danger d-inline-block"
-                      onClick={() => deletePlot(plot.plot_id)}
-                    >
-                      Delete
-                    </button>
+                            closeModal();
+                          }}
+                        >
+                          {/* {console.log(plot.plot_id, "in hom comp")} */}
+                        </AddUnit>
+                        {/* </div> */}
+                        {/* <div className="button-wrapper-style"> */}
+                        <button
+                          className="btn btn-outline btn-secondary shadow-xl"
+                          onClick={() => openEditModal({ plot })}
+                        >
+                          Edit
+                        </button>
+                        <EditPlotModal
+                          plot={selectedPlot}
+                          open={isOpenEdit}
+                          onClose={(plot = null) => {
+                            if (plot) {
+                              const updatedPlots = plots.map((el) => {
+                                if (el.plot_id === plot.plot_id) {
+                                  el = plot;
+                                }
+                                return el;
+                              });
+                              setPlots(updatedPlots);
+                            }
+
+                            closeModal();
+                          }}
+                        >
+                          {/* {console.log(plot.plot_id)} */}
+                        </EditPlotModal>
+                        {/* </div> */}
+                        <button
+                          className="btn btn-outline btn-primary shadow-xl"
+                          onClick={() => deletePlot(plot.plot_id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
