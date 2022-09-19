@@ -119,7 +119,7 @@ const Home = () => {
         <div className="navbar bg-base-100 pt-4">
           {/* TITLE */}
           <div className="navbar-start">
-            <h2 className="text-2xl font-bold tracking-tight text-neutral">
+            <h2 className="text-2xl font-bold tracking-tight text-neutral hover:text-primary">
               Your Plots... 🌱☘️🌵
             </h2>
           </div>
@@ -136,7 +136,7 @@ const Home = () => {
         {/* FLEX CONTAINER */}
         <div className="flex flex-col justify-between items-start text-center md:flex-row">
           {plots.map((plot) => (
-            <div className="card w-96 bg-base-100 shadow-xl border-accent border-2">
+            <div className="card w-96 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105">
               <div className="card-body">
                 <div className="card-actions justify-center">
                   <h5 className="text-lg font-bold text-center tracking-tight text-primary">
@@ -198,7 +198,7 @@ const Home = () => {
                     <div className="container mx-auto">
                       <div className="flex flex-row justify-between">
                         <button
-                          className=""
+                          className="btn btn-outline btn-primary shadow-xl"
                           onClick={() => openPlantModal({ plot })}
                         >
                           Add Plant
@@ -227,7 +227,7 @@ const Home = () => {
                         {/* </div> */}
                         {/* <div className="button-wrapper-style"> */}
                         <button
-                          className="bg-yellow-400 text-gray-800 uppercase font-semibold tracking-tight rounded-lg p-2 hover:bg-yellow-300"
+                          className="btn btn-outline btn-secondary shadow-xl"
                           onClick={() => openEditModal({ plot })}
                         >
                           Edit
@@ -253,7 +253,7 @@ const Home = () => {
                         </EditPlotModal>
                         {/* </div> */}
                         <button
-                          className="bg-red-500 text-gray-800 uppercase font-semibold tracking-tight rounded-lg p-2 hover:bg-red-400"
+                          className="btn btn-outline btn-primary shadow-xl"
                           onClick={() => deletePlot(plot.plot_id)}
                         >
                           Delete
