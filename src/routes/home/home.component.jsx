@@ -119,13 +119,13 @@ const Home = () => {
         <div className="navbar bg-base-100 pt-4">
           {/* TITLE */}
           <div className="navbar-start">
-            <h2 className="text-2xl font-bold tracking-tight text-primary">
+            <h2 className="text-2xl font-bold tracking-tight text-neutral">
               Your Plots... 🌱☘️🌵
             </h2>
           </div>
           <div className="navbar-end">
             <button
-              className="btn btn-outline btn-primary"
+              className="btn btn-outline btn-primary shadow-xl"
               onClick={() => setIsOpen(true)}
             >
               Add New Plot
@@ -134,116 +134,133 @@ const Home = () => {
           </div>
         </div>
         {/* FLEX CONTAINER */}
-        <div className="flex flex-col justify-between items-start text-center p-5 md:flex-row">
+        <div className="flex flex-col justify-between items-start text-center md:flex-row">
           {plots.map((plot) => (
-            <div className="p-7">
-              <h5 className="mt-1 text-lg font-bold tracking-tight text-green-400">
-                {plot.plot_name}
-              </h5>
-              <p className="mt-1 text-xs font-semibold text-yellow-300 pb-2">
-                ID - {plot.plot_id}
-              </p>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col" className="text-gray-400 bg-slate-600">
-                      Name
-                    </th>
-                    <th scope="col" className="text-gray-400 bg-slate-800">
-                      Progress
-                    </th>
-                    <th scope="col" className="text-gray-400 bg-slate-600">
-                      Remove
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {plot.plotUnits.map((item) => (
-                    <tr className="unit-table-data">
-                      <th scope="row">{item.plant_name}</th>
-                      <td>
-                        <Harvest
-                          plantedAt={item.planted_at}
-                          growthTime={item.growth_time}
-                        />
-                      </td>
+            <div className="card w-96 bg-base-100 shadow-xl border-accent border-2">
+              <div className="card-body">
+                <div className="card-actions justify-center">
+                  <h5 className="text-lg font-bold text-center tracking-tight text-primary">
+                    {plot.plot_name}
+                  </h5>
+                  {/* <p className="mt-1 text-xs font-semibold text-yellow-300 pb-2">
+                    ID - {plot.plot_id}
+                  </p> */}
+                  <div className="overflow-x-auto">
+                    <table className="table w-full">
+                      <thead>
+                        <tr>
+                          <th
+                            scope="col"
+                            className="text-gray-400 bg-slate-600"
+                          >
+                            Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-gray-400 bg-slate-800"
+                          >
+                            Progress
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-gray-400 bg-slate-600"
+                          >
+                            Remove
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {plot.plotUnits.map((item) => (
+                          <tr className="unit-table-data">
+                            <th scope="row">{item.plant_name}</th>
+                            <td>
+                              <Harvest
+                                plantedAt={item.planted_at}
+                                growthTime={item.growth_time}
+                              />
+                            </td>
 
-                      <td>
+                            <td>
+                              <button
+                                className="hover:text-red-500"
+                                onClick={() =>
+                                  deleteUnit(item.unit_id, plot.plot_id)
+                                }
+                              >
+                                <DeleteSVG />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {/* BUTTON CONTAINER */}
+                    <div className="container mx-auto">
+                      <div className="flex flex-row justify-between">
                         <button
-                          className="hover:text-red-500"
-                          onClick={() => deleteUnit(item.unit_id, plot.plot_id)}
+                          className=""
+                          onClick={() => openPlantModal({ plot })}
                         >
-                          <DeleteSVG />
+                          Add Plant
                         </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {/* BUTTON CONTAINER */}
-              <div className="container mx-auto">
-                <div className="flex flex-row justify-between">
-                  <button
-                    className="bg-green-400 text-gray-800 uppercase font-semibold tracking-tight rounded-lg p-2 hover:bg-green-300"
-                    onClick={() => openPlantModal({ plot })}
-                  >
-                    Add Plant
-                  </button>
-                  <AddUnit
-                    key={plot.plot_id}
-                    plot={selectedPlot}
-                    open={isOpenPlant}
-                    onClose={(unit = null) => {
-                      if (unit) {
-                        const updatedPlots = plots.map((el) => {
-                          if (el.plot_id === selectedPlot.plot_id) {
-                            console.log(el, "el");
-                            el.plotUnits.push(unit);
-                          }
-                          return el;
-                        });
-                        setPlots(updatedPlots);
-                      }
+                        <AddUnit
+                          key={plot.plot_id}
+                          plot={selectedPlot}
+                          open={isOpenPlant}
+                          onClose={(unit = null) => {
+                            if (unit) {
+                              const updatedPlots = plots.map((el) => {
+                                if (el.plot_id === selectedPlot.plot_id) {
+                                  console.log(el, "el");
+                                  el.plotUnits.push(unit);
+                                }
+                                return el;
+                              });
+                              setPlots(updatedPlots);
+                            }
 
-                      closeModal();
-                    }}
-                  >
-                    {/* {console.log(plot.plot_id, "in hom comp")} */}
-                  </AddUnit>
-                  {/* </div> */}
-                  {/* <div className="button-wrapper-style"> */}
-                  <button
-                    className="bg-yellow-400 text-gray-800 uppercase font-semibold tracking-tight rounded-lg p-2 hover:bg-yellow-300"
-                    onClick={() => openEditModal({ plot })}
-                  >
-                    Edit
-                  </button>
-                  <EditPlotModal
-                    plot={selectedPlot}
-                    open={isOpenEdit}
-                    onClose={(plot = null) => {
-                      if (plot) {
-                        const updatedPlots = plots.map((el) => {
-                          if (el.plot_id === plot.plot_id) {
-                            el = plot;
-                          }
-                          return el;
-                        });
-                        setPlots(updatedPlots);
-                      }
+                            closeModal();
+                          }}
+                        >
+                          {/* {console.log(plot.plot_id, "in hom comp")} */}
+                        </AddUnit>
+                        {/* </div> */}
+                        {/* <div className="button-wrapper-style"> */}
+                        <button
+                          className="bg-yellow-400 text-gray-800 uppercase font-semibold tracking-tight rounded-lg p-2 hover:bg-yellow-300"
+                          onClick={() => openEditModal({ plot })}
+                        >
+                          Edit
+                        </button>
+                        <EditPlotModal
+                          plot={selectedPlot}
+                          open={isOpenEdit}
+                          onClose={(plot = null) => {
+                            if (plot) {
+                              const updatedPlots = plots.map((el) => {
+                                if (el.plot_id === plot.plot_id) {
+                                  el = plot;
+                                }
+                                return el;
+                              });
+                              setPlots(updatedPlots);
+                            }
 
-                      closeModal();
-                    }}
-                  >
-                    {/* {console.log(plot.plot_id)} */}
-                  </EditPlotModal>
-                  {/* </div> */}
-                  <button
-                    className="bg-red-500 text-gray-800 uppercase font-semibold tracking-tight rounded-lg p-2 hover:bg-red-400"
-                    onClick={() => deletePlot(plot.plot_id)}
-                  >
-                    Delete
-                  </button>
+                            closeModal();
+                          }}
+                        >
+                          {/* {console.log(plot.plot_id)} */}
+                        </EditPlotModal>
+                        {/* </div> */}
+                        <button
+                          className="bg-red-500 text-gray-800 uppercase font-semibold tracking-tight rounded-lg p-2 hover:bg-red-400"
+                          onClick={() => deletePlot(plot.plot_id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
