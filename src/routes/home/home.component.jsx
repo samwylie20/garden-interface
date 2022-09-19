@@ -116,18 +116,22 @@ const Home = () => {
     <Fragment>
       {/* HOME CONTAINER */}
       <div className="container mx-auto">
-        {/* TITLE */}
-        <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-green-400 text-center">
-          Your Plots...  🌱🪴🌵☘️🏵️
-        </h2>
-        <div className="addPlotButton">
-          <button
-            className="p-2 rounded-lg uppercase font-semibold text-right text-slate-800 bg-green-400 hover:bg-green-300"
-            onClick={() => setIsOpen(true)}
-          >
-            Add New Plot
-          </button>
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+        <div className="navbar bg-base-100 pt-4">
+          {/* TITLE */}
+          <div className="navbar-start">
+            <h2 className="text-2xl font-bold tracking-tight text-primary">
+              Your Plots... 🌱☘️🌵
+            </h2>
+          </div>
+          <div className="navbar-end">
+            <button
+              className="btn btn-outline btn-primary"
+              onClick={() => setIsOpen(true)}
+            >
+              Add New Plot
+            </button>
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+          </div>
         </div>
         {/* FLEX CONTAINER */}
         <div className="flex flex-col justify-between items-start text-center p-5 md:flex-row">
