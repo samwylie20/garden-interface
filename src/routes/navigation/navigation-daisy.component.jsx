@@ -8,7 +8,7 @@ const NavigationDaisy = () => {
         <div className="navbar-center">
           <Link to="/">
             <p className="btn btn-ghost normal-case text-3xl font-bold text-neutral">
-              <span className="text-primary">Visual Garden</span> DB
+              <span className="text-primary">Visual Garden </span>DB
               <img
                 src={require("./logo.png")}
                 alt=""
