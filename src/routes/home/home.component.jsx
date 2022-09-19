@@ -110,12 +110,38 @@ const Home = () => {
     getUnits();
   }, []);
 
-  console.log(units);
+  // ADD PLOT FORM CONTROL
+  const [inputs, setInputs] = useState({
+    plot_name: "",
+    size: "",
+    covered: "",
+  });
+
+  const { plot_name, size, covered } = inputs;
+  const onChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const body = { plot_name, size, covered };
+      const response = await fetch("http://localhost:5000/plot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      window.location = "/";
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <Fragment>
       {/* HOME CONTAINER */}
       <div className="container mx-auto">
+        {/* HOME NAVBAR --- TITLE + ADD PLOT BUTTON */}
         <div className="navbar bg-base-100 pt-4">
           {/* TITLE */}
           <div className="navbar-start">
@@ -123,14 +149,72 @@ const Home = () => {
               Your Plots... 🌱☘️🌵
             </h2>
           </div>
+          {/* MODAL CONTAINER */}
           <div className="navbar-end">
-            <Modal />
-            {/* <button
-              className="btn btn-outline btn-primary shadow-xl"
-              onClick={() => setIsOpen(true)}
-            >
-              Add New Plot
-            </button> */}
+            <div>
+              <label
+                htmlFor="my-modal-4"
+                className="btn btn-outline btn-primary modal-button"
+              >
+                New Plot
+              </label>
+              <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+              <label htmlFor="my-modal-4" className="modal cursor-pointer">
+                <form
+                  className="modal-box relative"
+                  for=""
+                  onSubmit={onSubmitForm}
+                >
+                  <div className="form-control w-full max-w-xs">
+                    <h3 className="text-lg font-bold text-center text-primary">
+                      New Plot
+                    </h3>
+                    <label className="label">
+                      <span className="label-text">
+                        Enter your plot name...
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="input input-bordered w-full max-w-xs"
+                      value={plot_name}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="label">
+                      <span className="label-text">
+                        Enter your plot size...
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="input input-bordered w-full max-w-xs"
+                      value={size}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="label">
+                      <span className="label-text">
+                        Is this plot covered? True or False
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="input input-bordered w-full max-w-xs"
+                      value={covered}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <button
+                      className="btn btn-outline btn-primary shadow-xl m-5"
+                      type="submit"
+                    >
+                      Build Plot
+                    </button>
+                  </div>
+                </form>
+              </label>
+            </div>
           </div>
         </div>
         {/* FLEX CONTAINER */}
