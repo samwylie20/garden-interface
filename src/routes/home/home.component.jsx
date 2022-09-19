@@ -124,13 +124,13 @@ const Home = () => {
             </h2>
           </div>
           <div className="navbar-end">
-            <button
+            <Modal />
+            {/* <button
               className="btn btn-outline btn-primary shadow-xl"
               onClick={() => setIsOpen(true)}
             >
               Add New Plot
-            </button>
-            <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+            </button> */}
           </div>
         </div>
         {/* FLEX CONTAINER */}
