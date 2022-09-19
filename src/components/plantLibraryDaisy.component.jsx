@@ -66,20 +66,35 @@ const PlantLibraryDaisy = () => {
 
   return (
     <div className="overflow-x-auto w-full">
-      <h2 className="t-3 text-2xl font-bold tracking-tight text-start m-3">
-        Welcome to your<span className="text-primary"> Plant Library</span>
-      </h2>
-      <div stlye={BUTTON_WRAPPER_STYLE} className="container">
-        <div className="addPlantButton">
-          <button
-            className="p-2 rounded-lg uppercase font-semibold text-right text-slate-800 bg-green-400 hover:bg-green-300"
-            onClick={() => setIsOpen(true)}
-          >
-            Add New Plant
-          </button>
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+      {/* LIBRARY NAVBAR --- TITLE + ADD PLOT BUTTON */}
+      <div className="navbar bg-base-100 pt-4">
+        {/* TITLE */}
+        <div className="navbar-start">
+          <h2 className="t-3 text-xl font-bold tracking-tight text-start m-3 md:text-2xl">
+            Welcome to your<span className="text-primary"> Plant Library</span>
+          </h2>
+        </div>
+        {/* ADD PLOT MODAL CONTAINER */}
+        <div className="navbar-end">
+          <div>
+            <label
+              htmlFor="my-modal-4"
+              className="btn btn-outline btn-primary modal-button"
+            >
+              New Plant
+            </label>
+          </div>
         </div>
       </div>
+      {/* <div className="addPlantButton">
+        <button
+          className="p-2 rounded-lg uppercase font-semibold text-right text-slate-800 bg-green-400 hover:bg-green-300"
+          onClick={() => setIsOpen(true)}
+        >
+          Add New Plant
+        </button>
+        <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+      </div> */}
 
       <table className="table w-full">
         <thead>

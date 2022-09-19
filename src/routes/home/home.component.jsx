@@ -149,7 +149,7 @@ const Home = () => {
               Your Plots... 🌱☘️🌵
             </h2>
           </div>
-          {/* MODAL CONTAINER */}
+          {/* ADD PLOT MODAL CONTAINER */}
           <div className="navbar-end">
             <div>
               <label
