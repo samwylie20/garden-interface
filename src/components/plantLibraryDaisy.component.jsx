@@ -95,15 +95,10 @@ const PlantLibraryDaisy = () => {
         </button>
         <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
       </div> */}
-
-      <table className="table w-full">
-        <thead>
+      {/* TABLE CONTAINER */}
+      <table className="table table-compact w-full">
+        <thead className="bg-baseGray rounded-full">
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
             <th>Name</th>
             <th>Type</th>
             <th>Growth Time (weeks)</th>
@@ -116,37 +111,44 @@ const PlantLibraryDaisy = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <span className="text-3xl mb-3">🌵</span>
-                </div>
-                <div>
-                  <div className="font-bold">Cactus</div>
-                  <div className="text-sm opacity-50">Cactaceae</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Pot Plant
-              <br />
-              <span className="badge badge-ghost badge-sm">Visual</span>
-            </td>
-            <td>20</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">Spring/ Summer</button>
-            </th>
-            <td>Spring</td>
-            <td>Dry</td>
-            <td>Yes</td>
-          </tr>
-          <tr>
+          {plants.map((plant) => (
+            <tr>
+              <th scope="row">{plant.plant_name}</th>
+              <td>{plant.plant_type}</td>
+              <td className="text-center">{plant.growth_time}</td>
+              <td>{plant.season}</td>
+              <td>{plant.ideal_plant_time}</td>
+              <td>{plant.ideal_harvest_time}</td>
+              <td>{plant.ideal_climate}</td>
+              <td>{plant.need_cover ? "True" : "False"}</td>
+              {/* <td>
+                <button className="text-green-400 p-1 hover:text-yellow-400">
+                  <EditSVG />
+                </button>
+                <button
+                  className="p-1 pl-4 hover:text-red-500"
+                  onClick={() => deletePlant(plant.id)}
+                >
+                  <DeleteSVG />
+                </button>
+              </td> */}
+            </tr>
+          ))}
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+    </div>
+  );
+};
+
+const BUTTON_WRAPPER_STYLE = {
+  position: "relative",
+  zIndex: 1,
+};
+
+export default PlantLibraryDaisy;
+{
+  /* <tr>
             <th>
               <label>
                 <input type="checkbox" className="checkbox" />
@@ -359,25 +361,5 @@ const PlantLibraryDaisy = () => {
             <td>Spring</td>
             <td>Any</td>
             <td>No</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Growth Time (weeks)</th>
-            <th></th>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  );
-};
-
-const BUTTON_WRAPPER_STYLE = {
-  position: "relative",
-  zIndex: 1,
-};
-
-export default PlantLibraryDaisy;
+          </tr> */
+}
