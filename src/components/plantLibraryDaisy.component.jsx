@@ -65,7 +65,7 @@ const PlantLibraryDaisy = () => {
   }, []);
 
   return (
-    <div className="overflow-x-auto w-full">
+    <div className="overflow-x-auto">
       {/* LIBRARY NAVBAR --- TITLE + ADD PLOT BUTTON */}
       <div className="navbar bg-base-100 pt-4">
         {/* TITLE */}
@@ -79,9 +79,9 @@ const PlantLibraryDaisy = () => {
           <div>
             <label
               htmlFor="my-modal-4"
-              className="btn btn-outline btn-primary modal-button"
+              className="btn btn-outline btn-primary modal-button mr-8"
             >
-              New Plant
+              Add Plant
             </label>
           </div>
         </div>
@@ -96,7 +96,7 @@ const PlantLibraryDaisy = () => {
         <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
       </div> */}
       {/* TABLE CONTAINER */}
-      <table className="table table-compact w-full">
+      <table className="table table-compact mx-auto shadow-xl border-base-200 border-2">
         <thead className="bg-baseGray rounded-full">
           <tr>
             <th>Name</th>
