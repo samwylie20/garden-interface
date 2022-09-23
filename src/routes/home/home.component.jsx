@@ -208,6 +208,7 @@ const Home = () => {
                     <button
                       className="btn btn-outline btn-primary shadow-xl m-5"
                       type="submit"
+                      value="Submit"
                     >
                       Build Plot
                     </button>

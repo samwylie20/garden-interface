@@ -46,7 +46,7 @@ const NavigationDaisy = () => {
                 <Link to="/plantlibrary">Plant Library</Link>
               </li>
               <li>
-                <Link to="/">About</Link>
+                <Link to="/about">About</Link>
               </li>
             </ul>
           </div>
