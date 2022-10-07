@@ -9,8 +9,8 @@ import PlantLibraryDaisy from "./components/plantLibraryDaisy.component";
 function App() {
   return (
     <Routes>
-      {/* <Route path="/" element={<NavigationDaisy />}> */}
-      <Route path="/" element={<Navigation />}>
+      <Route path="/" element={<NavigationDaisy />}>
+      {/* <Route path="/" element={<Navigation />}> */}
         <Route index element={<Home />} />
         <Route path="/plantlibrary" element={<PlantLibrary />} />
         {/* <Route path="/plantlibrary" element={<PlantLibraryDaisy />} /> */}

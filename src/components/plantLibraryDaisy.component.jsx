@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Modal from "./addPlantModal.component";
+
 // import EditSVG from "./SVG-components/editSVG.component";
 // import DeleteSVG from "./SVG-components/deleteSVG.component";
 import "./plantLibrary.component.scss";

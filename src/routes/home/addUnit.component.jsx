@@ -48,7 +48,7 @@ const AddUnit = ({ open, children, onClose, plot }) => {
       console.error(error.message);
     }
   };
-
+  
   return ReactDOM.createPortal(
     <>
       <div style={OVERLAY_STYLES} onClick={() => onClose()}/>
@@ -95,6 +95,7 @@ const MODAL_STYLES = {
   backgroundColor: "#FFF",
   padding: "50px",
   zIndex: 1000,
+  borderRadius: "50px"
 };
 
 // TODO RESTYLE LATER
