@@ -12,7 +12,7 @@ import moment from "moment";
 const PlantLibraryDaisy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [plants, setPlants] = useState([]);
-// Timeline
+  // Timeline
   // https://github.com/namespace-ee/react-calendar-timeline
   const groups = plants.map((plant, index) => {
     return {
@@ -65,312 +65,82 @@ const PlantLibraryDaisy = () => {
     getPlants();
   }, []);
 
-
   return (
-    <div className="overflow-x-auto w-full">
-      <h2 className="t-3 text-3xl font-extrabold tracking-tight text-green-400 text-center">
-        Welcome to your Plant Library
-      </h2>
-      <div stlye={BUTTON_WRAPPER_STYLE} className="container">
-        <div className="addPlantButton">
-          <button
-            className="p-2 rounded-lg uppercase font-semibold text-right text-slate-800 bg-green-400 hover:bg-green-300"
-            onClick={() => setIsOpen(true)}
-          >
-            Add New Plant
-          </button>
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+    <div className="overflow-x-auto">
+      {/* LIBRARY NAVBAR --- TITLE + ADD PLOT BUTTON */}
+      <div className="navbar bg-base-100 pt-4">
+        {/* TITLE */}
+        <div className="navbar-start">
+          <h2 className="t-3 text-xl font-bold tracking-tight text-start m-3 md:text-2xl">
+            Welcome to your<span className="text-primary"> Plant Library</span>
+          </h2>
+        </div>
+        {/* ADD PLOT MODAL CONTAINER */}
+        <div className="navbar-end">
+          <div>
+            <label
+              htmlFor="my-modal-4"
+              className="btn btn-outline btn-primary modal-button mr-8"
+            >
+              Add Plant
+            </label>
+          </div>
         </div>
       </div>
-
-      <table className="table w-full">
-        <thead>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </th>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Growth Time (weeks)</th>
-          <th>Season</th>
-          <th>Ideal Planting</th>
-          <th>Climate</th>
-          <th>Need Cover</th>
-          <th>Edit/ Remove</th>
-          <th></th>
-        </tr>
+      {/* <div className="addPlantButton">
+        <button
+          className="p-2 rounded-lg uppercase font-semibold text-right text-slate-800 bg-green-400 hover:bg-green-300"
+          onClick={() => setIsOpen(true)}
+        >
+          Add New Plant
+        </button>
+        <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
+      </div> */}
+      {/* TABLE CONTAINER */}
+      <table className="table table-compact mx-auto shadow-xl border-base-200 border-2">
+        <thead className="bg-baseGray rounded-full">
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Growth Time (weeks)</th>
+            <th>Season</th>
+            <th>Ideal Planting</th>
+            <th>Climate</th>
+            <th>Need Cover</th>
+            <th>Edit/ Remove</th>
+            <th></th>
+          </tr>
         </thead>
         <tbody>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </th>
-          <td>
-            <div className="flex items-center space-x-3">
-              <div className="avatar">
-                <span className="text-3xl mb-3">🌵</span>
-              </div>
-              <div>
-                <div className="font-bold">Cactus</div>
-                <div className="text-sm opacity-50">Cactaceae</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            Pot Plant
-            <br />
-            <span className="badge badge-ghost badge-sm">Visual</span>
-          </td>
-          <td>20</td>
-          <th>
-            <button className="btn btn-ghost btn-xs">Spring/ Summer</button>
-          </th>
-          <td>Spring</td>
-          <td>Dry</td>
-          <td>Yes</td>
-        </tr>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </th>
-          <td>
-            <div className="flex items-center space-x-3">
-              <div className="avatar">
-                <span className="text-3xl mb-3">🏵️</span>
-              </div>
-              <div>
-                <div className="font-bold">Marigold</div>
-                <div className="text-sm opacity-50">Tagetes</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            Garden/ Pot Plant
-            <br />
-            <span className="badge badge-ghost badge-sm">
-            Flowering/ Edible
-            </span>
-          </td>
-          <td>10</td>
-          <th>
-            <button className="btn btn-ghost btn-xs">Spring/ Summer</button>
-          </th>
-          <td>Spring</td>
-          <td>Dry/ Any</td>
-          <td>No</td>
-        </tr>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </th>
-          <td>
-            <div className="flex items-center space-x-3">
-              <div className="avatar">
-                <span className="text-3xl mb-3">🌴</span>
-              </div>
-              <div>
-                <div className="font-bold">Coconut</div>
-                <div className="text-sm opacity-50">Cocos nucifera</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            Tree  
-            <br />
-            <span className="badge badge-ghost badge-sm">
-              Edible
-            </span>
-          </td>
-          <td>540</td>
-          <th>
-            <button className="btn btn-ghost btn-xs">Spring/ Summer</button>
-          </th>
-          <td>Tropical</td>
-          <td>Dry</td>
-          <td>No</td>
-        </tr>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </th>
-          <td>
-            <div className="flex items-center space-x-3">
-              <div className="avatar">
-                <span className="text-3xl mb-3">🍀</span>
-              </div>
-              <div>
-                <div className="font-bold">Clover</div>
-                <div className="text-sm opacity-50">Trifolium</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            Ground Cover
-            <br />
-            <span className="badge badge-ghost badge-sm">
-              Ornamental
-            </span>
-          </td>
-          <td>3</td>
-          <th>
-            <button className="btn btn-ghost btn-xs">Any</button>
-          </th>
-          <td>Spring</td>
-          <td>Any</td>
-          <td>No</td>
-        </tr>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </th>
-          <td>
-            <div className="flex items-center space-x-3">
-              <div className="avatar">
-                <span className="text-3xl mb-3">🌿</span>
-              </div>
-              <div>
-                <div className="font-bold">Thyme</div>
-                <div className="text-sm opacity-50">Thymus</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            Bush
-            <br />
-            <span className="badge badge-ghost badge-sm">
-              Edible
-            </span>
-          </td>
-          <td>3</td>
-          <th>
-            <button className="btn btn-ghost btn-xs">Spring/Summer</button>
-          </th>
-          <td>Spring</td>
-          <td>Any</td>
-          <td>Some</td>
-        </tr>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </th>
-          <td>
-            <div className="flex items-center space-x-3">
-              <div className="avatar">
-                <span className="text-3xl mb-3">🌹</span>
-              </div>
-              <div>
-                <div className="font-bold">Rose</div>
-                <div className="text-sm opacity-50">Rosa</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            Flower
-            <br />
-            <span className="badge badge-ghost badge-sm">
-              Ornamental
-            </span>
-          </td>
-          <td>3</td>
-          <th>
-            <button className="btn btn-ghost btn-xs">Any</button>
-          </th>
-          <td>Spring</td>
-          <td>Any</td>
-          <td>No</td>
-        </tr>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </th>
-          <td>
-            <div className="flex items-center space-x-3">
-              <div className="avatar">
-                <span className="text-3xl mb-3">🌻</span>
-              </div>
-              <div>
-                <div className="font-bold">Sunflower</div>
-                <div className="text-sm opacity-50">Helianthus annuus</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            Flower
-            <br />
-            <span className="badge badge-ghost badge-sm">
-              Ornamental/ Edible
-            </span>
-          </td>
-          <td>3</td>
-          <th>
-            <button className="btn btn-ghost btn-xs">Any</button>
-          </th>
-          <td>Spring</td>
-          <td>Any</td>
-          <td>No</td>
-        </tr>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </th>
-          <td>
-            <div className="flex items-center space-x-3">
-              <div className="avatar">
-                <span className="text-3xl mb-3">🌺</span>
-              </div>
-              <div>
-                <div className="font-bold">Hibiscus</div>
-                <div className="text-sm opacity-50">Malvaceae</div>
-              </div>
-            </div>
-          </td>
-          <td>
-            Flower
-            <br />
-            <span className="badge badge-ghost badge-sm">
-              Ornamental
-            </span>
-          </td>
-          <td>3</td>
-          <th>
-            <button className="btn btn-ghost btn-xs">Any</button>
-          </th>
-          <td>Spring</td>
-          <td>Any</td>
-          <td>No</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Growth Time (weeks)</th>
-          <th></th>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-  )
-}
+          {plants.map((plant) => (
+            <tr>
+              <th scope="row">{plant.plant_name}</th>
+              <td>{plant.plant_type}</td>
+              <td className="text-center">{plant.growth_time}</td>
+              <td>{plant.season}</td>
+              <td>{plant.ideal_plant_time}</td>
+              <td>{plant.ideal_harvest_time}</td>
+              <td>{plant.ideal_climate}</td>
+              <td>{plant.need_cover ? "True" : "False"}</td>
+              {/* <td>
+                <button className="text-green-400 p-1 hover:text-yellow-400">
+                  <EditSVG />
+                </button>
+                <button
+                  className="p-1 pl-4 hover:text-red-500"
+                  onClick={() => deletePlant(plant.id)}
+                >
+                  <DeleteSVG />
+                </button>
+              </td> */}
+            </tr>
+          ))}
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+    </div>
+  );
+};
 
 const BUTTON_WRAPPER_STYLE = {
   position: "relative",
@@ -378,4 +148,219 @@ const BUTTON_WRAPPER_STYLE = {
 };
 
 export default PlantLibraryDaisy;
-
+{
+  /* <tr>
+            <th>
+              <label>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </th>
+            <td>
+              <div className="flex items-center space-x-3">
+                <div className="avatar">
+                  <span className="text-3xl mb-3">🏵️</span>
+                </div>
+                <div>
+                  <div className="font-bold">Marigold</div>
+                  <div className="text-sm opacity-50">Tagetes</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              Garden/ Pot Plant
+              <br />
+              <span className="badge badge-ghost badge-sm">
+                Flowering/ Edible
+              </span>
+            </td>
+            <td>10</td>
+            <th>
+              <button className="btn btn-ghost btn-xs">Spring/ Summer</button>
+            </th>
+            <td>Spring</td>
+            <td>Dry/ Any</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th>
+              <label>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </th>
+            <td>
+              <div className="flex items-center space-x-3">
+                <div className="avatar">
+                  <span className="text-3xl mb-3">🌴</span>
+                </div>
+                <div>
+                  <div className="font-bold">Coconut</div>
+                  <div className="text-sm opacity-50">Cocos nucifera</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              Tree
+              <br />
+              <span className="badge badge-ghost badge-sm">Edible</span>
+            </td>
+            <td>540</td>
+            <th>
+              <button className="btn btn-ghost btn-xs">Spring/ Summer</button>
+            </th>
+            <td>Tropical</td>
+            <td>Dry</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th>
+              <label>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </th>
+            <td>
+              <div className="flex items-center space-x-3">
+                <div className="avatar">
+                  <span className="text-3xl mb-3">🍀</span>
+                </div>
+                <div>
+                  <div className="font-bold">Clover</div>
+                  <div className="text-sm opacity-50">Trifolium</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              Ground Cover
+              <br />
+              <span className="badge badge-ghost badge-sm">Ornamental</span>
+            </td>
+            <td>3</td>
+            <th>
+              <button className="btn btn-ghost btn-xs">Any</button>
+            </th>
+            <td>Spring</td>
+            <td>Any</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th>
+              <label>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </th>
+            <td>
+              <div className="flex items-center space-x-3">
+                <div className="avatar">
+                  <span className="text-3xl mb-3">🌿</span>
+                </div>
+                <div>
+                  <div className="font-bold">Thyme</div>
+                  <div className="text-sm opacity-50">Thymus</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              Bush
+              <br />
+              <span className="badge badge-ghost badge-sm">Edible</span>
+            </td>
+            <td>3</td>
+            <th>
+              <button className="btn btn-ghost btn-xs">Spring/Summer</button>
+            </th>
+            <td>Spring</td>
+            <td>Any</td>
+            <td>Some</td>
+          </tr>
+          <tr>
+            <th>
+              <label>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </th>
+            <td>
+              <div className="flex items-center space-x-3">
+                <div className="avatar">
+                  <span className="text-3xl mb-3">🌹</span>
+                </div>
+                <div>
+                  <div className="font-bold">Rose</div>
+                  <div className="text-sm opacity-50">Rosa</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              Flower
+              <br />
+              <span className="badge badge-ghost badge-sm">Ornamental</span>
+            </td>
+            <td>3</td>
+            <th>
+              <button className="btn btn-ghost btn-xs">Any</button>
+            </th>
+            <td>Spring</td>
+            <td>Any</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th>
+              <label>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </th>
+            <td>
+              <div className="flex items-center space-x-3">
+                <div className="avatar">
+                  <span className="text-3xl mb-3">🌻</span>
+                </div>
+                <div>
+                  <div className="font-bold">Sunflower</div>
+                  <div className="text-sm opacity-50">Helianthus annuus</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              Flower
+              <br />
+              <span className="badge badge-ghost badge-sm">
+                Ornamental/ Edible
+              </span>
+            </td>
+            <td>3</td>
+            <th>
+              <button className="btn btn-ghost btn-xs">Any</button>
+            </th>
+            <td>Spring</td>
+            <td>Any</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th>
+              <label>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </th>
+            <td>
+              <div className="flex items-center space-x-3">
+                <div className="avatar">
+                  <span className="text-3xl mb-3">🌺</span>
+                </div>
+                <div>
+                  <div className="font-bold">Hibiscus</div>
+                  <div className="text-sm opacity-50">Malvaceae</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              Flower
+              <br />
+              <span className="badge badge-ghost badge-sm">Ornamental</span>
+            </td>
+            <td>3</td>
+            <th>
+              <button className="btn btn-ghost btn-xs">Any</button>
+            </th>
+            <td>Spring</td>
+            <td>Any</td>
+            <td>No</td>
+          </tr> */
+}
