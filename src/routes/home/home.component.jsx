@@ -117,7 +117,7 @@ const Home = () => {
     covered: "",
   });
 
-  const { plot_name, size, covered } = inputs;
+  // const { plot_name, size, covered } = inputs;
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
@@ -125,6 +125,7 @@ const Home = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      const { plot_name, size, covered } = inputs
       const body = { plot_name, size, covered };
       const response = await fetch("http://localhost:5000/plot", {
         method: "POST",
@@ -153,16 +154,16 @@ const Home = () => {
           <div className="navbar-end">
             <div>
               <label
-                htmlFor="my-modal-4"
+                htmlFor="add-plot-modal"
                 className="btn btn-outline btn-primary modal-button"
               >
                 New Plot
               </label>
-              <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-              <label htmlFor="my-modal-4" className="modal cursor-pointer">
+              <input type="checkbox" id="add-plot-modal" className="modal-toggle" />
+              <label htmlFor="add-plot-modal" className="modal cursor-pointer">
                 <form
                   className="modal-box relative"
-                  for=""
+                  htmlFor=""
                   onSubmit={onSubmitForm}
                 >
                   <div className="form-control w-full max-w-xs">
@@ -177,8 +178,9 @@ const Home = () => {
                     <input
                       type="text"
                       placeholder="Type here"
+                      name="plot_name"
                       className="input input-bordered w-full max-w-xs"
-                      value={plot_name}
+                      value={inputs.plot_name}
                       onChange={(e) => onChange(e)}
                     />
                     <label className="label">
@@ -188,9 +190,10 @@ const Home = () => {
                     </label>
                     <input
                       type="text"
+                      name="size"
                       placeholder="Type here"
                       className="input input-bordered w-full max-w-xs"
-                      value={size}
+                      value={inputs.size}
                       onChange={(e) => onChange(e)}
                     />
                     <label className="label">
@@ -201,8 +204,9 @@ const Home = () => {
                     <input
                       type="text"
                       placeholder="Type here"
+                      name="covered"
                       className="input input-bordered w-full max-w-xs"
-                      value={covered}
+                      value={inputs.covered}
                       onChange={(e) => onChange(e)}
                     />
                     <button
