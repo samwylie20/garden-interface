@@ -19,7 +19,7 @@ const Home = () => {
   // Get all plots
   const getPlots = async () => {
     try {
-      const response = await fetch("http://localhost:5000/plot");
+      const response = await fetch("http://localhost:8000/plot");
       const jsonData = await response.json();
       setPlots(jsonData);
     } catch (error) {
@@ -38,7 +38,7 @@ const Home = () => {
 
     if (swalDelete.isConfirmed) {
       try {
-        const deletePlot = await fetch(`http://localhost:5000/plot/${id}`, {
+        const deletePlot = await fetch(`http://localhost:8000/plot/${id}`, {
           method: "DELETE",
         });
         setPlots(plots.filter((plot) => plot.plot_id !== id));
@@ -59,7 +59,7 @@ const Home = () => {
     });
     if (swalDeleteUnit.isConfirmed)
       try {
-        const deleteUnit = await fetch(`http://localhost:5000/unit/${id}`, {
+        const deleteUnit = await fetch(`http://localhost:8000/unit/${id}`, {
           method: "DELETE",
         });
         const updatedPlots = plots.map((el) => {
@@ -78,7 +78,7 @@ const Home = () => {
   // Get a unit
   const getUnits = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/plot/${id}`);
+      const response = await fetch(`http://localhost:8000/plot/${id}`);
       const jsonData = await response.json();
       setUnits(jsonData);
     } catch (error) {
@@ -125,13 +125,14 @@ const Home = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const { plot_name, size, covered } = inputs
+      const { plot_name, size, covered } = inputs;
       const body = { plot_name, size, covered };
-      const response = await fetch("http://localhost:5000/plot", {
+      const response = await fetch("http://localhost:8000/plot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+      console.log("Build Plot - Clicked");
       window.location = "/";
     } catch (error) {
       console.error(error.message);
@@ -159,7 +160,11 @@ const Home = () => {
               >
                 New Plot
               </label>
-              <input type="checkbox" id="add-plot-modal" className="modal-toggle" />
+              <input
+                type="checkbox"
+                id="add-plot-modal"
+                className="modal-toggle"
+              />
               <label htmlFor="add-plot-modal" className="modal cursor-pointer">
                 <form
                   className="modal-box relative"
@@ -213,6 +218,7 @@ const Home = () => {
                       className="btn btn-outline btn-primary shadow-xl m-5"
                       type="submit"
                       value="Submit"
+                      onSubmit={onSubmitForm}
                     >
                       Build Plot
                     </button>
