@@ -34,7 +34,7 @@ const PlantLibraryDaisy = () => {
   // Get all plants data
   const getPlants = async () => {
     try {
-      const response = await fetch("http://localhost:5000/plants");
+      const response = await fetch("http://localhost:8000/plants");
       const jsonData = await response.json();
       setPlants(jsonData);
     } catch (error) {
@@ -52,7 +52,7 @@ const PlantLibraryDaisy = () => {
     });
     if (swalDelete.isConfirmed)
       try {
-        const deletePlant = await fetch(`http://localhost:5000/plants/${id}`, {
+        const deletePlant = await fetch(`http://localhost:8000/plants/${id}`, {
           method: "DELETE",
         });
         setPlants(plants.filter((plant) => plant.id !== id));
@@ -104,9 +104,10 @@ const PlantLibraryDaisy = () => {
             <th>Type</th>
             <th>Growth Time (weeks)</th>
             <th>Season</th>
-            <th>Ideal Planting</th>
+            <th>Plant</th>
+            <th>Harvest</th>
             <th>Climate</th>
-            <th>Need Cover</th>
+
             <th>Edit/ Remove</th>
             <th></th>
           </tr>
@@ -114,14 +115,15 @@ const PlantLibraryDaisy = () => {
         <tbody>
           {plants.map((plant) => (
             <tr>
-              <th scope="row">{plant.plant_name}</th>
-              <td>{plant.plant_type}</td>
-              <td className="text-center">{plant.growth_time}</td>
+              <th scope="row">{plant.name.toUpperCase()}</th>
+              <td>{plant.type}</td>
+              <td className="text-center">{plant.grow_time}</td>
               <td>{plant.season}</td>
-              <td>{plant.ideal_plant_time}</td>
-              <td>{plant.ideal_harvest_time}</td>
-              <td>{plant.ideal_climate}</td>
-              <td>{plant.need_cover ? "True" : "False"}</td>
+              <td>{plant.ideal_plant}</td>
+              <td>{plant.ideal_harvest}</td>
+              <td>{plant.climate}</td>
+              {/* <td>{plant.need_cover ? "True" : "False"}</td> */}
+              {/* <td>{plant.notes}</td> */}
               {/* <td>
                 <button className="text-green-400 p-1 hover:text-yellow-400">
                   <EditSVG />

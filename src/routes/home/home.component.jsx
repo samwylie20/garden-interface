@@ -9,13 +9,26 @@ import Swal from "sweetalert2";
 import Harvest from "./harvestComponent.component";
 
 const Home = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  //const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenPlant, setIsOpenPlant] = useState(false);
   const [selectedPlot, setSelected] = useState(0);
+  const [section, setSection] = useState([]);
   const [plots, setPlots] = useState([]);
   const [units, setUnits] = useState([]);
 
+  // Get all sections
+  const getSections = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/section");
+      const jsonData = await response.json();
+      setSection(jsonData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  console.log(section);
   // Get all plots
   const getPlots = async () => {
     try {
@@ -86,6 +99,9 @@ const Home = () => {
     }
   };
 
+  // Get plots by section
+  // const section_plots =
+
   const openEditModal = ({ plot }) => {
     setSelected(plot);
     setIsOpenEdit(true);
@@ -101,6 +117,10 @@ const Home = () => {
     setIsOpenPlant(false);
     setSelected(null);
   };
+
+  useEffect(() => {
+    getSections();
+  }, []);
 
   useEffect(() => {
     getPlots();
@@ -228,44 +248,47 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {/* FLEX CONTAINER */}
-        <div className="flex flex-col justify-between items-start text-center md:flex-row">
-          {plots.map((plot) => (
-            <div className="card w-96 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105">
-              <div className="card-body">
-                <div className="card-actions justify-center">
-                  <h5 className="text-lg font-bold text-center tracking-tight text-primary">
-                    {plot.plot_name}
-                  </h5>
-                  {/* <p className="mt-1 text-xs font-semibold text-yellow-300 pb-2">
+        {/* FLEX CONTAINER FOR SECTIONS - PLOTS - PLOT UNITS */}
+        {section.map((sect) => (
+          <div>
+            <h5>{sect.name}</h5>
+            <div className="flex flex-col justify-between items-start text-center md:flex-row">
+              {plots.map((plot) => {
+                <div className="card w-96 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105">
+                  <div className="card-body">
+                    <div className="card-actions justify-center">
+                      <h5 className="text-lg font-bold text-center tracking-tight text-primary">
+                        {plot.plot_name}
+                      </h5>
+                      {/* <p className="mt-1 text-xs font-semibold text-yellow-300 pb-2">
                     ID - {plot.plot_id}
                   </p> */}
-                  <div className="overflow-x-auto">
-                    <table className="table w-full">
-                      <thead>
-                        <tr>
-                          <th
-                            scope="col"
-                            className="text-gray-400 bg-slate-600"
-                          >
-                            Name
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-gray-400 bg-slate-800"
-                          >
-                            Progress
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-gray-400 bg-slate-600"
-                          >
-                            Remove
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {plot.plotUnits.map((item) => (
+                      <div className="overflow-x-auto">
+                        <table className="table w-full">
+                          <thead>
+                            <tr>
+                              <th
+                                scope="col"
+                                className="text-gray-400 bg-slate-600"
+                              >
+                                Name
+                              </th>
+                              <th
+                                scope="col"
+                                className="text-gray-400 bg-slate-800"
+                              >
+                                Progress
+                              </th>
+                              <th
+                                scope="col"
+                                className="text-gray-400 bg-slate-600"
+                              >
+                                Remove
+                              </th>
+                            </tr>
+                          </thead>
+                          {/* <tbody> */}
+                          {/* {plot.plotUnits.map((item) => (
                           <tr className="unit-table-data">
                             <th scope="row">{item.plant_name}</th>
                             <td>
@@ -287,80 +310,83 @@ const Home = () => {
                             </td>
                           </tr>
                         ))}
-                      </tbody>
-                    </table>
-                    {/* BUTTON CONTAINER */}
-                    <div className="container mx-auto">
-                      <div className="flex flex-row justify-between">
-                        <button
-                          className="btn btn-outline btn-primary shadow-xl"
-                          onClick={() => openPlantModal({ plot })}
-                        >
-                          Add Plant
-                        </button>
-                        <AddUnit
-                          key={plot.plot_id}
-                          plot={selectedPlot}
-                          open={isOpenPlant}
-                          onClose={(unit = null) => {
-                            if (unit) {
-                              const updatedPlots = plots.map((el) => {
-                                if (el.plot_id === selectedPlot.plot_id) {
-                                  console.log(el, "el");
-                                  el.plotUnits.push(unit);
+                      </tbody> */}
+                        </table>
+                        {/* BUTTON CONTAINER */}
+                        <div className="container mx-auto">
+                          <div className="flex flex-row justify-between">
+                            <button
+                              className="btn btn-outline btn-primary shadow-xl"
+                              onClick={() => openPlantModal({ plot })}
+                            >
+                              Add Plant
+                            </button>
+                            <AddUnit
+                              key={plot.plot_id}
+                              plot={selectedPlot}
+                              open={isOpenPlant}
+                              onClose={(unit = null) => {
+                                if (unit) {
+                                  const updatedPlots = plots.map((el) => {
+                                    if (el.plot_id === selectedPlot.plot_id) {
+                                      console.log(el, "el");
+                                      el.plotUnits.push(unit);
+                                    }
+                                    return el;
+                                  });
+                                  setPlots(updatedPlots);
                                 }
-                                return el;
-                              });
-                              setPlots(updatedPlots);
-                            }
 
-                            closeModal();
-                          }}
-                        >
-                          {/* {console.log(plot.plot_id, "in hom comp")} */}
-                        </AddUnit>
-                        {/* </div> */}
-                        {/* <div className="button-wrapper-style"> */}
-                        <button
-                          className="btn btn-outline btn-secondary shadow-xl"
-                          onClick={() => openEditModal({ plot })}
-                        >
-                          Edit
-                        </button>
-                        <EditPlotModal
-                          plot={selectedPlot}
-                          open={isOpenEdit}
-                          onClose={(plot = null) => {
-                            if (plot) {
-                              const updatedPlots = plots.map((el) => {
-                                if (el.plot_id === plot.plot_id) {
-                                  el = plot;
+                                closeModal();
+                              }}
+                            >
+                              {/* {console.log(plot.plot_id, "in hom comp")} */}
+                            </AddUnit>
+                            {/* </div> */}
+                            {/* <div className="button-wrapper-style"> */}
+                            <button
+                              className="btn btn-outline btn-secondary shadow-xl"
+                              onClick={() => openEditModal({ plot })}
+                            >
+                              Edit
+                            </button>
+                            <EditPlotModal
+                              plot={selectedPlot}
+                              open={isOpenEdit}
+                              onClose={(plot = null) => {
+                                if (plot) {
+                                  const updatedPlots = plots.map((el) => {
+                                    if (el.plot_id === plot.plot_id) {
+                                      el = plot;
+                                    }
+                                    return el;
+                                  });
+                                  setPlots(updatedPlots);
                                 }
-                                return el;
-                              });
-                              setPlots(updatedPlots);
-                            }
 
-                            closeModal();
-                          }}
-                        >
-                          {/* {console.log(plot.plot_id)} */}
-                        </EditPlotModal>
-                        {/* </div> */}
-                        <button
-                          className="btn btn-outline btn-primary shadow-xl"
-                          onClick={() => deletePlot(plot.plot_id)}
-                        >
-                          Delete
-                        </button>
+                                closeModal();
+                              }}
+                            >
+                              {/* {console.log(plot.plot_id)} */}
+                            </EditPlotModal>
+                            {/* </div> */}
+                            <button
+                              className="btn btn-outline btn-primary shadow-xl"
+                              onClick={() => deletePlot(plot.plot_id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </div>;
+              })}
+              )
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </Fragment>
   );
