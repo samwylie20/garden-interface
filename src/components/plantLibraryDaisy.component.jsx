@@ -97,7 +97,7 @@ const PlantLibraryDaisy = () => {
         <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
       </div> */}
       {/* TABLE CONTAINER */}
-      <table className="table table-compact mx-auto shadow-xl border-base-200 border-2">
+      <table className="table table-compact mx-auto shadow-xl border-base-200 border-2 mb-6">
         <thead className="bg-baseGray rounded-full">
           <tr>
             <th>Name</th>
@@ -107,7 +107,6 @@ const PlantLibraryDaisy = () => {
             <th>Plant</th>
             <th>Harvest</th>
             <th>Climate</th>
-
             <th>Edit/ Remove</th>
             <th></th>
           </tr>
