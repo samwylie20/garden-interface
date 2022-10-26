@@ -9,17 +9,29 @@ import Swal from "sweetalert2";
 import Harvest from "./harvestComponent.component";
 
 const Home = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  //const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenPlant, setIsOpenPlant] = useState(false);
   const [selectedPlot, setSelected] = useState(0);
+  const [section, setSection] = useState([]);
   const [plots, setPlots] = useState([]);
   const [units, setUnits] = useState([]);
+
+  // Get all sections
+  const getSections = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/section");
+      const jsonData = await response.json();
+      setSection(jsonData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   // Get all plots
   const getPlots = async () => {
     try {
-      const response = await fetch("http://localhost:5000/plot");
+      const response = await fetch("http://localhost:8000/plot");
       const jsonData = await response.json();
       setPlots(jsonData);
     } catch (error) {
@@ -38,7 +50,7 @@ const Home = () => {
 
     if (swalDelete.isConfirmed) {
       try {
-        const deletePlot = await fetch(`http://localhost:5000/plot/${id}`, {
+        const deletePlot = await fetch(`http://localhost:8000/plot/${id}`, {
           method: "DELETE",
         });
         setPlots(plots.filter((plot) => plot.plot_id !== id));
@@ -59,7 +71,7 @@ const Home = () => {
     });
     if (swalDeleteUnit.isConfirmed)
       try {
-        const deleteUnit = await fetch(`http://localhost:5000/unit/${id}`, {
+        const deleteUnit = await fetch(`http://localhost:8000/unit/${id}`, {
           method: "DELETE",
         });
         const updatedPlots = plots.map((el) => {
@@ -76,15 +88,16 @@ const Home = () => {
   };
 
   // Get a unit
-  const getUnits = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:5000/plot/${id}`);
-      const jsonData = await response.json();
-      setUnits(jsonData);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+  // const getUnits = async (id) => {
+  //   try {
+  //     const response = await fetch(`http://localhost:8000/plot/${id}`);
+
+  //     const jsonData = await response.json();
+  //     setUnits(jsonData);
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
 
   const openEditModal = ({ plot }) => {
     setSelected(plot);
@@ -103,12 +116,16 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getPlots();
+    getSections();
   }, []);
 
   useEffect(() => {
-    getUnits();
+    getPlots();
   }, []);
+
+  // useEffect(() => {
+  //   getUnits();
+  // }, []);
 
   // ADD PLOT FORM CONTROL
   const [inputs, setInputs] = useState({
@@ -117,7 +134,7 @@ const Home = () => {
     covered: "",
   });
 
-  const { plot_name, size, covered } = inputs;
+  // const { plot_name, size, covered } = inputs;
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
@@ -125,12 +142,14 @@ const Home = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      const { plot_name, size, covered } = inputs;
       const body = { plot_name, size, covered };
-      const response = await fetch("http://localhost:5000/plot", {
+      const response = await fetch("http://localhost:8000/plot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+      console.log("Build Plot - Clicked");
       window.location = "/";
     } catch (error) {
       console.error(error.message);
@@ -153,16 +172,20 @@ const Home = () => {
           <div className="navbar-end">
             <div>
               <label
-                htmlFor="my-modal-4"
+                htmlFor="add-plot-modal"
                 className="btn btn-outline btn-primary modal-button"
               >
                 New Plot
               </label>
-              <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-              <label htmlFor="my-modal-4" className="modal cursor-pointer">
+              <input
+                type="checkbox"
+                id="add-plot-modal"
+                className="modal-toggle"
+              />
+              <label htmlFor="add-plot-modal" className="modal cursor-pointer">
                 <form
                   className="modal-box relative"
-                  for=""
+                  htmlFor=""
                   onSubmit={onSubmitForm}
                 >
                   <div className="form-control w-full max-w-xs">
@@ -177,8 +200,9 @@ const Home = () => {
                     <input
                       type="text"
                       placeholder="Type here"
+                      name="plot_name"
                       className="input input-bordered w-full max-w-xs"
-                      value={plot_name}
+                      value={inputs.plot_name}
                       onChange={(e) => onChange(e)}
                     />
                     <label className="label">
@@ -188,9 +212,10 @@ const Home = () => {
                     </label>
                     <input
                       type="text"
+                      name="size"
                       placeholder="Type here"
                       className="input input-bordered w-full max-w-xs"
-                      value={size}
+                      value={inputs.size}
                       onChange={(e) => onChange(e)}
                     />
                     <label className="label">
@@ -201,13 +226,16 @@ const Home = () => {
                     <input
                       type="text"
                       placeholder="Type here"
+                      name="covered"
                       className="input input-bordered w-full max-w-xs"
-                      value={covered}
+                      value={inputs.covered}
                       onChange={(e) => onChange(e)}
                     />
                     <button
                       className="btn btn-outline btn-primary shadow-xl m-5"
                       type="submit"
+                      value="Submit"
+                      onSubmit={onSubmitForm}
                     >
                       Build Plot
                     </button>
@@ -217,139 +245,137 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {/* FLEX CONTAINER */}
-        <div className="flex flex-col justify-between items-start text-center md:flex-row">
-          {plots.map((plot) => (
-            <div className="card w-96 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105">
-              <div className="card-body">
-                <div className="card-actions justify-center">
-                  <h5 className="text-lg font-bold text-center tracking-tight text-primary">
-                    {plot.plot_name}
+        {/* FLEX CONTAINER FOR SECTIONS - PLOTS - PLOT UNITS */}
+        {section.map((sect) => (
+          <div>
+            <div className="flex flex-col justify-between items-start text-center md:flex-row">
+              <div className="card w-96 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105">
+                <div className="card-body">
+                  <h5 className="text-md font-bold tracking-tight text-neutral hover:text-primary">
+                    {sect.name}
                   </h5>
-                  {/* <p className="mt-1 text-xs font-semibold text-yellow-300 pb-2">
-                    ID - {plot.plot_id}
-                  </p> */}
-                  <div className="overflow-x-auto">
-                    <table className="table w-full">
-                      <thead>
-                        <tr>
-                          <th
-                            scope="col"
-                            className="text-gray-400 bg-slate-600"
+                  <div className="card-actions justify-center">
+                    <div className="overflow-x-auto">
+                      <table className="table w-full">
+                        <thead>
+                          {/* <tr>
+                            <th
+                              scope="col"
+                              className="text-gray-400 bg-slate-600"
+                            >
+                              Name
+                            </th>
+                            <th
+                              scope="col"
+                              className="text-gray-400 bg-slate-800"
+                            >
+                              Progress
+                            </th>
+                            <th
+                              scope="col"
+                              className="text-gray-400 bg-slate-600"
+                            >
+                              Remove
+                            </th>
+                          </tr> */}
+                        </thead>
+                        <tbody>
+                          {plots.map((plot) => (
+                            <tr className="unit-table-data">
+                              <th scope="row">
+                                {plot.section_id === sect.id ? (
+                                  <p>{plot.name}</p>
+                                ) : (
+                                  ""
+                                )}
+                              </th>
+                              <td>
+                                {/* <button
+                                  className="hover:text-red-500"
+                                  onClick={() =>
+                                    deleteUnit(item.unit_id, plot.plot_id)
+                                  }
+                                >
+                                  <DeleteSVG />
+                                </button> */}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      {/* BUTTON CONTAINER */}
+                      <div className="container mx-auto">
+                        <div className="flex flex-row justify-between">
+                          <button
+                            className="btn btn-outline btn-primary shadow-xl"
+                            // onClick={() => openPlantModal({ plot })}
                           >
-                            Name
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-gray-400 bg-slate-800"
+                            Add Plant
+                          </button>
+                          {/* <AddUnit
+                            //key={plot.plot_id}
+                            plot={selectedPlot}
+                            open={isOpenPlant}
+                            onClose={(unit = null) => {
+                              if (unit) {
+                                const updatedPlots = plots.map((el) => {
+                                  if (el.plot_id === selectedPlot.plot_id) {
+                                    console.log(el, "el");
+                                    el.plotUnits.push(unit);
+                                  }
+                                  return el;
+                                });
+                                setPlots(updatedPlots);
+                              }
+
+                              closeModal();
+                            }}
                           >
-                            Progress
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-gray-400 bg-slate-600"
+                            {/* {console.log(plot.plot_id, "in hom comp")} */}
+                          {/* </AddUnit> */}
+                          {/* </div> */}
+                          {/* <div className="button-wrapper-style"> */}
+                          <button
+                            className="btn btn-outline btn-secondary shadow-xl"
+                            //onClick={() => openEditModal({ plot })}
                           >
-                            Remove
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {plot.plotUnits.map((item) => (
-                          <tr className="unit-table-data">
-                            <th scope="row">{item.plant_name}</th>
-                            <td>
-                              <Harvest
-                                plantedAt={item.planted_at}
-                                growthTime={item.growth_time}
-                              />
-                            </td>
+                            Edit
+                          </button>
+                          <EditPlotModal
+                            plot={selectedPlot}
+                            open={isOpenEdit}
+                            onClose={(plot = null) => {
+                              if (plot) {
+                                const updatedPlots = plots.map((el) => {
+                                  if (el.plot_id === plot.plot_id) {
+                                    el = plot;
+                                  }
+                                  return el;
+                                });
+                                setPlots(updatedPlots);
+                              }
 
-                            <td>
-                              <button
-                                className="hover:text-red-500"
-                                onClick={() =>
-                                  deleteUnit(item.unit_id, plot.plot_id)
-                                }
-                              >
-                                <DeleteSVG />
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    {/* BUTTON CONTAINER */}
-                    <div className="container mx-auto">
-                      <div className="flex flex-row justify-between">
-                        <button
-                          className="btn btn-outline btn-primary shadow-xl"
-                          onClick={() => openPlantModal({ plot })}
-                        >
-                          Add Plant
-                        </button>
-                        <AddUnit
-                          key={plot.plot_id}
-                          plot={selectedPlot}
-                          open={isOpenPlant}
-                          onClose={(unit = null) => {
-                            if (unit) {
-                              const updatedPlots = plots.map((el) => {
-                                if (el.plot_id === selectedPlot.plot_id) {
-                                  console.log(el, "el");
-                                  el.plotUnits.push(unit);
-                                }
-                                return el;
-                              });
-                              setPlots(updatedPlots);
-                            }
-
-                            closeModal();
-                          }}
-                        >
-                          {/* {console.log(plot.plot_id, "in hom comp")} */}
-                        </AddUnit>
-                        {/* </div> */}
-                        {/* <div className="button-wrapper-style"> */}
-                        <button
-                          className="btn btn-outline btn-secondary shadow-xl"
-                          onClick={() => openEditModal({ plot })}
-                        >
-                          Edit
-                        </button>
-                        <EditPlotModal
-                          plot={selectedPlot}
-                          open={isOpenEdit}
-                          onClose={(plot = null) => {
-                            if (plot) {
-                              const updatedPlots = plots.map((el) => {
-                                if (el.plot_id === plot.plot_id) {
-                                  el = plot;
-                                }
-                                return el;
-                              });
-                              setPlots(updatedPlots);
-                            }
-
-                            closeModal();
-                          }}
-                        >
-                          {/* {console.log(plot.plot_id)} */}
-                        </EditPlotModal>
-                        {/* </div> */}
-                        <button
-                          className="btn btn-outline btn-primary shadow-xl"
-                          onClick={() => deletePlot(plot.plot_id)}
-                        >
-                          Delete
-                        </button>
+                              closeModal();
+                            }}
+                          >
+                            {/* {console.log(plot.plot_id)} */}
+                          </EditPlotModal>
+                          {/* </div> */}
+                          <button
+                            className="btn btn-outline btn-primary shadow-xl"
+                            // onClick={() => deletePlot(plot.plot_id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </Fragment>
   );
