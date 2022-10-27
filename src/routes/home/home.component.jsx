@@ -1,12 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
-import Modal from "./addPlotModal.component";
+import { Link } from "react-router-dom";
 import EditPlotModal from "./editPlotModal.component";
-import EditSVG from "../../components/SVG-components/editSVG.component";
-import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
-import AddUnit from "./addUnit.component";
-import "./home.component.scss";
 import Swal from "sweetalert2";
-import Harvest from "./harvestComponent.component";
+import Section from "./section.component";
 
 const Home = () => {
   //const [isOpen, setIsOpen] = useState(false);
@@ -251,9 +247,12 @@ const Home = () => {
             <div className="flex flex-col justify-between items-start text-center md:flex-row">
               <div className="card w-96 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105">
                 <div className="card-body">
-                  <h5 className="text-md font-bold tracking-tight text-neutral hover:text-primary">
-                    {sect.name}
-                  </h5>
+                  <Link to={"/section"}>
+                    <h5 className="text-md font-bold tracking-tight text-neutral hover:text-primary">
+                      {sect.name}
+                    </h5>
+                    <Section />
+                  </Link>
                   <div className="card-actions justify-center">
                     <div className="overflow-x-auto">
                       <table className="table w-full">
