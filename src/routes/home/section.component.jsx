@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-const Section = (sect) => {
-  console.log(sect);
+const Section = () => {
+  // const location = useLocation();
+  // const { state } = location.state;
+
   const [plots, setPlots] = useState([]);
   const [units, setUnits] = useState([]);
 
@@ -25,7 +28,6 @@ const Section = (sect) => {
       console.error(error.message);
     }
   };
-  console.log(units);
 
   useEffect(() => {
     getPlots();

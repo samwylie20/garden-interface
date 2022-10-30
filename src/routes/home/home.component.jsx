@@ -160,7 +160,7 @@ const Home = () => {
         <div className="navbar bg-base-100 pt-4">
           {/* TITLE */}
           <div className="navbar-start">
-            <h2 className="text-2xl font-bold tracking-tight text-neutral hover:text-primary">
+            <h2 className="text-2xl font-bold tracking-tight text-neutral hover:text-primary md:text-3xl">
               Your Gardens... 🌱☘️🌵
             </h2>
           </div>
@@ -246,7 +246,7 @@ const Home = () => {
           {section.map((sect) => (
             <div className="card w-80 m-4 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105 md:w-86 md:mt-1">
               <div className="card-body">
-                <Link to="/section">
+                <Link to="/section" state={{ state: "myState" }}>
                   {/* <Section sect={sect} /> */}
                   <h5 className="text-md font-bold tracking-tight text-neutral hover:text-primary">
                     {sect.name}
