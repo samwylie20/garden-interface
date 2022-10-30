@@ -47,7 +47,9 @@ const Section = () => {
             SECTION NAME HERE... 🌱☘️🌵
           </h2>
         </div>
-        <div className="navbar-end">Add Plot</div>
+        <div className="navbar-end">
+          <div className="btn btn-outline btn-primary">Add Plot</div>
+        </div>
       </div>
       {/*  FLEX CONTAINER FOR PLOT CARDS */}
       <div className="flex flex-col items-start text-center md:flex-row md:flex-wrap">
