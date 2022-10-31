@@ -24,6 +24,8 @@ const Section = () => {
       const response = await fetch(`http://localhost:8000/plotunits/${2}`);
       const jsonData = await response.json();
       setUnits(jsonData);
+
+      console.log(jsonData);
     } catch (error) {
       console.error(error.message);
     }
@@ -36,6 +38,12 @@ const Section = () => {
   useEffect(() => {
     getUnits();
   }, []);
+
+  // Date format fucntion
+  function formatDate(input) {
+    let change = new Date(input);
+    return change.toDateString();
+  }
 
   return (
     <div className="container mx-auto">
@@ -77,7 +85,7 @@ const Section = () => {
                       {units.map((unit) => (
                         <tr className="unit-table-data">
                           <th scope="row">{unit.name}</th>
-                          <th scope="row">{unit.planted_at} </th>
+                          <th scope="row">{formatDate(unit.planted_at)} </th>
                         </tr>
                       ))}
                     </tbody>
