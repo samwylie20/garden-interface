@@ -71,7 +71,7 @@ const PlantLibraryDaisy = () => {
       <div className="navbar bg-base-100 pt-4">
         {/* TITLE */}
         <div className="navbar-start">
-          <h2 className="text-xl font-bold tracking-tight m-3 md:text-3xl md:ml-24">
+          <h2 className="text-xl font-bold tracking-tight m-3 md:text-2xl md:ml-24">
             Welcome to your<span className="text-primary"> Plant Library</span>
           </h2>
         </div>

@@ -160,7 +160,7 @@ const Home = () => {
         <div className="navbar bg-base-100 pt-4">
           {/* TITLE */}
           <div className="navbar-start">
-            <h2 className="text-2xl font-bold tracking-tight text-neutral hover:text-primary md:text-3xl">
+            <h2 className="text-xl font-bold tracking-tight text-neutral hover:text-primary md:text-2xl">
               Your Gardens... 🌱☘️🌵
             </h2>
           </div>

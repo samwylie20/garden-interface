@@ -74,7 +74,7 @@ const Section = () => {
                           Name
                         </th>
                         <th scope="col" className="text-gray-400 bg-slate-800">
-                          Progress
+                          Planted
                         </th>
                         <th scope="col" className="text-gray-400 bg-slate-600">
                           Remove
