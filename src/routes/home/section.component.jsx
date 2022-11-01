@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 const Section = () => {
-  // const location = useLocation();
-  // const { state } = location.state;
-
   const [plots, setPlots] = useState([]);
   const [units, setUnits] = useState([]);
+  // Form Control
+  const [inputs, setInputs] = useState({
+    name: "",
+    section_id: 5, // Hard coded, just after section ID refactor
+  });
 
   // Get all plots by Section ID
   const getPlots = async () => {
@@ -19,6 +20,11 @@ const Section = () => {
     }
   };
 
+  useEffect(() => {
+    getPlots();
+  }, []);
+
+  // Get all units by plot ID
   const getUnits = async () => {
     try {
       const response = await fetch(`http://localhost:8000/plotunits/${2}`);
@@ -32,12 +38,29 @@ const Section = () => {
   };
 
   useEffect(() => {
-    getPlots();
-  }, []);
-
-  useEffect(() => {
     getUnits();
   }, []);
+
+  // Form Control Functions
+  const onChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const { name, section_id } = inputs;
+      const body = { name, section_id };
+      const response = await fetch("http://localhost:8000/plot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      console.log("Build Plot - Clicked");
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   // Date format fucntion
   function formatDate(input) {
@@ -55,8 +78,44 @@ const Section = () => {
             SECTION NAME HERE... 🌱☘️🌵
           </h2>
         </div>
+        {/* ADD PLOT MODAL */}
         <div className="navbar-end">
-          <div className="btn btn-outline btn-primary">Add Plot</div>
+          <label htmlFor="add-plot-modal">
+            <div className="btn btn-outline btn-primary">Add Plot</div>
+          </label>
+          <input type="checkbox" id="add-plot-modal" className="modal-toggle" />
+          <div className="modal">
+            <div className="modal-box">
+              <h3 className="font-bold text-lg">Enter plot name...</h3>
+              <form
+                className="relative"
+                htmlFor="add-plot-modal"
+                onSubmit={onSubmitForm}
+              >
+                {" "}
+                <div className="form-control w-full max-w-xs">
+                  <input
+                    type="text"
+                    placeholder="Type here"
+                    name="name"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.name}
+                    onChange={(e) => onChange(e)}
+                  />
+                </div>
+                <div className="modal-action">
+                  <button
+                    htmlFor="add-plot-modal"
+                    className="btn"
+                    type="submit"
+                    onSubmit={onSubmitForm}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
       {/*  FLEX CONTAINER FOR PLOT CARDS */}

@@ -123,11 +123,9 @@ const Home = () => {
   //   getUnits();
   // }, []);
 
-  // ADD PLOT FORM CONTROL
+  // ADD SECTION FORM CONTROL
   const [inputs, setInputs] = useState({
-    plot_name: "",
-    size: "",
-    covered: "",
+    name: "",
   });
 
   // const { plot_name, size, covered } = inputs;
@@ -138,9 +136,9 @@ const Home = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const { plot_name, size, covered } = inputs;
-      const body = { plot_name, size, covered };
-      const response = await fetch("http://localhost:8000/plot", {
+      const { name } = inputs;
+      const body = { name };
+      const response = await fetch("http://localhost:8000/section", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -164,77 +162,55 @@ const Home = () => {
               Your Gardens... 🌱☘️🌵
             </h2>
           </div>
-          {/* ADD PLOT MODAL CONTAINER */}
+          {/* ADD SECTION MODAL CONTAINER */}
           <div className="navbar-end">
             <div>
               <label
-                htmlFor="add-plot-modal"
+                htmlFor="add-section-modal"
                 className="btn btn-outline btn-primary modal-button"
               >
-                New Garden
+                New Section
               </label>
               <input
                 type="checkbox"
-                id="add-plot-modal"
+                id="add-section-modal"
                 className="modal-toggle"
               />
-              <label htmlFor="add-plot-modal" className="modal cursor-pointer">
+              <label
+                htmlFor="add-section-modal"
+                className="modal cursor-pointer"
+              >
                 <form
                   className="modal-box relative"
-                  htmlFor=""
+                  htmlFor="add-section-modal"
                   onSubmit={onSubmitForm}
                 >
                   <div className="form-control w-full max-w-xs">
                     <h3 className="text-lg font-bold text-center text-primary">
-                      New Plot
+                      New Section
                     </h3>
                     <label className="label">
-                      <span className="label-text">
-                        Enter your plot name...
-                      </span>
+                      <span className="label-text">Enter section name...</span>
                     </label>
                     <input
                       type="text"
                       placeholder="Type here"
-                      name="plot_name"
+                      name="name"
                       className="input input-bordered w-full max-w-xs"
-                      value={inputs.plot_name}
+                      value={inputs.name}
                       onChange={(e) => onChange(e)}
                     />
-                    <label className="label">
-                      <span className="label-text">
-                        Enter your plot size...
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      name="size"
-                      placeholder="Type here"
-                      className="input input-bordered w-full max-w-xs"
-                      value={inputs.size}
-                      onChange={(e) => onChange(e)}
-                    />
-                    <label className="label">
-                      <span className="label-text">
-                        Is this plot covered? True or False
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Type here"
-                      name="covered"
-                      className="input input-bordered w-full max-w-xs"
-                      value={inputs.covered}
-                      onChange={(e) => onChange(e)}
-                    />
-                    <button
-                      className="btn btn-outline btn-primary shadow-xl m-5"
-                      type="submit"
-                      value="Submit"
-                      onSubmit={onSubmitForm}
-                    >
-                      Build Plot
-                    </button>
+                    <div className="modal-action">
+                      <button
+                        className="btn btn-outline btn-primary shadow-xl m-5"
+                        htmlFor="add-section-modal"
+                        type="submit"
+                        value="Submit"
+                        onSubmit={onSubmitForm}
+                      >
+                        Build Section
+                      </button>
+                    </div>
                   </div>
                 </form>
               </label>
