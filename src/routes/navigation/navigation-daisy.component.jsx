@@ -1,4 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
+import { useState } from "react";
 
 const NavigationDaisy = () => {
   return (
@@ -40,7 +41,7 @@ const NavigationDaisy = () => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link to="/">Plots</Link>
+                <Link to="/">Garden</Link>
               </li>
               <li>
                 <Link to="/plantlibrary">Plant Library</Link>
