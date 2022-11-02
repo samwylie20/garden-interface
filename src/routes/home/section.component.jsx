@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 const Section = () => {
+  const [showModal, setShowModal] = useState(false);
   const [plots, setPlots] = useState([]);
   const [units, setUnits] = useState([]);
   // Form Control
@@ -57,6 +58,7 @@ const Section = () => {
         body: JSON.stringify(body),
       });
       console.log("Build Plot - Clicked");
+      setShowModal(false);
     } catch (error) {
       console.error(error.message);
     }
@@ -80,10 +82,14 @@ const Section = () => {
         </div>
         {/* Add Plot Modal */}
         <div className="navbar-end">
-          <label htmlFor="add-plot-modal">
+          <label htmlFor="add-plot-modal" onClick={() => setShowModal(true)}>
             <div className="btn btn-outline btn-primary">Add Plot</div>
           </label>
-          <input type="checkbox" id="add-plot-modal" className="modal-toggle" />
+          <input
+            type="checkbox"
+            id="add-plot-modal"
+            className={showModal ? "modal-toggle" : "modal-close"}
+          />
           <div className="modal">
             <div className="modal-box">
               <h3 className="font-bold text-lg">Enter plot name...</h3>

@@ -57,31 +57,32 @@ const Home = () => {
     }
   };
 
-  // Delete a unit
-  const deleteUnit = async (id, plot_id) => {
-    const swalDeleteUnit = await Swal.fire({
-      icon: "question",
-      title: "Are you sure you want to delete this plant?",
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-    });
-    if (swalDeleteUnit.isConfirmed)
-      try {
-        const deleteUnit = await fetch(`http://localhost:8000/unit/${id}`, {
-          method: "DELETE",
-        });
-        const updatedPlots = plots.map((el) => {
-          if (plot_id === el.plot_id) {
-            el.plotUnits = el.plotUnits.filter((unit) => unit.unit_id !== id);
-          }
-          return el;
-        });
-        setPlots(updatedPlots);
-        Swal.fire("Deleted!", "", "success");
-      } catch (error) {
-        console.error(error.message);
-      }
-  };
+  // MOVE TO PLOT PAGE
+  // // Delete a unit
+  // const deleteUnit = async (id, plot_id) => {
+  //   const swalDeleteUnit = await Swal.fire({
+  //     icon: "question",
+  //     title: "Are you sure you want to delete this plant?",
+  //     showCancelButton: true,
+  //     confirmButtonText: "Yes",
+  //   });
+  //   if (swalDeleteUnit.isConfirmed)
+  //     try {
+  //       const deleteUnit = await fetch(`http://localhost:8000/unit/${id}`, {
+  //         method: "DELETE",
+  //       });
+  //       const updatedPlots = plots.map((el) => {
+  //         if (plot_id === el.plot_id) {
+  //           el.plotUnits = el.plotUnits.filter((unit) => unit.unit_id !== id);
+  //         }
+  //         return el;
+  //       });
+  //       setPlots(updatedPlots);
+  //       Swal.fire("Deleted!", "", "success");
+  //     } catch (error) {
+  //       console.error(error.message);
+  //     }
+  // };
 
   const openEditModal = ({ plot }) => {
     setSelected(plot);
@@ -211,6 +212,7 @@ const Home = () => {
                     {sect.name}
                   </h5>
                 </Link>
+
                 <div className="card-actions justify-center">
                   <div className="overflow-x-auto">
                     <table className="table w-full">
