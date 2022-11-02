@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import EditPlotModal from "./editPlotModal.component";
 import Swal from "sweetalert2";
 import Section from "./section.component";
+import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 
 const Home = () => {
   //const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +33,17 @@ const Home = () => {
       setPlots(jsonData);
     } catch (error) {
       console.error(error.message);
+    }
+  };
+
+  const deleteSection = async (id) => {
+    try {
+      const deleteSection = await fetch(`http://localhost:8000/section/${id}`, {
+        method: "DELETE",
+      });
+      setSection(section.filter((sec) => sec.id !== id));
+    } catch (error) {
+      console.error(error.meesage);
     }
   };
 
@@ -212,7 +224,14 @@ const Home = () => {
                     {sect.name}
                   </h5>
                 </Link>
-
+                <div className="">
+                  <button
+                    className="content-end"
+                    onClick={() => deleteSection(sect.id)}
+                  >
+                    <DeleteSVG />
+                  </button>
+                </div>
                 <div className="card-actions justify-center">
                   <div className="overflow-x-auto">
                     <table className="table w-full">
