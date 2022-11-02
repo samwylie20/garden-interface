@@ -1,35 +1,14 @@
 import { useState, useEffect } from "react";
-import Modal from "./addPlantModal.component";
-
 // import EditSVG from "./SVG-components/editSVG.component";
 // import DeleteSVG from "./SVG-components/deleteSVG.component";
 import "./plantLibrary.component.scss";
 import Swal from "sweetalert2";
-import Timeline from "react-calendar-timeline"; // Timeline
-// import "react-calendar-timeline/lib/Timeline.css"; // Timeline CSS
+
 import moment from "moment";
 
 const PlantLibraryDaisy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [plants, setPlants] = useState([]);
-  // Timeline
-  // https://github.com/namespace-ee/react-calendar-timeline
-  const groups = plants.map((plant, index) => {
-    return {
-      title: plant.plant_name,
-      id: index + 1,
-    };
-  });
-
-  const items = plants.map((plant, index) => {
-    return {
-      group: index + 1,
-      title: plant.plant_name,
-      id: index + 1,
-      start_time: moment.unix(plant.start_time),
-      end_time: moment.unix(plant.end_time),
-    };
-  });
 
   // Get all plants data
   const getPlants = async () => {
@@ -37,6 +16,63 @@ const PlantLibraryDaisy = () => {
       const response = await fetch("http://localhost:8000/plants");
       const jsonData = await response.json();
       setPlants(jsonData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getPlants();
+  }, []);
+
+  // Add Plant Form Control
+  const [inputs, setInputs] = useState({
+    name: "",
+    type: "",
+    grow_time: 1,
+    ideal_plant: "",
+    ideal_harvest: "",
+    season: "",
+    climate: "",
+    notes: "",
+  });
+
+  const onChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const {
+        name,
+        type,
+        grow_time,
+        ideal_plant,
+        ideal_harvest,
+        season,
+        climate,
+        need_cover,
+        notes,
+      } = inputs;
+      const body = {
+        name,
+        type,
+        grow_time,
+        ideal_plant,
+        ideal_harvest,
+        season,
+        climate,
+        need_cover,
+        notes,
+      };
+      const response = await fetch("http://localhost:8000/plants", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      console.log("Add Plant - Clicked");
+      window.location = "/plantlibrary";
     } catch (error) {
       console.error(error.message);
     }
@@ -61,41 +97,143 @@ const PlantLibraryDaisy = () => {
         console.error(error.message);
       }
   };
-  useEffect(() => {
-    getPlants();
-  }, []);
 
   return (
     <div className="overflow-x-auto">
-      {/* LIBRARY NAVBAR --- TITLE + ADD PLOT BUTTON */}
+      {/* Library Nav Bar */}
       <div className="navbar bg-base-100 pt-4">
-        {/* TITLE */}
+        {/* Title */}
         <div className="navbar-start">
           <h2 className="text-xl font-bold tracking-tight m-3 md:text-2xl md:ml-24">
             Welcome to your<span className="text-primary"> Plant Library</span>
           </h2>
         </div>
-        {/* ADD PLant MODAL CONTAINER */}
+        {/* Add Plant Modal Container */}
         <div className="navbar-end">
           <div>
             <label
-              htmlFor="my-modal-4"
-              className="btn btn-outline btn-primary modal-button mr-8"
+              htmlFor="add-plant-modal"
+              className="btn btn-outline btn-primary modal-button"
             >
-              Add Plant
+              New Plant
+            </label>
+            <input
+              type="checkbox"
+              id="add-plant-modal"
+              className="modal-toggle"
+            />
+            <label htmlFor="add-plant-modal" className="modal cursor-pointer">
+              <form
+                className="modal-box relative"
+                htmlFor="add-plant-modal"
+                onSubmit={onSubmitForm}
+              >
+                <div className="form-control max-w-xs">
+                  <h3 className="text-lg font-bold text-center text-primary">
+                    New Plant
+                  </h3>
+
+                  <label className="p-2">Plant Name</label>
+                  <input
+                    type="text"
+                    placeholder="Name..."
+                    name="name"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.name}
+                    onChange={(e) => onChange(e)}
+                  />
+                  <label className="p-2">
+                    Type of plant (Fruit, Vegetable, Herb etc.)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Type..."
+                    name="type"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.type}
+                    onChange={(e) => onChange(e)}
+                  />
+                  <label className="p-2">Growth Time (Months)</label>
+                  <input
+                    type="Number"
+                    placeholder="Type here"
+                    name="grow_time"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.grow_time}
+                    onChange={(e) => onChange(e)}
+                  />
+                  <label className="p-2">Ideal Planting Time (Month/s)</label>
+                  <input
+                    type="text"
+                    placeholder="January"
+                    name="ideal_plant"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.ideal_plant}
+                    onChange={(e) => onChange(e)}
+                  />
+                  <label className="p-2">Ideal Harvest Time (Month/s)</label>
+                  <input
+                    type="text"
+                    placeholder="December"
+                    name="ideal_harvest"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.ideal_harvest}
+                    onChange={(e) => onChange(e)}
+                  />
+                  <label className="p-2">Season</label>
+                  <input
+                    type="text"
+                    placeholder="Summer"
+                    name="season"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.season}
+                    onChange={(e) => onChange(e)}
+                  />
+                  <label className="p-2">Climate</label>
+                  <input
+                    type="text"
+                    placeholder="Temperate"
+                    name="climate"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.climate}
+                    onChange={(e) => onChange(e)}
+                  />
+                  <label className="p-2">Need Cover? (True/False)</label>
+                  <input
+                    type="boolean"
+                    placeholder="False"
+                    name="need_cover"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.need_cover}
+                    onChange={(e) => onChange(e)}
+                  />
+                  <label className="p-2">Notes (Max. 300 characters)</label>
+                  <input
+                    type="text"
+                    placeholder="....."
+                    name="notes"
+                    className="input input-bordered w-full max-w-xs"
+                    value={inputs.notes}
+                    onChange={(e) => onChange(e)}
+                  />
+                  <div className="modal-action">
+                    <button
+                      className="btn btn-outline btn-primary shadow-xl m-5"
+                      htmlFor="add-plant-modal"
+                      type="submit"
+                      value="Submit"
+                      onSubmit={onSubmitForm}
+                    >
+                      Add Plant
+                    </button>
+                  </div>
+                </div>
+              </form>
             </label>
           </div>
         </div>
       </div>
-      {/* <div className="addPlantButton">
-        <button
-          className="p-2 rounded-lg uppercase font-semibold text-right text-slate-800 bg-green-400 hover:bg-green-300"
-          onClick={() => setIsOpen(true)}
-        >
-          Add New Plant
-        </button>
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
-      </div> */}
+
       {/* TABLE CONTAINER */}
       <table className="table table-compact mx-auto shadow-xl border-base-200 border-2 mb-6">
         <thead className="bg-baseGray rounded-full">
@@ -121,19 +259,6 @@ const PlantLibraryDaisy = () => {
               <td>{plant.ideal_plant}</td>
               <td>{plant.ideal_harvest}</td>
               <td>{plant.climate}</td>
-              {/* <td>{plant.need_cover ? "True" : "False"}</td> */}
-              {/* <td>{plant.notes}</td> */}
-              {/* <td>
-                <button className="text-green-400 p-1 hover:text-yellow-400">
-                  <EditSVG />
-                </button>
-                <button
-                  className="p-1 pl-4 hover:text-red-500"
-                  onClick={() => deletePlant(plant.id)}
-                >
-                  <DeleteSVG />
-                </button>
-              </td> */}
             </tr>
           ))}
         </tbody>
@@ -143,225 +268,4 @@ const PlantLibraryDaisy = () => {
   );
 };
 
-const BUTTON_WRAPPER_STYLE = {
-  position: "relative",
-  zIndex: 1,
-};
-
 export default PlantLibraryDaisy;
-{
-  /* <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <span className="text-3xl mb-3">🏵️</span>
-                </div>
-                <div>
-                  <div className="font-bold">Marigold</div>
-                  <div className="text-sm opacity-50">Tagetes</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Garden/ Pot Plant
-              <br />
-              <span className="badge badge-ghost badge-sm">
-                Flowering/ Edible
-              </span>
-            </td>
-            <td>10</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">Spring/ Summer</button>
-            </th>
-            <td>Spring</td>
-            <td>Dry/ Any</td>
-            <td>No</td>
-          </tr>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <span className="text-3xl mb-3">🌴</span>
-                </div>
-                <div>
-                  <div className="font-bold">Coconut</div>
-                  <div className="text-sm opacity-50">Cocos nucifera</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Tree
-              <br />
-              <span className="badge badge-ghost badge-sm">Edible</span>
-            </td>
-            <td>540</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">Spring/ Summer</button>
-            </th>
-            <td>Tropical</td>
-            <td>Dry</td>
-            <td>No</td>
-          </tr>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <span className="text-3xl mb-3">🍀</span>
-                </div>
-                <div>
-                  <div className="font-bold">Clover</div>
-                  <div className="text-sm opacity-50">Trifolium</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Ground Cover
-              <br />
-              <span className="badge badge-ghost badge-sm">Ornamental</span>
-            </td>
-            <td>3</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">Any</button>
-            </th>
-            <td>Spring</td>
-            <td>Any</td>
-            <td>No</td>
-          </tr>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <span className="text-3xl mb-3">🌿</span>
-                </div>
-                <div>
-                  <div className="font-bold">Thyme</div>
-                  <div className="text-sm opacity-50">Thymus</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Bush
-              <br />
-              <span className="badge badge-ghost badge-sm">Edible</span>
-            </td>
-            <td>3</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">Spring/Summer</button>
-            </th>
-            <td>Spring</td>
-            <td>Any</td>
-            <td>Some</td>
-          </tr>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <span className="text-3xl mb-3">🌹</span>
-                </div>
-                <div>
-                  <div className="font-bold">Rose</div>
-                  <div className="text-sm opacity-50">Rosa</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Flower
-              <br />
-              <span className="badge badge-ghost badge-sm">Ornamental</span>
-            </td>
-            <td>3</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">Any</button>
-            </th>
-            <td>Spring</td>
-            <td>Any</td>
-            <td>No</td>
-          </tr>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <span className="text-3xl mb-3">🌻</span>
-                </div>
-                <div>
-                  <div className="font-bold">Sunflower</div>
-                  <div className="text-sm opacity-50">Helianthus annuus</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Flower
-              <br />
-              <span className="badge badge-ghost badge-sm">
-                Ornamental/ Edible
-              </span>
-            </td>
-            <td>3</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">Any</button>
-            </th>
-            <td>Spring</td>
-            <td>Any</td>
-            <td>No</td>
-          </tr>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <span className="text-3xl mb-3">🌺</span>
-                </div>
-                <div>
-                  <div className="font-bold">Hibiscus</div>
-                  <div className="text-sm opacity-50">Malvaceae</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Flower
-              <br />
-              <span className="badge badge-ghost badge-sm">Ornamental</span>
-            </td>
-            <td>3</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">Any</button>
-            </th>
-            <td>Spring</td>
-            <td>Any</td>
-            <td>No</td>
-          </tr> */
-}

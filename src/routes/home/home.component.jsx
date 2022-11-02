@@ -83,18 +83,6 @@ const Home = () => {
       }
   };
 
-  // Get a unit
-  // const getUnits = async (id) => {
-  //   try {
-  //     const response = await fetch(`http://localhost:8000/plot/${id}`);
-
-  //     const jsonData = await response.json();
-  //     setUnits(jsonData);
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // };
-
   const openEditModal = ({ plot }) => {
     setSelected(plot);
     setIsOpenEdit(true);
@@ -119,16 +107,11 @@ const Home = () => {
     getPlots();
   }, []);
 
-  // useEffect(() => {
-  //   getUnits();
-  // }, []);
-
-  // ADD SECTION FORM CONTROL
+  // Add Section Form Control
   const [inputs, setInputs] = useState({
     name: "",
   });
 
-  // const { plot_name, size, covered } = inputs;
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };

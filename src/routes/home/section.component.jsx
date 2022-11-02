@@ -70,15 +70,15 @@ const Section = () => {
 
   return (
     <div className="container mx-auto">
-      {/* HOME NAVBAR --- TITLE + ADD PLOT BUTTON */}
+      {/* Home Nav Bar */}
       <div className="navbar bg-base-100 pt-4">
-        {/* TITLE */}
+        {/* Title */}
         <div className="navbar-start">
           <h2 className="text-2xl font-bold tracking-tight text-neutral hover:text-primary">
             SECTION NAME HERE... 🌱☘️🌵
           </h2>
         </div>
-        {/* ADD PLOT MODAL */}
+        {/* Add Plot Modal */}
         <div className="navbar-end">
           <label htmlFor="add-plot-modal">
             <div className="btn btn-outline btn-primary">Add Plot</div>
@@ -92,7 +92,6 @@ const Section = () => {
                 htmlFor="add-plot-modal"
                 onSubmit={onSubmitForm}
               >
-                {" "}
                 <div className="form-control w-full max-w-xs">
                   <input
                     type="text"
