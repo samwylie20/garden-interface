@@ -224,63 +224,20 @@ const Home = () => {
                     {sect.name}
                   </h5>
                 </Link>
-                <div className="">
-                  <button
-                    className="content-end"
-                    onClick={() => deleteSection(sect.id)}
-                  >
-                    <DeleteSVG />
-                  </button>
-                </div>
+                <div className=""></div>
                 <div className="card-actions justify-center">
                   <div className="overflow-x-auto">
-                    <table className="table w-full">
-                      <thead>
-                        {/* <tr>
-                            <th
-                              scope="col"
-                              className="text-gray-400 bg-slate-600"
-                            >
-                              Name
-                            </th>
-                            <th
-                              scope="col"
-                              className="text-gray-400 bg-slate-800"
-                            >
-                              Progress
-                            </th>
-                            <th
-                              scope="col"
-                              className="text-gray-400 bg-slate-600"
-                            >
-                              Remove
-                            </th>
-                          </tr> */}
-                      </thead>
-                      <tbody>
-                        {plots.map((plot) => (
-                          <tr className="unit-table-data">
-                            <th scope="row">
-                              {plot.section_id === sect.id ? (
-                                <p>{plot.name}</p>
-                              ) : (
-                                ""
-                              )}
-                            </th>
-                            <td>
-                              {/* <button
-                                  className="hover:text-red-500"
-                                  onClick={() =>
-                                    deleteUnit(item.unit_id, plot.plot_id)
-                                  }
-                                >
-                                  <DeleteSVG />
-                                </button> */}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                    <li>
+                      {plots.map((plot) =>
+                        plot.section_id === sect.id ? <ul>{plot.name}</ul> : ""
+                      )}
+                    </li>
+                    <button
+                      className="ml-56"
+                      onClick={() => deleteSection(sect.id)}
+                    >
+                      <DeleteSVG />
+                    </button>
                     {/* BUTTON CONTAINER */}
                     <div className="container mx-auto">
                       <div className="flex flex-row justify-between">

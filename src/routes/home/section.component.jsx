@@ -2,13 +2,9 @@ import { useState, useEffect } from "react";
 
 const Section = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showModalUnit, setShowModalUnit] = useState(false);
   const [plots, setPlots] = useState([]);
   const [units, setUnits] = useState([]);
-  // Form Control
-  const [inputs, setInputs] = useState({
-    name: "",
-    section_id: 5, // Hard coded, just after section ID refactor
-  });
 
   // Get all plots by Section ID
   const getPlots = async () => {
@@ -47,7 +43,41 @@ const Section = () => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
+  // Form Control
+  const [inputs, setInputs] = useState({
+    name: "",
+    section_id: 5, // Hard coded, just after section ID refactor
+  });
+
   const onSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const { name, section_id } = inputs;
+      const body = { name, section_id };
+      const response = await fetch("http://localhost:8000/plot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      console.log("Build Plot - Clicked");
+      setShowModal(false);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  //  Add Unit/Plant Form Control Functions
+  const onChange_unit = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  // Form Control
+  const [inputsUnit, setInputsUnit] = useState({
+    name: "",
+    section_id: 5, // Hard coded, just after section ID refactor
+  });
+
+  const onSubmitForm_unit = async (e) => {
     e.preventDefault();
     try {
       const { name, section_id } = inputs;
@@ -154,6 +184,57 @@ const Section = () => {
                       ))}
                     </tbody>
                   </table>
+                </div>
+                {/* ADD PLANT BUTTON/MODAL CONTAINER */}
+                <div className="container mx-auto">
+                  <div className="flex flex-row justify-between">
+                    <label
+                      htmlFor="add-unit-modal"
+                      onClick={() => setShowModalUnit(true)}
+                    >
+                      <div className="btn btn-outline btn-primary">
+                        Add Plant
+                      </div>
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="add-unit-modal"
+                      className={showModal ? "modal-toggle" : "modal-close"}
+                    />
+                    <div className="modal">
+                      <div className="modal-box">
+                        <h3 className="font-bold text-lg">
+                          Enter plot name...
+                        </h3>
+                        <form
+                          className="relative"
+                          htmlFor="add-unit-modal"
+                          onSubmit={onSubmitForm_unit}
+                        >
+                          <div className="form-control w-full max-w-xs">
+                            <input
+                              type="text"
+                              placeholder="Type here"
+                              name="name"
+                              className="input input-bordered w-full max-w-xs"
+                              value={inputs.name}
+                              onChange={(e) => onChange_unit(e)}
+                            />
+                          </div>
+                          <div className="modal-action">
+                            <button
+                              htmlFor="add-unit-modal"
+                              className="btn"
+                              type="submit"
+                              onSubmit={onSubmitForm_unit}
+                            >
+                              Submit
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
