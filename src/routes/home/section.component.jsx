@@ -5,6 +5,8 @@ const Section = () => {
   const [showModalUnit, setShowModalUnit] = useState(false);
   const [plots, setPlots] = useState([]);
   const [units, setUnits] = useState([]);
+  const [plants, setPlants] = useState([]);
+  const [selectedPlant, setSelectedPlant] = useState(null);
 
   // Get all plots by Section ID
   const getPlots = async () => {
@@ -82,17 +84,32 @@ const Section = () => {
     try {
       const { name, section_id } = inputs;
       const body = { name, section_id };
-      const response = await fetch("http://localhost:8000/plot", {
+      const response = await fetch("http://localhost:8000/unit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
       console.log("Build Plot - Clicked");
-      setShowModal(false);
+      setShowModalUnit(false);
     } catch (error) {
       console.error(error.message);
     }
   };
+
+  // Get plant options from Library
+  const plantOptions = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/plants");
+      const jsonData = await response.json();
+      setPlants(jsonData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    plantOptions();
+  }, []);
 
   // Date format fucntion
   function formatDate(input) {
@@ -188,52 +205,25 @@ const Section = () => {
                 {/* ADD PLANT BUTTON/MODAL CONTAINER */}
                 <div className="container mx-auto">
                   <div className="flex flex-row justify-between">
-                    <label
-                      htmlFor="add-unit-modal"
-                      onClick={() => setShowModalUnit(true)}
-                    >
-                      <div className="btn btn-outline btn-primary">
-                        Add Plant
-                      </div>
-                    </label>
-                    <input
-                      type="checkbox"
-                      id="add-unit-modal"
-                      className={showModal ? "modal-toggle" : "modal-close"}
+                    <h5 className="font-bold text-sm mr-2">Add Plant</h5>
+
+                    <select
+                      name="plant"
+                      className="input input-bordered w-full max-w-xs"
+                      value={selectedPlant}
+                      onChange={(e) => onChange_unit(e)}
                     />
-                    <div className="modal">
-                      <div className="modal-box">
-                        <h3 className="font-bold text-lg">
-                          Enter plot name...
-                        </h3>
-                        <form
-                          className="relative"
-                          htmlFor="add-unit-modal"
-                          onSubmit={onSubmitForm_unit}
-                        >
-                          <div className="form-control w-full max-w-xs">
-                            <input
-                              type="text"
-                              placeholder="Type here"
-                              name="name"
-                              className="input input-bordered w-full max-w-xs"
-                              value={inputs.name}
-                              onChange={(e) => onChange_unit(e)}
-                            />
-                          </div>
-                          <div className="modal-action">
-                            <button
-                              htmlFor="add-unit-modal"
-                              className="btn"
-                              type="submit"
-                              onSubmit={onSubmitForm_unit}
-                            >
-                              Submit
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+                    {plants.map((option) => (
+                      <option value={option.name}>{option.plant_name}</option>
+                    ))}
+
+                    <button
+                      className="btn btn-outline btn-primary ml-2 text-lg"
+                      type="submit"
+                      onSubmit={onSubmitForm_unit}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
               </div>
