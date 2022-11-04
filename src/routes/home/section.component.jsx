@@ -39,6 +39,7 @@ const Section = () => {
     try {
       const response = await fetch(`http://localhost:8000/plotunits/${2}`);
       const jsonData = await response.json();
+      const filter_by_id = jsonData;
       setUnits(jsonData);
 
       // console.log(jsonData);
@@ -59,7 +60,7 @@ const Section = () => {
   // Form Control
   const [inputs, setInputs] = useState({
     name: "",
-    section_id: section.id, // Hard coded, just after section ID refactor
+    section_id: section.id,
   });
 
   const onSubmitForm = async (e) => {
@@ -91,7 +92,7 @@ const Section = () => {
   // Form Control
   const [inputsUnit, setInputsUnit] = useState({
     name: "",
-    section_id: 5, // Hard coded, just after section ID refactor
+    section_id: section.id, // Hard coded, just after section ID refactor
   });
 
   const onSubmitForm_unit = async (e) => {
@@ -211,12 +212,14 @@ const Section = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {units.map((unit) => (
-                        <tr className="unit-table-data">
-                          <th scope="row">{unit.name}</th>
-                          <th scope="row">{formatDate(unit.planted_at)} </th>
-                        </tr>
-                      ))}
+                      {units
+                        .filter((el) => el.plot_id === plot.id)
+                        .map((unit) => (
+                          <tr className="unit-table-data">
+                            <th scope="row">{unit.name}</th>
+                            <th scope="row">{formatDate(unit.planted_at)} </th>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
