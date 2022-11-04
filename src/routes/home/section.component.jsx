@@ -1,12 +1,20 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { FaTruckLoading } from "react-icons/fa";
 
 const Section = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalUnit, setShowModalUnit] = useState(false);
   const [plots, setPlots] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [units, setUnits] = useState([]);
   const [plants, setPlants] = useState([]);
   const [selectedPlant, setSelectedPlant] = useState(null);
+
+  const location = useLocation();
+  console.log(location);
+
+  const section = location.state.state;
 
   // Get all plots by Section ID
   const getPlots = async () => {
@@ -54,6 +62,7 @@ const Section = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const { name, section_id } = inputs;
       const body = { name, section_id };
       const response = await fetch("http://localhost:8000/plot", {
@@ -62,8 +71,11 @@ const Section = () => {
         body: JSON.stringify(body),
       });
       console.log("Build Plot - Clicked");
+      await getPlots();
       setShowModal(false);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error(error.message);
     }
   };
@@ -124,7 +136,7 @@ const Section = () => {
         {/* Title */}
         <div className="navbar-start">
           <h2 className="text-2xl font-bold tracking-tight text-neutral hover:text-primary">
-            SECTION NAME HERE... 🌱☘️🌵
+            {section.name} 🌱☘️🌵
           </h2>
         </div>
         {/* Add Plot Modal */}
@@ -132,13 +144,12 @@ const Section = () => {
           <label htmlFor="add-plot-modal" onClick={() => setShowModal(true)}>
             <div className="btn btn-outline btn-primary">Add Plot</div>
           </label>
-          <input
-            type="checkbox"
-            id="add-plot-modal"
-            className={showModal ? "modal-toggle" : "modal-close"}
-          />
-          <div className="modal">
-            <div className="modal-box">
+
+          <div
+            onClick={() => setShowModal(false)}
+            className={`modal ${showModal ? "modal-open" : ""}`}
+          >
+            <div onClick={(e) => e.stopPropagation()} className="modal-box">
               <h3 className="font-bold text-lg">Enter plot name...</h3>
               <form
                 className="relative"
@@ -156,14 +167,18 @@ const Section = () => {
                   />
                 </div>
                 <div className="modal-action">
-                  <button
-                    htmlFor="add-plot-modal"
-                    className="btn"
-                    type="submit"
-                    onSubmit={onSubmitForm}
-                  >
-                    Submit
-                  </button>
+                  {isLoading ? (
+                    <FaTruckLoading className={"spinning"} />
+                  ) : (
+                    <button
+                      htmlFor="add-plot-modal"
+                      className="btn"
+                      type="submit"
+                      onSubmit={onSubmitForm}
+                    >
+                      Submit
+                    </button>
+                  )}
                 </div>
               </form>
             </div>
@@ -206,17 +221,16 @@ const Section = () => {
                 <div className="container mx-auto">
                   <div className="flex flex-row justify-between">
                     <h5 className="font-bold text-sm mr-2">Add Plant</h5>
-
                     <select
                       name="plant"
                       className="input input-bordered w-full max-w-xs"
                       value={selectedPlant}
                       onChange={(e) => onChange_unit(e)}
-                    />
-                    {plants.map((option) => (
-                      <option value={option.name}>{option.plant_name}</option>
-                    ))}
-
+                    >
+                      {plants.map((option) => (
+                        <option value={option.name}>{option.name}</option>
+                      ))}
+                    </select>
                     <button
                       className="btn btn-outline btn-primary ml-2 text-lg"
                       type="submit"

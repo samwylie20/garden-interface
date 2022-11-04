@@ -7,6 +7,7 @@ import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 
 const Home = () => {
   //const [isOpen, setIsOpen] = useState(false);
+  const [isOpenSec, setIsOpenSec] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenPlant, setIsOpenPlant] = useState(false);
   const [selectedPlot, setSelected] = useState(0);
@@ -129,6 +130,10 @@ const Home = () => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
+  const closeSecModal = () => {
+    setIsOpenSec(true);
+  };
+
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
@@ -140,7 +145,9 @@ const Home = () => {
         body: JSON.stringify(body),
       });
       console.log("Build Plot - Clicked");
-      window.location = "/";
+      // window.location = "/";
+      getSections();
+      closeSecModal();
     } catch (error) {
       console.error(error.message);
     }
@@ -163,18 +170,16 @@ const Home = () => {
             <div>
               <label
                 htmlFor="add-section-modal"
+                onClick={() => setIsOpenSec(true)}
                 className="btn btn-outline btn-primary modal-button"
               >
                 New Section
               </label>
-              <input
-                type="checkbox"
-                id="add-section-modal"
-                className="modal-toggle"
-              />
               <label
                 htmlFor="add-section-modal"
-                className="modal cursor-pointer"
+                className={`modal cursor-pointer ${
+                  isOpenSec ? "modal-open" : ""
+                }`}
               >
                 <form
                   className="modal-box relative"
@@ -218,13 +223,12 @@ const Home = () => {
           {section.map((sect) => (
             <div className="card w-80 m-4 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105 md:w-86 md:mt-1">
               <div className="card-body">
-                <Link to="/section" state={{ state: "myState" }}>
+                <Link to="/section" state={{ state: sect }}>
                   {/* <Section sect={sect} /> */}
                   <h5 className="text-md font-bold tracking-tight text-neutral hover:text-primary">
                     {sect.name}
                   </h5>
                 </Link>
-                <div className=""></div>
                 <div className="card-actions justify-center">
                   <div className="overflow-x-auto">
                     <li>
