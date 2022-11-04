@@ -12,7 +12,7 @@ const Section = () => {
   const [selectedPlant, setSelectedPlant] = useState(null);
 
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
 
   const section = location.state.state;
 
@@ -21,7 +21,10 @@ const Section = () => {
     try {
       const response = await fetch(`http://localhost:8000/plot`);
       const jsonData = await response.json();
-      setPlots(jsonData);
+      const filter_by_id = jsonData.filter(
+        (el) => el.section_id === section.id
+      );
+      setPlots(filter_by_id);
     } catch (error) {
       console.error(error.message);
     }
@@ -38,7 +41,7 @@ const Section = () => {
       const jsonData = await response.json();
       setUnits(jsonData);
 
-      console.log(jsonData);
+      // console.log(jsonData);
     } catch (error) {
       console.error(error.message);
     }
@@ -56,7 +59,7 @@ const Section = () => {
   // Form Control
   const [inputs, setInputs] = useState({
     name: "",
-    section_id: 5, // Hard coded, just after section ID refactor
+    section_id: section.id, // Hard coded, just after section ID refactor
   });
 
   const onSubmitForm = async (e) => {
