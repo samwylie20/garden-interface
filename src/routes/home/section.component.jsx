@@ -19,11 +19,12 @@ const Section = () => {
   // Get all plots by Section ID
   const getPlots = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/plot`);
+      const response = await fetch(`http://localhost:8000/plot/`);
       const jsonData = await response.json();
       const filter_by_id = jsonData.filter(
         (el) => el.section_id === section.id
       );
+      console.log(filter_by_id);
       setPlots(filter_by_id);
     } catch (error) {
       console.error(error.message);
@@ -35,14 +36,13 @@ const Section = () => {
   }, []);
 
   // Get all units by plot ID
-  const getUnits = async () => {
+  const getUnits = async (plot_id) => {
     try {
-      const response = await fetch(`http://localhost:8000/plotunits/${2}`);
+      const response = await fetch(
+        `http://localhost:8000/plotunits/${plot_id}`
+      );
       const jsonData = await response.json();
-      const filter_by_id = jsonData;
       setUnits(jsonData);
-
-      // console.log(jsonData);
     } catch (error) {
       console.error(error.message);
     }
@@ -85,27 +85,28 @@ const Section = () => {
   };
 
   //  Add Unit/Plant Form Control Functions
-  const onChange_unit = (e) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  const onChange_unit = ({ plant_id, plot_id }) => {
+    setInputsUnit({
+      plant_id,
+      plot_id,
+    });
   };
 
   // Form Control
   const [inputsUnit, setInputsUnit] = useState({
-    name: "",
-    section_id: section.id, // Hard coded, just after section ID refactor
+    plant_id: "",
+    plot_id: "",
   });
 
-  const onSubmitForm_unit = async (e) => {
-    e.preventDefault();
+  const onSubmitForm_unit = async () => {
     try {
-      const { name, section_id } = inputs;
-      const body = { name, section_id };
-      const response = await fetch("http://localhost:8000/unit", {
+      const { plant_id, plot_id } = inputsUnit;
+      const body = { plant_id, plot_id };
+      const response = await fetch("http://localhost:8000/units", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      console.log("Build Plot - Clicked");
       setShowModalUnit(false);
     } catch (error) {
       console.error(error.message);
@@ -176,7 +177,7 @@ const Section = () => {
                   ) : (
                     <button
                       htmlFor="add-plot-modal"
-                      className="btn"
+                      className="btn btn-outline btn-primary"
                       type="submit"
                       onSubmit={onSubmitForm}
                     >
@@ -227,20 +228,26 @@ const Section = () => {
                 <div className="container mx-auto">
                   <div className="flex flex-row justify-between">
                     <h5 className="font-bold text-sm mr-2">Add Plant</h5>
+
                     <select
                       name="plant"
                       className="input input-bordered w-full max-w-xs"
                       value={selectedPlant}
-                      onChange={(e) => onChange_unit(e)}
+                      onChange={(e) =>
+                        onChange_unit({
+                          plant_id: e.target.value,
+                          plot_id: plot.id,
+                        })
+                      }
                     >
                       {plants.map((option) => (
-                        <option value={option.name}>{option.name}</option>
+                        <option value={option.id}>{option.name}</option>
                       ))}
                     </select>
                     <button
                       className="btn btn-outline btn-primary ml-2 text-lg"
                       type="submit"
-                      onSubmit={onSubmitForm_unit}
+                      onClick={onSubmitForm_unit}
                     >
                       +
                     </button>
