@@ -8,7 +8,7 @@ import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 const Home = () => {
   //const [isOpen, setIsOpen] = useState(false);
   const [isOpenSec, setIsOpenSec] = useState(false);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [isOpenPlant, setIsOpenPlant] = useState(false);
   const [selectedPlot, setSelected] = useState(0);
   const [section, setSection] = useState([]);
@@ -70,21 +70,21 @@ const Home = () => {
     }
   };
 
-  const openEditModal = ({ plot }) => {
-    setSelected(plot);
-    setIsOpenEdit(true);
-  };
+  // const openEditModal = ({ plot }) => {
+  //   setSelected(plot);
+  //   setIsOpenEdit(true);
+  // };
 
-  const openPlantModal = ({ plot }) => {
-    setSelected(plot);
-    setIsOpenPlant(true);
-  };
+  // const openPlantModal = ({ plot }) => {
+  //   setSelected(plot);
+  //   setIsOpenPlant(true);
+  // };
 
-  const closeModal = () => {
-    setIsOpenEdit(false);
-    setIsOpenPlant(false);
-    setSelected(null);
-  };
+  // const closeModal = () => {
+  //   setIsOpenEdit(false);
+  //   setIsOpenPlant(false);
+  //   setSelected(null);
+  // };
 
   useEffect(() => {
     getSections();
@@ -142,52 +142,53 @@ const Home = () => {
           <div className="navbar-end">
             <div>
               <label
-                htmlFor="add-section-modal"
-                onClick={() => setIsOpenSec(true)}
-                className="btn btn-outline btn-primary modal-button"
+                htmlFor="add-plot-modal"
+                onClick={() => setShowModal(true)}
               >
-                New Section
+                <div className="btn btn-outline btn-primary"> New Section</div>
               </label>
-              <label
-                htmlFor="add-section-modal"
-                className={`modal cursor-pointer ${
-                  isOpenSec ? "modal-open" : ""
-                }`}
+              <div
+                onClick={() => setShowModal(false)}
+                className={`modal ${showModal ? "modal-open" : ""}`}
               >
-                <form
-                  className="modal-box relative"
-                  htmlFor="add-section-modal"
-                  onSubmit={onSubmitForm}
-                >
-                  <div className="form-control w-full max-w-xs">
-                    <h3 className="text-lg font-bold text-center text-primary">
-                      New Section
-                    </h3>
-                    <label className="label">
-                      <span className="label-text">Enter section name...</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Type here"
-                      name="name"
-                      className="input input-bordered w-full max-w-xs"
-                      value={inputs.name}
-                      onChange={(e) => onChange(e)}
-                    />
-                    <div className="modal-action">
-                      <button
-                        className="btn btn-outline btn-primary shadow-xl m-5"
-                        htmlFor="add-section-modal"
-                        type="submit"
-                        value="Submit"
-                        onSubmit={onSubmitForm}
-                      >
-                        Build Section
-                      </button>
+                <div onClick={(e) => e.stopPropagation()} className="modal-box">
+                  <form
+                    className="relative"
+                    htmlFor="add-section-modal"
+                    onSubmit={onSubmitForm}
+                  >
+                    <div className="form-control w-full max-w-xs">
+                      <h3 className="text-lg font-bold text-center text-primary">
+                        New Section
+                      </h3>
+                      <label className="label">
+                        <span className="label-text">
+                          Enter section name...
+                        </span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Type here"
+                        name="name"
+                        className="input input-bordered w-full max-w-xs"
+                        value={inputs.name}
+                        onChange={(e) => onChange(e)}
+                      />
+                      <div className="modal-action">
+                        <button
+                          className="btn btn-outline btn-primary shadow-xl m-5"
+                          htmlFor="add-section-modal"
+                          type="submit"
+                          value="Submit"
+                          onSubmit={onSubmitForm}
+                        >
+                          Build Section
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </form>
-              </label>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </div>

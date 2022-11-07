@@ -231,11 +231,11 @@ const Section = () => {
                         <th scope="col" className="text-gray-400 bg-slate-600">
                           Name
                         </th>
-                        <th scope="col" className="text-gray-400 bg-slate-600">
-                          ID
-                        </th>
                         <th scope="col" className="text-gray-400 bg-slate-800">
                           Planted
+                        </th>
+                        <th scope="col" className="text-gray-400 bg-slate-600">
+                          ID
                         </th>
                         <th scope="col" className="text-gray-400 bg-slate-600">
                           Remove
