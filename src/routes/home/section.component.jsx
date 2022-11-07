@@ -127,6 +127,19 @@ const Section = () => {
     plantOptions();
   }, []);
 
+  // Delete a Plot
+  const deletePlot = async (id) => {
+    try {
+      await fetch(`http://localhost:8000/plot/${id}`, {
+        method: "DELETE",
+      });
+      setPlots(plots.filter((plot) => plot.id !== id));
+      getPlots();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   // Delete a unit
   const deleteUnit = async (id) => {
     // const swalDeleteUnit = await Swal.fire({
@@ -289,6 +302,12 @@ const Section = () => {
                     </button>
                   </div>
                 </div>
+                <button
+                  className="btn btn-outline btn-error"
+                  onClick={() => deletePlot(plot.id)}
+                >
+                  Delete Plot <DeleteSVG />
+                </button>
               </div>
             </div>
           </div>
