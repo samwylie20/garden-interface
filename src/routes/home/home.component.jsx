@@ -120,7 +120,7 @@ const Home = () => {
       console.log("Build Plot - Clicked");
       // window.location = "/";
       getSections();
-      closeSecModal();
+      setShowModal(false);
     } catch (error) {
       console.error(error.message);
     }

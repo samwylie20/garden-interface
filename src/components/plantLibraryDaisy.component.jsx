@@ -9,6 +9,7 @@ import moment from "moment";
 const PlantLibraryDaisy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [plants, setPlants] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   // Get all plants data
   const getPlants = async () => {
@@ -71,8 +72,8 @@ const PlantLibraryDaisy = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      console.log("Add Plant - Clicked");
-      window.location = "/plantlibrary";
+      getPlants();
+      setShowModal(false);
     } catch (error) {
       console.error(error.message);
     }
@@ -111,125 +112,122 @@ const PlantLibraryDaisy = () => {
         {/* Add Plant Modal Container */}
         <div className="navbar-end">
           <div>
-            <label
-              htmlFor="add-plant-modal"
-              className="btn btn-outline btn-primary modal-button"
+            <label htmlFor="add-plot-modal" onClick={() => setShowModal(true)}>
+              <div className="btn btn-outline btn-primary">Add Plant</div>
+            </label>
+            <div
+              onClick={() => setShowModal(false)}
+              className={`modal ${showModal ? "modal-open" : ""}`}
             >
-              New Plant
-            </label>
-            <input
-              type="checkbox"
-              id="add-plant-modal"
-              className="modal-toggle"
-            />
-            <label htmlFor="add-plant-modal" className="modal cursor-pointer">
-              <form
-                className="modal-box relative"
-                htmlFor="add-plant-modal"
-                onSubmit={onSubmitForm}
-              >
-                <div className="form-control max-w-xs">
-                  <h3 className="text-lg font-bold text-center text-primary">
-                    New Plant
-                  </h3>
+              <div onClick={(e) => e.stopPropagation()} className="modal-box">
+                <form
+                  className="relative"
+                  htmlFor="add-plant-modal"
+                  onSubmit={onSubmitForm}
+                >
+                  <div className="form-control max-w-xs">
+                    <h3 className="text-lg font-bold text-center text-primary">
+                      New Plant
+                    </h3>
 
-                  <label className="p-2">Plant Name</label>
-                  <input
-                    type="text"
-                    placeholder="Name..."
-                    name="name"
-                    className="input input-bordered w-full max-w-xs"
-                    value={inputs.name}
-                    onChange={(e) => onChange(e)}
-                  />
-                  <label className="p-2">
-                    Type of plant (Fruit, Vegetable, Herb etc.)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Type..."
-                    name="type"
-                    className="input input-bordered w-full max-w-xs"
-                    value={inputs.type}
-                    onChange={(e) => onChange(e)}
-                  />
-                  <label className="p-2">Growth Time (Months)</label>
-                  <input
-                    type="Number"
-                    placeholder="Type here"
-                    name="grow_time"
-                    className="input input-bordered w-full max-w-xs"
-                    value={inputs.grow_time}
-                    onChange={(e) => onChange(e)}
-                  />
-                  <label className="p-2">Ideal Planting Time (Month/s)</label>
-                  <input
-                    type="text"
-                    placeholder="January"
-                    name="ideal_plant"
-                    className="input input-bordered w-full max-w-xs"
-                    value={inputs.ideal_plant}
-                    onChange={(e) => onChange(e)}
-                  />
-                  <label className="p-2">Ideal Harvest Time (Month/s)</label>
-                  <input
-                    type="text"
-                    placeholder="December"
-                    name="ideal_harvest"
-                    className="input input-bordered w-full max-w-xs"
-                    value={inputs.ideal_harvest}
-                    onChange={(e) => onChange(e)}
-                  />
-                  <label className="p-2">Season</label>
-                  <input
-                    type="text"
-                    placeholder="Summer"
-                    name="season"
-                    className="input input-bordered w-full max-w-xs"
-                    value={inputs.season}
-                    onChange={(e) => onChange(e)}
-                  />
-                  <label className="p-2">Climate</label>
-                  <input
-                    type="text"
-                    placeholder="Temperate"
-                    name="climate"
-                    className="input input-bordered w-full max-w-xs"
-                    value={inputs.climate}
-                    onChange={(e) => onChange(e)}
-                  />
-                  <label className="p-2">Need Cover? (True/False)</label>
-                  <input
-                    type="boolean"
-                    placeholder="False"
-                    name="need_cover"
-                    className="input input-bordered w-full max-w-xs"
-                    value={inputs.need_cover}
-                    onChange={(e) => onChange(e)}
-                  />
-                  <label className="p-2">Notes (Max. 300 characters)</label>
-                  <input
-                    type="text"
-                    placeholder="....."
-                    name="notes"
-                    className="input input-bordered w-full max-w-xs"
-                    value={inputs.notes}
-                    onChange={(e) => onChange(e)}
-                  />
-                  <div className="modal-action">
-                    <button
-                      className="btn btn-outline btn-primary shadow-xl m-5"
-                      htmlFor="add-plant-modal"
-                      type="submit"
-                      value="Submit"
-                      onSubmit={onSubmitForm}
-                    >
-                      Add Plant
-                    </button>
+                    <label className="p-2">Plant Name</label>
+                    <input
+                      type="text"
+                      placeholder="Name..."
+                      name="name"
+                      className="input input-bordered w-full max-w-xs"
+                      value={inputs.name}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="p-2">
+                      Type of plant (Fruit, Vegetable, Herb etc.)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Type..."
+                      name="type"
+                      className="input input-bordered w-full max-w-xs"
+                      value={inputs.type}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="p-2">Growth Time (Months)</label>
+                    <input
+                      type="Number"
+                      placeholder="Type here"
+                      name="grow_time"
+                      className="input input-bordered w-full max-w-xs"
+                      value={inputs.grow_time}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="p-2">Ideal Planting Time (Month/s)</label>
+                    <input
+                      type="text"
+                      placeholder="January"
+                      name="ideal_plant"
+                      className="input input-bordered w-full max-w-xs"
+                      value={inputs.ideal_plant}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="p-2">Ideal Harvest Time (Month/s)</label>
+                    <input
+                      type="text"
+                      placeholder="December"
+                      name="ideal_harvest"
+                      className="input input-bordered w-full max-w-xs"
+                      value={inputs.ideal_harvest}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="p-2">Season</label>
+                    <input
+                      type="text"
+                      placeholder="Summer"
+                      name="season"
+                      className="input input-bordered w-full max-w-xs"
+                      value={inputs.season}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="p-2">Climate</label>
+                    <input
+                      type="text"
+                      placeholder="Temperate"
+                      name="climate"
+                      className="input input-bordered w-full max-w-xs"
+                      value={inputs.climate}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="p-2">Need Cover? (True/False)</label>
+                    <input
+                      type="boolean"
+                      placeholder="False"
+                      name="need_cover"
+                      className="input input-bordered w-full max-w-xs"
+                      value={inputs.need_cover}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <label className="p-2">Notes (Max. 300 characters)</label>
+                    <input
+                      type="text"
+                      placeholder="....."
+                      name="notes"
+                      className="input input-bordered w-full max-w-xs"
+                      value={inputs.notes}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <div className="modal-action">
+                      <button
+                        className="btn btn-outline btn-primary shadow-xl m-5"
+                        htmlFor="add-plant-modal"
+                        type="submit"
+                        value="Submit"
+                        onSubmit={onSubmitForm}
+                      >
+                        Add Plant
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
-            </label>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
