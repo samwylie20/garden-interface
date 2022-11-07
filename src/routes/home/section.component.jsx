@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { FaTruckLoading } from "react-icons/fa";
+import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 
 const Section = () => {
   const [showModal, setShowModal] = useState(false);
@@ -44,8 +45,6 @@ const Section = () => {
       console.error(error.message);
     }
   };
-
-  console.log("Units", units);
 
   useEffect(() => {
     getUnits(plots.id);
@@ -128,6 +127,34 @@ const Section = () => {
     plantOptions();
   }, []);
 
+  // Delete a unit
+  const deleteUnit = async (id) => {
+    // const swalDeleteUnit = await Swal.fire({
+    //   icon: "question",
+    //   title: "Are you sure you want to delete this plant?",
+    //   showCancelButton: true,
+    //   confirmButtonText: "Yes",
+    // });
+    // if (swalDeleteUnit.isConfirmed)
+    try {
+      await fetch(`http://localhost:8000/unit/${id}`, {
+        method: "DELETE",
+      });
+      // const updatedPlots = plots.map((el) => {
+      //   if (plot_id === el.plot_id) {
+      //     el.plotUnits = el.plotUnits.filter((unit) => unit.unit_id !== id);
+      //   }
+      //   return el;
+      // });
+
+      setUnits(units.filter((unit) => unit.id !== id));
+      getUnits();
+      // Swal.fire("Deleted!", "", "success");
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   // Date format fucntion
   function formatDate(input) {
     let change = new Date(input);
@@ -193,7 +220,7 @@ const Section = () => {
       {/*  FLEX CONTAINER FOR PLOT CARDS */}
       <div className="flex flex-col items-start text-center md:flex-row md:flex-wrap">
         {plots.map((plot) => (
-          <div className="card w-80 m-4 bg-base-100 shadow-xl border-accent border-2 mt-3 md:hover:scale-105 md:w-86 md:mt-1">
+          <div className="card w-80 m-4 bg-base-100 shadow-xl border-accent border-2 mt-3 md:w-160 md:hover:scale-105 md:w-86 md:mt-1">
             <div className="card-body">
               {plot.name}
               <div className="card-actions justify-center">
@@ -203,6 +230,9 @@ const Section = () => {
                       <tr>
                         <th scope="col" className="text-gray-400 bg-slate-600">
                           Name
+                        </th>
+                        <th scope="col" className="text-gray-400 bg-slate-600">
+                          ID
                         </th>
                         <th scope="col" className="text-gray-400 bg-slate-800">
                           Planted
@@ -214,11 +244,17 @@ const Section = () => {
                     </thead>
                     <tbody>
                       {units
-                        .filter((el) => el.plot_id === plot.id)
+                        .filter((el) => el.unit_plot_id === plot.id)
                         .map((unit) => (
                           <tr className="unit-table-data">
-                            <th scope="row">{unit.name}</th>
-                            <th scope="row">{formatDate(unit.planted_at)} </th>
+                            <th scope="row">{unit.unit_plant_name}</th>
+                            <th scope="row">{formatDate(unit.date)} </th>
+                            <th scope="row">{unit.id}</th>
+                            <th scope="row">
+                              <button onClick={() => deleteUnit(unit.id)}>
+                                <DeleteSVG />
+                              </button>
+                            </th>
                           </tr>
                         ))}
                     </tbody>
