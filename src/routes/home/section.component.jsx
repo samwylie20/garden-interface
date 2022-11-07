@@ -235,7 +235,9 @@ const Section = () => {
         {plots.map((plot) => (
           <div className="card w-80 m-4 bg-base-100 shadow-xl border-accent border-2 mt-3 md:w-160 md:hover:scale-105 md:w-86 md:mt-1">
             <div className="card-body">
-              {plot.name}
+              <p className="text-md font-bold tracking-tight text-neutral hover:text-primary">
+                {plot.name}
+              </p>
               <div className="card-actions justify-center">
                 <div className="overflow-x-auto">
                   <table className="table w-full">
