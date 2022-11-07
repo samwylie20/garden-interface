@@ -24,7 +24,6 @@ const Section = () => {
       const filter_by_id = jsonData.filter(
         (el) => el.section_id === section.id
       );
-      console.log(filter_by_id);
       setPlots(filter_by_id);
     } catch (error) {
       console.error(error.message);
@@ -36,11 +35,9 @@ const Section = () => {
   }, []);
 
   // Get all units by plot ID
-  const getUnits = async (plot_id) => {
+  const getUnits = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/plotunits/${plot_id}`
-      );
+      const response = await fetch(`http://localhost:8000/plotunits`);
       const jsonData = await response.json();
       setUnits(jsonData);
     } catch (error) {
@@ -48,8 +45,10 @@ const Section = () => {
     }
   };
 
+  console.log("Units", units);
+
   useEffect(() => {
-    getUnits();
+    getUnits(plots.id);
   }, []);
 
   // Form Control Functions
@@ -107,6 +106,7 @@ const Section = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+      getUnits();
       setShowModalUnit(false);
     } catch (error) {
       console.error(error.message);
