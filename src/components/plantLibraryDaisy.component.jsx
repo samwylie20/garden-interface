@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-// import EditSVG from "./SVG-components/editSVG.component";
-// import DeleteSVG from "./SVG-components/deleteSVG.component";
+
+import DeleteSVG from "./SVG-components/deleteSVG.component";
 import "./plantLibrary.component.scss";
 import Swal from "sweetalert2";
 
@@ -81,22 +81,22 @@ const PlantLibraryDaisy = () => {
 
   // Delete a plant
   const deletePlant = async (id) => {
-    const swalDelete = await Swal.fire({
-      icon: "question",
-      title: "Are you sure you want to delete this plant?",
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-    });
-    if (swalDelete.isConfirmed)
-      try {
-        const deletePlant = await fetch(`http://localhost:8000/plants/${id}`, {
-          method: "DELETE",
-        });
-        setPlants(plants.filter((plant) => plant.id !== id));
-        Swal.fire("Deleted!", "", "success");
-      } catch (error) {
-        console.error(error.message);
-      }
+    // const swalDelete = await Swal.fire({
+    //   icon: "question",
+    //   title: "Are you sure you want to delete this plant?",
+    //   showCancelButton: true,
+    //   confirmButtonText: "Yes",
+    // });
+    // if (swalDelete.isConfirmed)
+    try {
+      const deletePlant = await fetch(`http://localhost:8000/plants/${id}`, {
+        method: "DELETE",
+      });
+      setPlants(plants.filter((plant) => plant.id !== id));
+      // Swal.fire("Deleted!", "", "success");
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -243,13 +243,12 @@ const PlantLibraryDaisy = () => {
             <th>Plant</th>
             <th>Harvest</th>
             <th>Climate</th>
-            <th>Edit/ Remove</th>
-            <th></th>
+            <th> Remove</th>
           </tr>
         </thead>
         <tbody>
           {plants.map((plant) => (
-            <tr>
+            <tr className="text-center">
               <th scope="row">{plant.name.toUpperCase()}</th>
               <td>{plant.type}</td>
               <td className="text-center">{plant.grow_time}</td>
@@ -257,6 +256,11 @@ const PlantLibraryDaisy = () => {
               <td>{plant.ideal_plant}</td>
               <td>{plant.ideal_harvest}</td>
               <td>{plant.climate}</td>
+              <td>
+                <button className="ml-2" onClick={() => deletePlant(plant.id)}>
+                  <DeleteSVG />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
