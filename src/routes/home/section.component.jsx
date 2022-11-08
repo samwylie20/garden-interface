@@ -2,19 +2,18 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { FaTruckLoading } from "react-icons/fa";
 import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
+import Swal from "sweetalert2";
 
 const Section = () => {
   const [showModal, setShowModal] = useState(false);
-  const [showModalUnit, setShowModalUnit] = useState(false);
+  const [showModalUnit, setShowModalUnit] = useState(false); // DELETE CHECK
   const [plots, setPlots] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [units, setUnits] = useState([]);
   const [plants, setPlants] = useState([]);
-  const [selectedPlant, setSelectedPlant] = useState(null);
+  const [selectedPlant, setSelectedPlant] = useState(null); // DELETE CHECK
 
   const location = useLocation();
-  // console.log(location);
-
   const section = location.state.state;
 
   // Get all plots by Section ID
@@ -106,7 +105,7 @@ const Section = () => {
         body: JSON.stringify(body),
       });
       getUnits();
-      setShowModalUnit(false);
+      setShowModalUnit(false); // NOT NEEDED?
     } catch (error) {
       console.error(error.message);
     }
@@ -129,43 +128,56 @@ const Section = () => {
 
   // Delete a Plot
   const deletePlot = async (id) => {
-    try {
-      await fetch(`http://localhost:8000/plot/${id}`, {
-        method: "DELETE",
-      });
-      setPlots(plots.filter((plot) => plot.id !== id));
-      getPlots();
-    } catch (error) {
-      console.error(error.message);
+    const swalDeletePlot = await Swal.fire({
+      icon: "question",
+      title: "Are you sure you want to delete this plot?",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    });
+    const unitCheck = units.filter((unit) => unit.unit_plot_id === id);
+    const unitsss = units.map((item) => item.unit_plot_id === id);
+    console.log(unitsss, "UNITSSS");
+    console.log(unitCheck.length, "UNIT CHECK");
+    console.log(id);
+    if (unitCheck.length) {
+      Swal.fire(
+        "Delete plot failed! Please remove existing plants first.",
+        "",
+        "warning"
+      );
+    } else if (swalDeletePlot.isConfirmed) {
+      try {
+        await fetch(`http://localhost:8000/plot/${id}`, {
+          method: "DELETE",
+        });
+        setPlots(plots.filter((plot) => plot.id !== id));
+        getPlots();
+        Swal.fire("Deleted!", "", "success");
+      } catch (error) {
+        console.error(error.message);
+      }
     }
   };
 
   // Delete a unit
   const deleteUnit = async (id) => {
-    // const swalDeleteUnit = await Swal.fire({
-    //   icon: "question",
-    //   title: "Are you sure you want to delete this plant?",
-    //   showCancelButton: true,
-    //   confirmButtonText: "Yes",
-    // });
-    // if (swalDeleteUnit.isConfirmed)
-    try {
-      await fetch(`http://localhost:8000/unit/${id}`, {
-        method: "DELETE",
-      });
-      // const updatedPlots = plots.map((el) => {
-      //   if (plot_id === el.plot_id) {
-      //     el.plotUnits = el.plotUnits.filter((unit) => unit.unit_id !== id);
-      //   }
-      //   return el;
-      // });
-
-      setUnits(units.filter((unit) => unit.id !== id));
-      getUnits();
-      // Swal.fire("Deleted!", "", "success");
-    } catch (error) {
-      console.error(error.message);
-    }
+    const swalDeleteUnit = await Swal.fire({
+      icon: "question",
+      title: "Are you sure you want to delete this plant?",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    });
+    if (swalDeleteUnit.isConfirmed)
+      try {
+        await fetch(`http://localhost:8000/unit/${id}`, {
+          method: "DELETE",
+        });
+        setUnits(units.filter((unit) => unit.id !== id));
+        getUnits();
+        Swal.fire("Deleted!", "", "success");
+      } catch (error) {
+        console.error(error.message);
+      }
   };
 
   // Date format fucntion
@@ -275,9 +287,15 @@ const Section = () => {
                         .filter((el) => el.unit_plot_id === plot.id)
                         .map((unit) => (
                           <tr className="unit-table-data">
-                            <th scope="row">{unit.unit_plant_name}</th>
-                            <th scope="row">{formatDate(unit.date)} </th>
-                            <th scope="row">{unit.id}</th>
+                            <th scope="row" className="font-normal">
+                              {unit.unit_plant_name}
+                            </th>
+                            <th scope="row" className="font-normal">
+                              {formatDate(unit.date)}{" "}
+                            </th>
+                            <th scope="row" className="font-normal">
+                              {unit.id}
+                            </th>
                             <th scope="row">
                               <button
                                 className=""

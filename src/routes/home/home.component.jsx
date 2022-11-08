@@ -1,19 +1,13 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import EditPlotModal from "./editPlotModal.component";
 import Swal from "sweetalert2";
-import Section from "./section.component";
 import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 
 const Home = () => {
   //const [isOpen, setIsOpen] = useState(false);
-  const [isOpenSec, setIsOpenSec] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [isOpenPlant, setIsOpenPlant] = useState(false);
-  const [selectedPlot, setSelected] = useState(0);
   const [section, setSection] = useState([]);
   const [plots, setPlots] = useState([]);
-  const [units, setUnits] = useState([]);
 
   // Get all sections
   const getSections = async () => {
@@ -48,42 +42,26 @@ const Home = () => {
     }
   };
 
-  // Delete a plot
-  const deletePlot = async (id) => {
-    const swalDelete = await Swal.fire({
-      icon: "question",
-      title: "Are you sure you want to delete this plot?",
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-    });
+  // // Delete a plot
+  // const deletePlot = async (id) => {
+  //   const swalDelete = await Swal.fire({
+  //     icon: "question",
+  //     title: "Are you sure you want to delete this plot?",
+  //     showCancelButton: true,
+  //     confirmButtonText: "Yes",
+  //   });
 
-    if (swalDelete.isConfirmed) {
-      try {
-        const deletePlot = await fetch(`http://localhost:8000/plot/${id}`, {
-          method: "DELETE",
-        });
-        setPlots(plots.filter((plot) => plot.plot_id !== id));
-        Swal.fire("Deleted!", "", "success");
-      } catch (err) {
-        console.error(err.message);
-      }
-    }
-  };
-
-  // const openEditModal = ({ plot }) => {
-  //   setSelected(plot);
-  //   setIsOpenEdit(true);
-  // };
-
-  // const openPlantModal = ({ plot }) => {
-  //   setSelected(plot);
-  //   setIsOpenPlant(true);
-  // };
-
-  // const closeModal = () => {
-  //   setIsOpenEdit(false);
-  //   setIsOpenPlant(false);
-  //   setSelected(null);
+  //   if (swalDelete.isConfirmed) {
+  //     try {
+  //       const deletePlot = await fetch(`http://localhost:8000/plot/${id}`, {
+  //         method: "DELETE",
+  //       });
+  //       setPlots(plots.filter((plot) => plot.plot_id !== id));
+  //       Swal.fire("Deleted!", "", "success");
+  //     } catch (err) {
+  //       console.error(err.message);
+  //     }
+  //   }
   // };
 
   useEffect(() => {
@@ -103,10 +81,6 @@ const Home = () => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const closeSecModal = () => {
-    setIsOpenSec(true);
-  };
-
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
@@ -118,7 +92,6 @@ const Home = () => {
         body: JSON.stringify(body),
       });
       console.log("Build Plot - Clicked");
-      // window.location = "/";
       getSections();
       setShowModal(false);
     } catch (error) {
