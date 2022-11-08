@@ -46,7 +46,7 @@ const Section = () => {
   };
 
   useEffect(() => {
-    getUnits(plots.id);
+    getUnits();
   }, []);
 
   // Form Control Functions
@@ -149,7 +149,7 @@ const Section = () => {
         });
         setPlots(plots.filter((plot) => plot.id !== id));
         getPlots();
-        Swal.fire("Deleted!", "", "success");
+        Swal.fire("Plot deleted!", "", "success");
       } catch (error) {
         console.error(error.message);
       }
@@ -171,7 +171,7 @@ const Section = () => {
         });
         setUnits(units.filter((unit) => unit.id !== id));
         getUnits();
-        Swal.fire("Deleted!", "", "success");
+        Swal.fire("Plant deleted!", "", "success");
       } catch (error) {
         console.error(error.message);
       }

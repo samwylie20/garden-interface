@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
-
 import DeleteSVG from "./SVG-components/deleteSVG.component";
 import "./plantLibrary.component.scss";
 import Swal from "sweetalert2";
 
-import moment from "moment";
-
 const PlantLibraryDaisy = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [plants, setPlants] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [units, setUnits] = useState([]);
 
   // Get all plants data
   const getPlants = async () => {
@@ -79,23 +76,47 @@ const PlantLibraryDaisy = () => {
     }
   };
 
-  // Delete a plant
-  const deletePlant = async (id) => {
-    // const swalDelete = await Swal.fire({
-    //   icon: "question",
-    //   title: "Are you sure you want to delete this plant?",
-    //   showCancelButton: true,
-    //   confirmButtonText: "Yes",
-    // });
-    // if (swalDelete.isConfirmed)
+  // Get all units to check against plants
+  const getUnits = async () => {
     try {
-      const deletePlant = await fetch(`http://localhost:8000/plants/${id}`, {
-        method: "DELETE",
-      });
-      setPlants(plants.filter((plant) => plant.id !== id));
-      // Swal.fire("Deleted!", "", "success");
+      const response = await fetch(`http://localhost:8000/plotunits`);
+      const jsonData = await response.json();
+      setUnits(jsonData);
     } catch (error) {
       console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getUnits();
+  }, []);
+
+  // Delete a plant
+  const deletePlant = async (id) => {
+    const swalDelete = await Swal.fire({
+      icon: "question",
+      title: "Are you sure you want to delete this plant?",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    });
+    const plantCheck = units.filter((unit) => unit.unit_plant_id === id);
+    console.log(plantCheck);
+    if (plantCheck.length) {
+      Swal.fire(
+        "Delete plant failed! The data of this plant is currently being used in a plot and cannot be removed from the library.",
+        "",
+        "warning"
+      );
+    } else if (swalDelete.isConfirmed) {
+      try {
+        const deletePlant = await fetch(`http://localhost:8000/plants/${id}`, {
+          method: "DELETE",
+        });
+        setPlants(plants.filter((plant) => plant.id !== id));
+        Swal.fire("Plant deleted!", "", "success");
+      } catch (error) {
+        console.error(error.message);
+      }
     }
   };
 
