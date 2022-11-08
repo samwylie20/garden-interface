@@ -2,11 +2,13 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
+import BounceLoader from "react-spinners/BounceLoader";
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [section, setSection] = useState([]);
   const [plots, setPlots] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Get all sections
   const getSections = async () => {
@@ -81,6 +83,7 @@ const Home = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const { name } = inputs;
       const body = { name };
       const response = await fetch("http://localhost:8000/section", {
@@ -91,7 +94,9 @@ const Home = () => {
       console.log("Build Plot - Clicked");
       getSections();
       setShowModal(false);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error(error.message);
     }
   };
@@ -151,15 +156,19 @@ const Home = () => {
                         onChange={(e) => onChange(e)}
                       />
                       <div className="modal-action">
-                        <button
-                          className="btn btn-outline btn-primary shadow-xl m-5"
-                          htmlFor="add-section-modal"
-                          type="submit"
-                          value="Submit"
-                          onSubmit={onSubmitForm}
-                        >
-                          Build Section
-                        </button>
+                        {isLoading ? (
+                          <BounceLoader color="#529b03" size={40} />
+                        ) : (
+                          <button
+                            className="btn btn-outline btn-primary shadow-xl m-5"
+                            htmlFor="add-section-modal"
+                            type="submit"
+                            value="Submit"
+                            onSubmit={onSubmitForm}
+                          >
+                            Build Section
+                          </button>
+                        )}
                       </div>
                     </div>
                   </form>

@@ -9,6 +9,7 @@ const Section = () => {
   const [showModalUnit, setShowModalUnit] = useState(false); // DELETE CHECK
   const [plots, setPlots] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingUnit, setIsLoadingUnit] = useState(false);
   const [units, setUnits] = useState([]);
   const [plants, setPlants] = useState([]);
   const [selectedPlant, setSelectedPlant] = useState(null); // DELETE CHECK
@@ -97,6 +98,7 @@ const Section = () => {
 
   const onSubmitForm_unit = async () => {
     try {
+      setIsLoadingUnit(true);
       const { plant_id, plot_id } = inputsUnit;
       const body = { plant_id, plot_id };
       const response = await fetch("http://localhost:8000/units", {
@@ -105,9 +107,10 @@ const Section = () => {
         body: JSON.stringify(body),
       });
       getUnits();
-      setShowModalUnit(false); // NOT NEEDED?
+      setIsLoadingUnit(false);
     } catch (error) {
       console.error(error.message);
+      setIsLoadingUnit(false);
     }
   };
 
@@ -336,21 +339,27 @@ const Section = () => {
                         <option value={option.id}>{option.name}</option>
                       ))}
                     </select>
-                    <button
-                      className="btn btn-outline btn-primary ml-2 text-lg"
-                      type="submit"
-                      onClick={onSubmitForm_unit}
-                    >
-                      +
-                    </button>
+                    <div>
+                      {isLoading ? (
+                        <BounceLoader color="#529b03" size={40} />
+                      ) : (
+                        <button
+                          className="btn btn-outline btn-primary ml-2 text-lg"
+                          type="submit"
+                          onClick={onSubmitForm_unit}
+                        >
+                          +
+                        </button>
+                      )}
+                    </div>
                   </div>
+                  <button
+                    className="btn btn-outline btn-error"
+                    onClick={() => deletePlot(plot.id)}
+                  >
+                    Delete Plot <DeleteSVG />
+                  </button>
                 </div>
-                <button
-                  className="btn btn-outline btn-error"
-                  onClick={() => deletePlot(plot.id)}
-                >
-                  Delete Plot <DeleteSVG />
-                </button>
               </div>
             </div>
           </div>

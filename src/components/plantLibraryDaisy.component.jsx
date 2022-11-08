@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import DeleteSVG from "./SVG-components/deleteSVG.component";
 import "./plantLibrary.component.scss";
 import Swal from "sweetalert2";
+import BounceLoader from "react-spinners/BounceLoader";
 
 const PlantLibraryDaisy = () => {
   const [plants, setPlants] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [units, setUnits] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Get all plants data
   const getPlants = async () => {
@@ -50,6 +52,7 @@ const PlantLibraryDaisy = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const {
         name,
         type,
@@ -79,7 +82,9 @@ const PlantLibraryDaisy = () => {
       });
       getPlants();
       setShowModal(false);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error(error.message);
     }
   };
@@ -249,15 +254,19 @@ const PlantLibraryDaisy = () => {
                       onChange={(e) => onChange(e)}
                     />
                     <div className="modal-action">
-                      <button
-                        className="btn btn-outline btn-primary shadow-xl m-5"
-                        htmlFor="add-plant-modal"
-                        type="submit"
-                        value="Submit"
-                        onSubmit={onSubmitForm}
-                      >
-                        Add Plant
-                      </button>
+                      {isLoading ? (
+                        <BounceLoader color="#529b03" size={40} />
+                      ) : (
+                        <button
+                          className="btn btn-outline btn-primary shadow-xl m-5"
+                          htmlFor="add-plant-modal"
+                          type="submit"
+                          value="Submit"
+                          onSubmit={onSubmitForm}
+                        >
+                          Add Plant
+                        </button>
+                      )}
                     </div>
                   </div>
                 </form>
