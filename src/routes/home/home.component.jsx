@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 
 const Home = () => {
-  //const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [section, setSection] = useState([]);
   const [plots, setPlots] = useState([]);
@@ -32,37 +31,35 @@ const Home = () => {
   };
 
   const deleteSection = async (id) => {
-    try {
-      const deleteSection = await fetch(`http://localhost:8000/section/${id}`, {
-        method: "DELETE",
-      });
-      setSection(section.filter((sec) => sec.id !== id));
-    } catch (error) {
-      console.error(error.meesage);
+    const swalDeleteSection = await Swal.fire({
+      icon: "question",
+      title: "Are you sure you want to delete this section?",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    });
+    const plotCheck = plots.filter((plot) => plot.section_id === id);
+    console.log(plotCheck);
+    if (plotCheck.length) {
+      Swal.fire(
+        "Delete section failed! Please remove existing plots first.",
+        "",
+        "warning"
+      );
+    } else if (swalDeleteSection.isConfirmed) {
+      try {
+        const deleteSection = await fetch(
+          `http://localhost:8000/section/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        setSection(section.filter((sec) => sec.id !== id));
+        Swal.fire("Deleted!", "", "success");
+      } catch (error) {
+        console.error(error.meesage);
+      }
     }
   };
-
-  // // Delete a plot
-  // const deletePlot = async (id) => {
-  //   const swalDelete = await Swal.fire({
-  //     icon: "question",
-  //     title: "Are you sure you want to delete this plot?",
-  //     showCancelButton: true,
-  //     confirmButtonText: "Yes",
-  //   });
-
-  //   if (swalDelete.isConfirmed) {
-  //     try {
-  //       const deletePlot = await fetch(`http://localhost:8000/plot/${id}`, {
-  //         method: "DELETE",
-  //       });
-  //       setPlots(plots.filter((plot) => plot.plot_id !== id));
-  //       Swal.fire("Deleted!", "", "success");
-  //     } catch (err) {
-  //       console.error(err.message);
-  //     }
-  //   }
-  // };
 
   useEffect(() => {
     getSections();

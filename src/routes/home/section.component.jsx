@@ -135,10 +135,7 @@ const Section = () => {
       confirmButtonText: "Yes",
     });
     const unitCheck = units.filter((unit) => unit.unit_plot_id === id);
-    const unitsss = units.map((item) => item.unit_plot_id === id);
-    console.log(unitsss, "UNITSSS");
-    console.log(unitCheck.length, "UNIT CHECK");
-    console.log(id);
+    console.log(unitCheck.length);
     if (unitCheck.length) {
       Swal.fire(
         "Delete plot failed! Please remove existing plants first.",
