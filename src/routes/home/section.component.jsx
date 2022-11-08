@@ -195,18 +195,31 @@ const Section = () => {
             className={`modal ${showModal ? "modal-open" : ""}`}
           >
             <div onClick={(e) => e.stopPropagation()} className="modal-box">
-              <h3 className="font-bold text-lg">Enter plot name...</h3>
+              <button
+                className="btn btn-outline btn-error shadow-xl top-0 right-0"
+                onClick={() => setShowModal(false)}
+              >
+                X
+              </button>
               <form
                 className="relative"
                 htmlFor="add-plot-modal"
                 onSubmit={onSubmitForm}
               >
-                <div className="form-control w-full max-w-xs">
+                <div className="form-control w-full">
+                  <h3 className="text-lg font-bold text-center text-primary">
+                    New Plot
+                  </h3>
+                  <label className="label">
+                    <span className="label-text font-bold">
+                      Enter plot name...
+                    </span>
+                  </label>
                   <input
                     type="text"
                     placeholder="Type here"
                     name="name"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-bordered w-full"
                     value={inputs.name}
                     onChange={(e) => onChange(e)}
                   />
@@ -221,7 +234,7 @@ const Section = () => {
                       type="submit"
                       onSubmit={onSubmitForm}
                     >
-                      Submit
+                      Built Plot
                     </button>
                   )}
                 </div>
@@ -266,7 +279,10 @@ const Section = () => {
                             <th scope="row">{formatDate(unit.date)} </th>
                             <th scope="row">{unit.id}</th>
                             <th scope="row">
-                              <button onClick={() => deleteUnit(unit.id)}>
+                              <button
+                                className=""
+                                onClick={() => deleteUnit(unit.id)}
+                              >
                                 <DeleteSVG />
                               </button>
                             </th>

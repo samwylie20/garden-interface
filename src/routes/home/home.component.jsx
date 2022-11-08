@@ -140,7 +140,7 @@ const Home = () => {
           </div>
           {/* ADD SECTION MODAL CONTAINER */}
           <div className="navbar-end">
-            <div>
+            <div className="">
               <label
                 htmlFor="add-plot-modal"
                 onClick={() => setShowModal(true)}
@@ -152,17 +152,23 @@ const Home = () => {
                 className={`modal ${showModal ? "modal-open" : ""}`}
               >
                 <div onClick={(e) => e.stopPropagation()} className="modal-box">
+                  <button
+                    className="btn btn-outline btn-error shadow-xl top-0 right-0"
+                    onClick={() => setShowModal(false)}
+                  >
+                    X
+                  </button>
                   <form
                     className="relative"
                     htmlFor="add-section-modal"
                     onSubmit={onSubmitForm}
                   >
-                    <div className="form-control w-full max-w-xs">
+                    <div className="form-control w-full ">
                       <h3 className="text-lg font-bold text-center text-primary">
                         New Section
                       </h3>
                       <label className="label">
-                        <span className="label-text">
+                        <span className="label-text font-bold">
                           Enter section name...
                         </span>
                       </label>
@@ -170,7 +176,7 @@ const Home = () => {
                         type="text"
                         placeholder="Type here"
                         name="name"
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered w-full shadow-xl"
                         value={inputs.name}
                         onChange={(e) => onChange(e)}
                       />
@@ -215,28 +221,6 @@ const Home = () => {
                     >
                       <DeleteSVG />
                     </button>
-                    {/* BUTTON CONTAINER */}
-                    <div className="container mx-auto">
-                      <div className="flex flex-row justify-between">
-                        {/* <EditPlotModal
-                          plot={selectedPlot}
-                          open={isOpenEdit}
-                          onClose={(plot = null) => {
-                            if (plot) {
-                              const updatedPlots = plots.map((el) => {
-                                if (el.plot_id === plot.plot_id) {
-                                  el = plot;
-                                }
-                                return el;
-                              });
-                              setPlots(updatedPlots);
-                            }
-
-                            closeModal();
-                          }}
-                        > */}
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

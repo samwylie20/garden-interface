@@ -120,12 +120,18 @@ const PlantLibraryDaisy = () => {
               className={`modal ${showModal ? "modal-open" : ""}`}
             >
               <div onClick={(e) => e.stopPropagation()} className="modal-box">
+                <button
+                  className="btn btn-outline btn-error shadow-xl top-0 right-0"
+                  onClick={() => setShowModal(false)}
+                >
+                  X
+                </button>
                 <form
                   className="relative"
                   htmlFor="add-plant-modal"
                   onSubmit={onSubmitForm}
                 >
-                  <div className="form-control max-w-xs">
+                  <div className="form-control">
                     <h3 className="text-lg font-bold text-center text-primary">
                       New Plant
                     </h3>
@@ -135,7 +141,7 @@ const PlantLibraryDaisy = () => {
                       type="text"
                       placeholder="Name..."
                       name="name"
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered w-full"
                       value={inputs.name}
                       onChange={(e) => onChange(e)}
                     />
@@ -146,7 +152,7 @@ const PlantLibraryDaisy = () => {
                       type="text"
                       placeholder="Type..."
                       name="type"
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered w-full"
                       value={inputs.type}
                       onChange={(e) => onChange(e)}
                     />
@@ -155,7 +161,7 @@ const PlantLibraryDaisy = () => {
                       type="Number"
                       placeholder="Type here"
                       name="grow_time"
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered w-full"
                       value={inputs.grow_time}
                       onChange={(e) => onChange(e)}
                     />
@@ -164,7 +170,7 @@ const PlantLibraryDaisy = () => {
                       type="text"
                       placeholder="January"
                       name="ideal_plant"
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered w-full"
                       value={inputs.ideal_plant}
                       onChange={(e) => onChange(e)}
                     />
@@ -173,7 +179,7 @@ const PlantLibraryDaisy = () => {
                       type="text"
                       placeholder="December"
                       name="ideal_harvest"
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered w-full"
                       value={inputs.ideal_harvest}
                       onChange={(e) => onChange(e)}
                     />
@@ -182,7 +188,7 @@ const PlantLibraryDaisy = () => {
                       type="text"
                       placeholder="Summer"
                       name="season"
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered w-full"
                       value={inputs.season}
                       onChange={(e) => onChange(e)}
                     />
@@ -191,7 +197,7 @@ const PlantLibraryDaisy = () => {
                       type="text"
                       placeholder="Temperate"
                       name="climate"
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered w-fullx"
                       value={inputs.climate}
                       onChange={(e) => onChange(e)}
                     />
@@ -200,7 +206,7 @@ const PlantLibraryDaisy = () => {
                       type="boolean"
                       placeholder="False"
                       name="need_cover"
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered w-full"
                       value={inputs.need_cover}
                       onChange={(e) => onChange(e)}
                     />
@@ -209,7 +215,7 @@ const PlantLibraryDaisy = () => {
                       type="text"
                       placeholder="....."
                       name="notes"
-                      className="input input-bordered w-full max-w-xs"
+                      className="input input-bordered w-full"
                       value={inputs.notes}
                       onChange={(e) => onChange(e)}
                     />
