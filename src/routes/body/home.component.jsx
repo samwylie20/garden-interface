@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
+import DeleteSVG from "../../SVG-components/SVG-components/deleteSVG.component";
 import BounceLoader from "react-spinners/BounceLoader";
 
 const Home = () => {

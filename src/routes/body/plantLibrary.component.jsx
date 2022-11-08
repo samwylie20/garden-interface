@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import DeleteSVG from "./SVG-components/deleteSVG.component";
-import "./plantLibrary.component.scss";
+import DeleteSVG from "../../SVG-components/SVG-components/deleteSVG.component";
 import Swal from "sweetalert2";
 import BounceLoader from "react-spinners/BounceLoader";
 
-const PlantLibraryDaisy = () => {
+const PlantLibrary = () => {
   const [plants, setPlants] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [units, setUnits] = useState([]);
@@ -314,4 +313,4 @@ const PlantLibraryDaisy = () => {
   );
 };
 
-export default PlantLibraryDaisy;
+export default PlantLibrary;

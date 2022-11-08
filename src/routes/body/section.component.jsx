@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import BounceLoader from "react-spinners/BounceLoader";
-import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
+import DeleteSVG from "../../SVG-components/SVG-components/deleteSVG.component";
 import Swal from "sweetalert2";
 
 const Section = () => {
