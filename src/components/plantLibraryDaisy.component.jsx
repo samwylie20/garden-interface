@@ -13,6 +13,14 @@ const PlantLibraryDaisy = () => {
     try {
       const response = await fetch("http://localhost:8000/plants");
       const jsonData = await response.json();
+
+      // Sort all plant names alphabetically
+      jsonData.sort(function (a, b) {
+        let nameA = a.name.toUpperCase();
+        let nameB = b.name.toUpperCase();
+        return nameA.localeCompare(nameB);
+      });
+
       setPlants(jsonData);
     } catch (error) {
       console.error(error.message);

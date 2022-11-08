@@ -70,7 +70,7 @@ const Navigation = () => {
         {/* </section> */}
         {/* </div>
       </div> */}
-        <NavigationDaisy />
+        {/* <NavigationDaisy /> */}
       </div>
       <Outlet />
     </Fragment>

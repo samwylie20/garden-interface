@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { FaTruckLoading } from "react-icons/fa";
+import BounceLoader from "react-spinners/BounceLoader";
 import DeleteSVG from "../../components/SVG-components/deleteSVG.component";
 import Swal from "sweetalert2";
 
@@ -116,6 +116,16 @@ const Section = () => {
     try {
       const response = await fetch("http://localhost:8000/plants");
       const jsonData = await response.json();
+
+      // Sort all plant names alphabetically
+      jsonData.sort(function (a, b) {
+        let nameA = a.name.toUpperCase();
+        let nameB = b.name.toUpperCase();
+        return nameA.localeCompare(nameB);
+      });
+
+      console.log(jsonData);
+
       setPlants(jsonData);
     } catch (error) {
       console.error(error.message);
@@ -235,7 +245,7 @@ const Section = () => {
                 </div>
                 <div className="modal-action">
                   {isLoading ? (
-                    <FaTruckLoading className={"spinning"} />
+                    <BounceLoader color="#529b03" size={40} />
                   ) : (
                     <button
                       htmlFor="add-plot-modal"
@@ -288,7 +298,7 @@ const Section = () => {
                               {unit.unit_plant_name}
                             </th>
                             <th scope="row" className="font-normal">
-                              {formatDate(unit.date)}{" "}
+                              {formatDate(unit.date)}
                             </th>
                             <th scope="row" className="font-normal">
                               {unit.id}
