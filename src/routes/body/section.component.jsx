@@ -6,13 +6,13 @@ import Swal from "sweetalert2";
 
 const Section = () => {
   const [showModal, setShowModal] = useState(false);
-  const [showModalUnit, setShowModalUnit] = useState(false); // DELETE CHECK
   const [plots, setPlots] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingUnit, setIsLoadingUnit] = useState(false);
   const [units, setUnits] = useState([]);
   const [plants, setPlants] = useState([]);
-  const [selectedPlant, setSelectedPlant] = useState(null); // DELETE CHECK
+  // Uses selectedPlant state inside select HTML code, does not use setSeletected state?
+  const [selectedPlant, setSelectedPlant] = useState(null);
 
   const location = useLocation();
   const section = location.state.state;
@@ -31,6 +31,7 @@ const Section = () => {
     }
   };
 
+  // Unsure why this problem is occuring
   useEffect(() => {
     getPlots();
   }, []);
@@ -67,12 +68,11 @@ const Section = () => {
       setIsLoading(true);
       const { name, section_id } = inputs;
       const body = { name, section_id };
-      const response = await fetch("http://localhost:8000/plot", {
+      await fetch("http://localhost:8000/plot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      console.log("Build Plot - Clicked");
       await getPlots();
       setShowModal(false);
       setIsLoading(false);
@@ -101,7 +101,7 @@ const Section = () => {
       setIsLoadingUnit(true);
       const { plant_id, plot_id } = inputsUnit;
       const body = { plant_id, plot_id };
-      const response = await fetch("http://localhost:8000/units", {
+      await fetch("http://localhost:8000/units", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -126,9 +126,6 @@ const Section = () => {
         let nameB = b.name.toUpperCase();
         return nameA.localeCompare(nameB);
       });
-
-      console.log(jsonData);
-
       setPlants(jsonData);
     } catch (error) {
       console.error(error.message);
@@ -148,7 +145,6 @@ const Section = () => {
       confirmButtonText: "Yes",
     });
     const unitCheck = units.filter((unit) => unit.unit_plot_id === id);
-    console.log(unitCheck.length);
     if (unitCheck.length) {
       Swal.fire(
         "Delete plot failed! Please remove existing plants first.",
@@ -340,7 +336,7 @@ const Section = () => {
                       ))}
                     </select>
                     <div>
-                      {isLoading ? (
+                      {isLoadingUnit ? (
                         <BounceLoader color="#529b03" size={40} />
                       ) : (
                         <button

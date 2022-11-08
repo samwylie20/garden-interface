@@ -40,7 +40,7 @@ const Home = () => {
       confirmButtonText: "Yes",
     });
     const plotCheck = plots.filter((plot) => plot.section_id === id);
-    console.log(plotCheck);
+
     if (plotCheck.length) {
       Swal.fire(
         "Delete section failed! Please remove existing plots first.",
@@ -49,12 +49,9 @@ const Home = () => {
       );
     } else if (swalDeleteSection.isConfirmed) {
       try {
-        const deleteSection = await fetch(
-          `http://localhost:8000/section/${id}`,
-          {
-            method: "DELETE",
-          }
-        );
+        await fetch(`http://localhost:8000/section/${id}`, {
+          method: "DELETE",
+        });
         setSection(section.filter((sec) => sec.id !== id));
         Swal.fire("Deleted!", "", "success");
       } catch (error) {
@@ -86,7 +83,7 @@ const Home = () => {
       setIsLoading(true);
       const { name } = inputs;
       const body = { name };
-      const response = await fetch("http://localhost:8000/section", {
+      await fetch("http://localhost:8000/section", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

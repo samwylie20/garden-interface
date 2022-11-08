@@ -74,7 +74,7 @@ const PlantLibrary = () => {
         need_cover,
         notes,
       };
-      const response = await fetch("http://localhost:8000/plants", {
+      await fetch("http://localhost:8000/plants", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -112,7 +112,7 @@ const PlantLibrary = () => {
       confirmButtonText: "Yes",
     });
     const plantCheck = units.filter((unit) => unit.unit_plant_id === id);
-    console.log(plantCheck);
+
     if (plantCheck.length) {
       Swal.fire(
         "Delete plant failed! The data of this plant is currently being used in a plot and cannot be removed from the library.",
@@ -121,7 +121,7 @@ const PlantLibrary = () => {
       );
     } else if (swalDelete.isConfirmed) {
       try {
-        const deletePlant = await fetch(`http://localhost:8000/plants/${id}`, {
+        await fetch(`http://localhost:8000/plants/${id}`, {
           method: "DELETE",
         });
         setPlants(plants.filter((plant) => plant.id !== id));
